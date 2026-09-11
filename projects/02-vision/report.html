@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROS 2 Vision Perception Pipeline — Technical Report</title>
+  <style>
+    :root{
+      --text:#1b1f24;
+      --muted:#5f6b76;
+      --line:#d9dee3;
+      --soft:#f6f8fa;
+      --accent:#111827;
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--text);
+      background:#fff;
+      line-height:1.65;
+    }
+    .page{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:64px 56px 96px;
+    }
+    header{
+      border-bottom:1px solid var(--line);
+      padding-bottom:28px;
+      margin-bottom:40px;
+    }
+    .kicker{
+      font-size:13px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-weight:700;
+      margin-bottom:12px;
+    }
+    h1{
+      font-size:42px;
+      line-height:1.12;
+      margin:0 0 14px;
+      letter-spacing:-.02em;
+    }
+    .subtitle{
+      font-size:18px;
+      color:var(--muted);
+      max-width:850px;
+      margin:0;
+    }
+    .meta{
+      margin-top:18px;
+      font-size:14px;
+      color:var(--muted);
+    }
+    h2{
+      margin-top:54px;
+      margin-bottom:14px;
+      font-size:27px;
+      letter-spacing:-.01em;
+    }
+    h3{
+      margin-top:28px;
+      margin-bottom:8px;
+      font-size:20px;
+    }
+    p{margin:10px 0 14px}
+    ul{margin:8px 0 16px 22px}
+    code{
+      background:var(--soft);
+      padding:2px 5px;
+      border-radius:4px;
+      font-size:.95em;
+    }
+    pre{
+      background:#0d1117;
+      color:#e6edf3;
+      padding:18px 20px;
+      overflow:auto;
+      border-radius:8px;
+      font-size:14px;
+      line-height:1.5;
+    }
+    .figure{
+      margin:28px 0 34px;
+      border:1px dashed #9aa4af;
+      background:#fafbfc;
+      border-radius:10px;
+      min-height:300px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:30px;
+      color:#65717d;
+    }
+    .figure.large{min-height:420px}
+    .figure.small{min-height:220px}
+    .figure strong{
+      display:block;
+      color:#374151;
+      margin-bottom:6px;
+      font-size:16px;
+    }
+    .caption{
+      margin-top:-22px;
+      margin-bottom:30px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin:18px 0 28px;
+      font-size:15px;
+    }
+    th,td{
+      padding:11px 12px;
+      border-bottom:1px solid var(--line);
+      text-align:left;
+      vertical-align:top;
+    }
+    th{
+      background:var(--soft);
+      font-weight:700;
+    }
+    .callout{
+      border-left:4px solid var(--accent);
+      background:var(--soft);
+      padding:16px 18px;
+      margin:22px 0;
+    }
+    .two-col{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+      margin:20px 0;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius:9px;
+      padding:18px;
+    }
+    .card h3{margin-top:0}
+    footer{
+      margin-top:64px;
+      padding-top:22px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:14px;
+    }
+    @media (max-width:800px){
+      .page{padding:36px 22px 64px}
+      h1{font-size:34px}
+      .two-col{grid-template-columns:1fr}
+    }
+    @media print{
+      .page{max-width:none;padding:20mm 18mm}
+      .figure{break-inside:avoid}
+      table{break-inside:avoid}
+      h2,h3{break-after:avoid}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="kicker">Robotics Portfolio · Project 02</div>
+      <h1>ROS 2 Vision Perception Pipeline</h1>
+      <p class="subtitle">
+        Real-time object detection, multi-object tracking, and instance segmentation using a pretrained YOLO model with GPU acceleration in ROS 2 Humble.
+      </p>
+      <div class="meta">
+        Author: Sooyong Kim · Platform: Ubuntu 22.04 / ROS 2 Humble · GPU: NVIDIA GeForce RTX 5060 Laptop GPU
+      </div>
+    </header>
+
+    <h2>1. Abstract</h2>
+    <p>
+      This project implements a real-time vision perception pipeline for robotics applications in ROS 2.
+      The system receives live camera images, performs object detection, multi-object tracking, and instance segmentation,
+      and republishes an annotated image stream for downstream visualization or robotic decision-making.
+      The pipeline was designed as an integration-focused robotics perception project rather than a model-training exercise;
+      pretrained YOLO weights were used to emphasize ROS 2 integration, real-time inference, tracking continuity,
+      latency measurement, and reproducible system evaluation.
+    </p>
+    <p>
+      In a 2,136-frame test sequence, the system achieved an average processing latency of 18.26 ms,
+      a P95 processing latency of 24.87 ms, and an average YOLO inference latency of 8.70 ms.
+      With the camera publisher configured at approximately 30 Hz, the pipeline maintained stable real-time operation
+      while processing scenes containing up to 11 detected objects.
+    </p>
+
+    <div class="figure large">
+      <strong>Figure 1 — Final unified perception output</strong>
+      Insert a representative screenshot showing masks, bounding boxes, track IDs, FPS, latency, and object count.
+      <br><br>
+      Recommended width: 1200–1600 px.
+    </div>
+    <div class="caption">Figure 1. Unified ROS 2 perception output generated by the final pipeline.</div>
+
+    <h2>2. Project Objectives</h2>
+    <ul>
+      <li>Integrate a pretrained deep-learning vision model into ROS 2.</li>
+      <li>Perform real-time object detection on a live image stream.</li>
+      <li>Maintain object identity across frames using multi-object tracking.</li>
+      <li>Generate instance-level segmentation masks for detected objects.</li>
+      <li>Publish annotated results as ROS 2 image topics.</li>
+      <li>Measure runtime performance using FPS, processing latency, inference latency, and object count.</li>
+      <li>Provide a reproducible launch configuration and quantitative benchmark workflow.</li>
+    </ul>
+
+    <h2>3. System Architecture</h2>
+    <p>
+      The perception stack is organized as a modular ROS 2 pipeline. A camera publisher acquires frames from the local webcam
+      and publishes them as <code>sensor_msgs/Image</code> messages. The unified perception node subscribes to the image stream,
+      executes YOLO-based tracking and instance segmentation on the GPU, overlays diagnostic information, and republishes
+      the resulting visualization.
+    </p>
+
+    <div class="figure large">
+      <strong>Figure 2 — System architecture diagram</strong>
+      Suggested content:
+      <br>Camera → <code>/camera/image_raw</code> → Unified Perception Node
+      → Detection + Tracking + Instance Segmentation + Performance Logging
+      → <code>/vision/unified_image</code>
+    </div>
+    <div class="caption">Figure 2. High-level ROS 2 data flow and perception architecture.</div>
+
+    <h3>3.1 ROS 2 Nodes</h3>
+    <table>
+      <thead>
+        <tr><th>Node</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>camera_publisher</code></td><td>Captures webcam frames and publishes them to ROS 2.</td></tr>
+        <tr><td><code>yolo_detector</code></td><td>Performs object detection and tracking during component-level development.</td></tr>
+        <tr><td><code>segmentation_node</code></td><td>Performs YOLO instance segmentation during component-level development.</td></tr>
+        <tr><td><code>unified_perception</code></td><td>Combines tracking, instance segmentation, visualization, and performance logging.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3.2 ROS 2 Topics</h3>
+    <table>
+      <thead>
+        <tr><th>Topic</th><th>Message Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>/camera/image_raw</code></td><td><code>sensor_msgs/Image</code></td><td>Raw camera input.</td></tr>
+        <tr><td><code>/vision/detection_image</code></td><td><code>sensor_msgs/Image</code></td><td>Detection/tracking visualization.</td></tr>
+        <tr><td><code>/vision/segmentation_image</code></td><td><code>sensor_msgs/Image</code></td><td>Instance segmentation visualization.</td></tr>
+        <tr><td><code>/vision/unified_image</code></td><td><code>sensor_msgs/Image</code></td><td>Final combined perception output.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>4. Technical Implementation</h2>
+
+    <h3>4.1 Camera Interface</h3>
+    <p>
+      OpenCV is used to acquire webcam frames through <code>cv2.VideoCapture</code>. Each frame is converted to a ROS 2
+      image message using <code>cv_bridge</code> and published at approximately 30 Hz.
+    </p>
+
+    <div class="figure">
+      <strong>Figure 3 — Camera input / raw ROS 2 image</strong>
+      Insert a screenshot of the raw webcam feed or an <code>rqt_image_view</code> capture of <code>/camera/image_raw</code>.
+    </div>
+    <div class="caption">Figure 3. Raw image stream entering the perception pipeline.</div>
+
+    <h3>4.2 Object Detection and Tracking</h3>
+    <p>
+      The detector uses the Ultralytics YOLO interface with pretrained weights. Tracking is executed through the model's
+      persistent tracking interface, allowing IDs to remain associated with objects across consecutive frames.
+      This provides temporal continuity beyond frame-by-frame detection.
+    </p>
+
+    <div class="figure">
+      <strong>Figure 4 — Object tracking example</strong>
+      Insert a frame where multiple objects have visible, persistent tracking IDs.
+    </div>
+    <div class="caption">Figure 4. Multi-object tracking with persistent object IDs.</div>
+
+    <h3>4.3 Instance Segmentation</h3>
+    <p>
+      The final system uses a YOLO segmentation model to generate instance masks for detected objects.
+      This is instance segmentation, not semantic segmentation: each detected object receives an independent mask,
+      allowing the output to preserve object identity while also describing pixel-level shape.
+    </p>
+
+    <div class="figure">
+      <strong>Figure 5 — Instance segmentation example</strong>
+      Insert a representative frame showing object masks overlaid on the live camera image.
+    </div>
+    <div class="caption">Figure 5. Instance-level masks produced by the YOLO segmentation model.</div>
+
+    <h3>4.4 Unified Perception Node</h3>
+    <p>
+      The final node combines tracking and instance segmentation in a single inference path to avoid redundant model execution.
+      It also overlays FPS, object count, processing latency, and device information before publishing the annotated result.
+    </p>
+
+    <div class="callout">
+      <strong>Design choice:</strong> The final pipeline uses one segmentation-capable YOLO model for both object localization and masks,
+      while tracking state is maintained across frames. This reduces unnecessary duplication compared with running separate
+      detection and segmentation models concurrently.
+    </div>
+
+    <h2>5. Experimental Setup</h2>
+
+    <div class="two-col">
+      <div class="card">
+        <h3>Hardware</h3>
+        <ul>
+          <li>NVIDIA GeForce RTX 5060 Laptop GPU</li>
+          <li>Webcam input</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Software</h3>
+        <ul>
+          <li>Ubuntu 22.04</li>
+          <li>ROS 2 Humble</li>
+          <li>Python 3.10</li>
+          <li>PyTorch 2.11.0 + CUDA 12.8</li>
+          <li>Ultralytics 8.4.147</li>
+          <li>OpenCV 4.10.0</li>
+          <li>NumPy 1.26.4</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      The camera publisher was configured at approximately 30 Hz. Runtime data were logged to CSV for every processed frame,
+      including timestamp, observed FPS, total processing latency, YOLO inference latency, and detected-object count.
+      The first frame was excluded from steady-state statistics because it contained initialization and GPU warm-up overhead.
+    </p>
+
+    <h2>6. Quantitative Results</h2>
+
+    <table>
+      <thead>
+        <tr><th>Metric</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Analyzed frames</td><td>2,136</td></tr>
+        <tr><td>Average observed FPS</td><td>31.95 FPS</td></tr>
+        <tr><td>Minimum observed FPS</td><td>16.09 FPS</td></tr>
+        <tr><td>Maximum observed FPS</td><td>80.69 FPS</td></tr>
+        <tr><td>Average processing latency</td><td>18.26 ms</td></tr>
+        <tr><td>P95 processing latency</td><td>24.87 ms</td></tr>
+        <tr><td>Average YOLO inference latency</td><td>8.70 ms</td></tr>
+        <tr><td>P95 YOLO inference latency</td><td>12.52 ms</td></tr>
+        <tr><td>Average objects per frame</td><td>1.83</td></tr>
+        <tr><td>Maximum objects in a frame</td><td>11</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>Interpretation of FPS:</strong> The observed FPS should not be treated as the model's unconstrained maximum throughput.
+      The input publisher was configured near 30 Hz, and ROS 2 callback scheduling can produce short-term timing jitter.
+      The latency metrics are therefore the more meaningful indicators of processing performance.
+    </div>
+
+    <h3>6.1 Frame-Rate Stability</h3>
+    <div class="figure">
+      <strong>Figure 6 — FPS over time</strong>
+      Insert the Jupyter plot containing instantaneous FPS and the 30-frame moving average.
+    </div>
+    <div class="caption">
+      Figure 6. Observed frame-rate behavior during the experiment. The moving average remains close to the 30 Hz input rate.
+    </div>
+
+    <h3>6.2 Processing and Inference Latency</h3>
+    <div class="figure">
+      <strong>Figure 7 — Processing and inference latency over time</strong>
+      Insert the latency time-series plot.
+    </div>
+    <div class="caption">
+      Figure 7. End-to-end processing latency compared with YOLO inference latency.
+    </div>
+
+    <p>
+      The mean processing latency was 18.26 ms and the P95 processing latency was 24.87 ms.
+      Because a 30 Hz stream has a nominal frame period of approximately 33.3 ms,
+      the measured P95 value remained below the camera frame interval.
+    </p>
+
+    <h3>6.3 Latency Distribution</h3>
+    <div class="figure">
+      <strong>Figure 8 — Processing latency distribution</strong>
+      Insert the histogram with mean and P95 markers.
+    </div>
+    <div class="caption">
+      Figure 8. Distribution of processing latency after excluding the initialization frame.
+    </div>
+
+    <p>
+      The latency distribution shows two visible operating bands rather than a perfectly unimodal distribution.
+      Possible contributors include variations in tracking updates, mask rendering, object count, ROS 2 callback scheduling,
+      and visualization overhead. The available measurements do not isolate one specific cause, so the source of the bimodal
+      pattern should be treated as unresolved rather than attributed to a single subsystem.
+    </p>
+
+    <h3>6.4 Object Count During Test</h3>
+    <div class="figure">
+      <strong>Figure 9 — Detected object count over time</strong>
+      Insert the object-count plot from Jupyter.
+    </div>
+    <div class="caption">
+      Figure 9. Scene complexity varied during the test, reaching a maximum of 11 detected objects in one frame.
+    </div>
+
+    <h2>7. Launch and Reproducibility</h2>
+    <p>The complete pipeline is launched with:</p>
+
+    <pre>ros2 launch vision_perception vision_demo.launch.py</pre>
+
+    <p>Expected high-level flow:</p>
+
+    <pre>camera_publisher
+    ↓
+/camera/image_raw
+    ↓
+unified_perception
+    ↓
+/vision/unified_image</pre>
+
+    <h2>8. Project Structure</h2>
+
+    <pre>vision_perception/
+├── launch/
+│   └── vision_demo.launch.py
+├── results/
+│   └── vision_results.csv
+├── vision_perception/
+│   ├── __init__.py
+│   ├── camera_publisher.py
+│   ├── segmentation_node.py
+│   ├── unified_perception.py
+│   └── yolo_detector.py
+├── package.xml
+├── setup.py
+├── setup.cfg
+└── README.md</pre>
+
+    <h2>9. Engineering Discussion</h2>
+
+    <h3>9.1 What This Project Demonstrates</h3>
+    <ul>
+      <li>ROS 2 node and topic integration for deep-learning perception.</li>
+      <li>GPU-accelerated real-time inference.</li>
+      <li>Persistent multi-object tracking.</li>
+      <li>Instance-level segmentation.</li>
+      <li>Runtime instrumentation and quantitative benchmarking.</li>
+      <li>Launch-file based orchestration and reproducible execution.</li>
+    </ul>
+
+    <h3>9.2 Limitations</h3>
+    <ul>
+      <li>The model uses pretrained general-purpose weights rather than a robotics-specific custom dataset.</li>
+      <li>The experiment evaluates a local webcam stream rather than a calibrated robot camera or multi-camera system.</li>
+      <li>Observed FPS is constrained by the publisher rate and should not be interpreted as maximum model throughput.</li>
+      <li>The current benchmark does not separately profile preprocessing, tracking, rendering, ROS 2 transport, and postprocessing overhead.</li>
+      <li>Tracking accuracy metrics such as MOTA, HOTA, or IDF1 were not evaluated because no labeled tracking ground truth was used.</li>
+    </ul>
+
+    <h3>9.3 Future Work</h3>
+    <ul>
+      <li>Integrate calibrated RGB-D or stereo input.</li>
+      <li>Publish structured detection and tracking messages in addition to visualization images.</li>
+      <li>Benchmark CPU and GPU execution separately.</li>
+      <li>Profile each pipeline stage independently.</li>
+      <li>Evaluate tracking accuracy on a labeled benchmark.</li>
+      <li>Fine-tune the model for a robotics-specific dataset if application-specific perception is required.</li>
+      <li>Fuse visual detections with LiDAR or depth sensing in a later sensor-fusion project.</li>
+    </ul>
+
+    <h2>10. Demo Media</h2>
+
+    <div class="figure large">
+      <strong>Figure / Video Placeholder A — Main demo</strong>
+      Insert the final recorded demonstration or a clickable video thumbnail.
+      <br><br>
+      Suggested caption: “Real-time ROS 2 detection, tracking, and instance segmentation demo.”
+    </div>
+
+    <div class="figure">
+      <strong>Figure / Video Placeholder B — Tracking continuity</strong>
+      Insert a short sequence or screenshot series emphasizing persistent track IDs.
+    </div>
+
+    <div class="figure">
+      <strong>Figure / Video Placeholder C — Segmentation detail</strong>
+      Insert a close-up example showing mask quality around object boundaries.
+    </div>
+
+    <h2>11. Repository</h2>
+    <p>
+      GitHub portfolio repository:
+      <code>https://github.com/greatsyong/SK</code>
+    </p>
+    <p>
+      Project directory:
+      <code>02_vision_perception</code>
+    </p>
+
+    <footer>
+      ROS 2 Vision Perception Pipeline · Sooyong Kim
+    </footer>
+  </main>
+</body>
+</html>
