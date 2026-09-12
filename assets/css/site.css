@@ -315,3 +315,20 @@ p{margin:0 0 16px}
     font-size: 12px;
     line-height: 1.6;
 }
+/* Waterloo research index cards */
+
+.waterloo-card {
+    position: relative;
+    padding-bottom: 88px;
+}
+
+.waterloo-card-action {
+    position: absolute;
+    left: 26px;
+    right: 26px;
+    bottom: 24px;
+}
+
+.waterloo-card-action .btn {
+    width: 100%;
+}
