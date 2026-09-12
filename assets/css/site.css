@@ -132,13 +132,15 @@ p{margin:0 0 16px}
   .section{padding:52px 0}
 }
 /* Research cards: keep action buttons aligned at the bottom */
+/* Research cards: align action buttons at the bottom */
 .research-card {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     height: 100%;
 }
 
 .research-card .card-actions {
-    margin-top: auto;
+    margin-top: 0;
     padding-top: 24px;
+    align-self: end;
 }
