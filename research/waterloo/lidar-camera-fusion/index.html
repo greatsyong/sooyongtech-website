@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="LiDAR-camera fusion for semantic road segmentation using a modified SegNet architecture on the KITTI dataset."
+    >
+
+    <title>LiDAR–Camera Fusion — Sooyong Kim</title>
+
+    <link rel="stylesheet" href="../../../assets/css/site.css">
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     Navigation
+========================================================= -->
+
+<nav class="nav">
+    <div class="container nav-inner">
+
+        <a class="brand" href="../../../index.html">
+            SOOYONG KIM
+        </a>
+
+        <div class="nav-links">
+            <a href="../../../bio.html">Bio</a>
+            <a class="active" href="../../index.html">Research & Work</a>
+            <a href="../../../projects/index.html">Projects</a>
+            <a href="../../../resume/index.html">Resume</a>
+            <a href="../../../contact.html">Contact</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- =========================================================
+     Hero
+========================================================= -->
+
+<header class="hero compact">
+
+    <div class="container">
+
+        <div class="eyebrow">
+            UNIVERSITY OF WATERLOO · ME 780
+        </div>
+
+        <h1>
+            LiDAR–Camera Fusion<br>
+            for Road Segmentation
+        </h1>
+
+        <p class="lead">
+            Camera and LiDAR fusion for semantic road segmentation
+            using a modified SegNet encoder–decoder architecture
+            evaluated on the KITTI road dataset.
+        </p>
+
+        <p class="hero-note">
+            Sooyong Kim · Tarun Joseph
+        </p>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     Overview
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <div class="section-kicker">Project Overview</div>
+
+                <h2>
+                    Multimodal perception for road detection
+                </h2>
+            </div>
+
+            <p>
+                The project investigated whether combining RGB camera
+                information with LiDAR-derived depth information could
+                improve semantic road segmentation compared with
+                camera-only perception.
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div class="metric">
+                <strong>0.9364</strong>
+                <span>Best MaxF · Late Fusion</span>
+            </div>
+
+            <div class="metric">
+                <strong>0.9010</strong>
+                <span>RGB-only MaxF</span>
+            </div>
+
+            <div class="metric">
+                <strong>289</strong>
+                <span>KITTI training samples</span>
+            </div>
+
+            <div class="metric">
+                <strong>96</strong>
+                <span>KITTI test samples</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Problem
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Motivation
+            </div>
+
+            <h2>
+                Why fuse LiDAR and camera data?
+            </h2>
+
+            <p class="muted">
+                Camera-based semantic segmentation provides dense visual
+                information, but its performance can be affected by illumination,
+                image quality, and environmental conditions. LiDAR provides
+                complementary geometric and distance information that is less
+                dependent on scene appearance.
+            </p>
+
+            <p class="muted">
+                This project explored the integration of the two sensing
+                modalities for binary road segmentation and compared
+                camera-only processing against two multimodal fusion strategies.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Core tasks
+            </h3>
+
+            <ul class="clean-list">
+                <li>KITTI camera and LiDAR data processing</li>
+                <li>LiDAR-to-camera coordinate transformation</li>
+                <li>Depth-map generation</li>
+                <li>Modified SegNet architecture</li>
+                <li>Early fusion</li>
+                <li>Late fusion</li>
+                <li>Quantitative performance comparison</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Data Pipeline
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <div class="section-kicker">
+                    Data Pipeline
+                </div>
+
+                <h2>
+                    LiDAR projection onto the camera plane
+                </h2>
+            </div>
+
+            <p>
+                KITTI calibration parameters were used to transform
+                Velodyne LiDAR points into the camera coordinate system
+                and project the resulting points onto the image plane.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Processing sequence
+            </h3>
+
+            <div class="pipeline-row">
+
+                <div class="pipeline-step">
+                    <strong>01</strong>
+                    <span>RGB Image</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>02</strong>
+                    <span>LiDAR Point Cloud</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>03</strong>
+                    <span>Calibration & Projection</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>04</strong>
+                    <span>Depth Map</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>05</strong>
+                    <span>Fusion Network</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <p class="muted research-note">
+            The projected LiDAR data were converted into a sparse depth
+            representation aligned with the RGB image and resized for
+            network training and evaluation.
+        </p>
+
+
+        <!-- Figure 1 -->
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/lidar-camera-fusion/lidar-camera-depth-map.png"
+                alt="LiDAR depth map projected onto the KITTI camera image plane"
+            >
+
+            <figcaption>
+                LiDAR-derived depth representation aligned with the
+                corresponding KITTI RGB image.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Network
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="split">
+
+            <div>
+
+                <div class="section-kicker">
+                    Neural Network
+                </div>
+
+                <h2>
+                    Modified SegNet architecture
+                </h2>
+
+                <p class="muted">
+                    The segmentation model was based on the SegNet
+                    encoder–decoder architecture and modified for binary
+                    road detection.
+                </p>
+
+                <p class="muted">
+                    The network used convolutional blocks with batch
+                    normalization, ReLU activation, dropout, and transposed
+                    convolution in the decoder for spatial upsampling.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Training configuration
+                </h3>
+
+                <ul class="clean-list">
+                    <li>Framework: Keras / TensorFlow 2</li>
+                    <li>Dataset: KITTI Road</li>
+                    <li>Optimizer: Adam</li>
+                    <li>Learning rate: 0.0001</li>
+                    <li>Batch size: 8</li>
+                    <li>Epochs: 30</li>
+                    <li>Evaluation: MaxF, Accuracy, IoU</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <!-- Figure 2 -->
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/lidar-camera-fusion/modified-segnet-architecture.png"
+                alt="Modified SegNet encoder-decoder architecture"
+            >
+
+            <figcaption>
+                Modified SegNet encoder–decoder architecture used for
+                binary road segmentation.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Fusion Strategies
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <div class="section-kicker">
+                    Sensor Fusion
+                </div>
+
+                <h2>
+                    Early fusion vs. late fusion
+                </h2>
+            </div>
+
+            <p>
+                Two fusion architectures were implemented to evaluate
+                where RGB and LiDAR information should be combined
+                within the segmentation network.
+            </p>
+
+        </div>
+
+
+        <!-- Figure 3 -->
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/lidar-camera-fusion/early-late-fusion.png"
+                alt="Early and late LiDAR-camera fusion architectures"
+            >
+
+            <figcaption>
+                Early fusion combines RGB and LiDAR information at the
+                input level, while late fusion combines independently
+                encoded features before decoding.
+            </figcaption>
+
+        </figure>
+
+
+        <div class="grid" style="margin-top: 30px;">
+
+            <div class="card">
+
+                <div class="project-index">
+                    EARLY FUSION
+                </div>
+
+                <h3>
+                    Fusion at the input level
+                </h3>
+
+                <p>
+                    RGB and LiDAR-derived depth information were
+                    concatenated before entering the encoder,
+                    allowing the network to learn directly from
+                    the combined low-level representation.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    LATE FUSION
+                </div>
+
+                <h3>
+                    Fusion after independent encoding
+                </h3>
+
+                <p>
+                    RGB and LiDAR data were processed through
+                    separate encoder branches and combined at
+                    the end of the encoding stage before decoding.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Results
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <div class="section-kicker">
+                    Experimental Results
+                </div>
+
+                <h2>
+                    Fusion improved road segmentation
+                </h2>
+            </div>
+
+            <p>
+                The late-fusion architecture produced the strongest
+                overall result among the three evaluated sensor
+                configurations.
+            </p>
+
+        </div>
+
+
+        <div class="research-table-wrap">
+
+            <table class="research-table">
+
+                <thead>
+                    <tr>
+                        <th>Configuration</th>
+                        <th>MaxF</th>
+                        <th>Accuracy</th>
+                        <th>IoU</th>
+                        <th>Training Time</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>RGB only</td>
+                        <td>0.9010</td>
+                        <td>0.7828</td>
+                        <td>0.4755</td>
+                        <td>392 s</td>
+                    </tr>
+
+                    <tr>
+                        <td>Early Fusion</td>
+                        <td>0.9153</td>
+                        <td>0.7875</td>
+                        <td>0.4665</td>
+                        <td>392 s</td>
+                    </tr>
+
+                    <tr class="research-best">
+                        <td>Late Fusion</td>
+                        <td>0.9364</td>
+                        <td>0.7958</td>
+                        <td>0.4898</td>
+                        <td>584 s</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- Figure 4 -->
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/lidar-camera-fusion/fusion-results-comparison.png"
+                alt="Comparison of RGB-only, early-fusion, and late-fusion road segmentation results"
+            >
+
+            <figcaption>
+                Qualitative comparison of RGB-only, early-fusion,
+                and late-fusion road segmentation on KITTI samples.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Architecture Comparison
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Network Comparison
+            </div>
+
+            <h2>
+                Modified SegNet vs. baseline SegNet
+            </h2>
+
+            <p class="muted">
+                Before evaluating multimodal fusion, the modified
+                network was compared with the original SegNet
+                architecture using RGB images.
+            </p>
+
+        </div>
+
+
+        <div class="grid mini-grid">
+
+            <div class="metric">
+                <strong>0.8142</strong>
+                <span>Original SegNet MaxF</span>
+            </div>
+
+            <div class="metric">
+                <strong>0.9010</strong>
+                <span>Modified SegNet MaxF</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Interpretation
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Engineering Interpretation
+            </div>
+
+            <h2>
+                Accuracy versus computational cost
+            </h2>
+
+            <p class="muted">
+                Early fusion improved MaxF relative to the RGB-only
+                configuration without increasing the reported training
+                time.
+            </p>
+
+            <p class="muted">
+                Late fusion achieved the highest MaxF, accuracy,
+                and IoU, but required two independent encoder streams
+                and therefore increased training time from 392 seconds
+                to 584 seconds.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Key result
+            </h3>
+
+            <p>
+                MaxF increased from
+                <strong>0.9010</strong> with RGB-only input
+                to <strong>0.9364</strong> with late fusion.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Limitations
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Limitations
+            </div>
+
+            <h2>
+                Scope of the experiment
+            </h2>
+
+            <p class="muted">
+                The experiments used the KITTI road dataset,
+                which primarily represents favorable road,
+                weather, and lighting conditions.
+            </p>
+
+            <p class="muted">
+                The project therefore does not establish performance
+                across the full range of adverse conditions that
+                would be encountered by a production autonomous vehicle.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Future work
+            </h3>
+
+            <ul class="clean-list">
+                <li>Evaluate more diverse road and weather conditions</li>
+                <li>Investigate real-time segmentation</li>
+                <li>Explore pyramid-based fusion architectures</li>
+                <li>Investigate cross-fusion strategies</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Documents
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <div class="section-kicker">
+                    Technical Documentation
+                </div>
+
+                <h2>
+                    Original project materials
+                </h2>
+            </div>
+
+            <p>
+                Original academic materials are retained alongside
+                the web presentation for technical reference.
+            </p>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+                    Technical Report
+                </h3>
+
+                <p>
+                    Full project report covering literature review,
+                    network architecture, sensor projection,
+                    experimental setup, results, and references.
+                </p>
+
+                <span class="tag">
+                    PDF will be added
+                </span>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Project Presentation
+                </h3>
+
+                <p>
+                    Presentation material covering project motivation,
+                    LiDAR-camera fusion strategies, KITTI processing,
+                    network design, and experimental development.
+                </p>
+
+                <span class="tag">
+                    Presentation archive
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Back
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <a class="btn" href="../index.html">
+            ← Back to Waterloo Research
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Footer
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            Sooyong Kim · Robotics & Autonomous Systems
+        </div>
+
+        <div>
+            © <span data-year></span> sooyongtech.dev
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="../../../assets/js/site.js"></script>
+
+</body>
+
+</html>

@@ -193,3 +193,125 @@ p{margin:0 0 16px}
     right: 26px;
     bottom: 24px;
 }
+/* Research detail pages */
+
+.pipeline-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.pipeline-step {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px;
+    background: rgba(8, 20, 33, .55);
+}
+
+.pipeline-step strong {
+    display: block;
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: .12em;
+    margin-bottom: 8px;
+}
+
+.pipeline-step span {
+    font-weight: 700;
+}
+
+.pipeline-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--accent);
+    font-weight: 800;
+}
+
+.research-note {
+    margin-top: 18px;
+}
+
+.research-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(13, 27, 43, .82);
+}
+
+.research-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+}
+
+.research-table th,
+.research-table td {
+    padding: 17px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+}
+
+.research-table th {
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.research-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.research-best {
+    background: rgba(86, 184, 255, .08);
+}
+
+.research-best td {
+    font-weight: 800;
+}
+
+.mini-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+    .pipeline-row {
+        flex-direction: column;
+    }
+
+    .pipeline-arrow {
+        justify-content: center;
+        transform: rotate(90deg);
+    }
+
+    .mini-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* Research figures */
+
+.research-figure {
+    margin: 30px 0 0;
+}
+
+.research-figure img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: var(--shadow);
+}
+
+.research-figure figcaption {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
