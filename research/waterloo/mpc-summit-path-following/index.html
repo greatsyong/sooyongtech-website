@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="Experimental MPC-based path following using a Summit holonomic mobile robot and Vicon motion-capture feedback at the University of Waterloo."
+    >
+
+    <title>MPC-Based Path Following with a Summit Mobile Robot — Sooyong Kim</title>
+
+    <link rel="stylesheet" href="../../../assets/css/site.css">
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     Navigation
+========================================================= -->
+
+<nav class="nav">
+    <div class="container nav-inner">
+
+        <a class="brand" href="../../../index.html">
+            SOOYONG KIM
+        </a>
+
+        <div class="nav-links">
+            <a href="../../../bio.html">Bio</a>
+            <a class="active" href="../../index.html">Research & Work</a>
+            <a href="../../../projects/index.html">Projects</a>
+            <a href="../../../resume/index.html">Resume</a>
+            <a href="../../../contact.html">Contact</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- =========================================================
+     Hero
+========================================================= -->
+
+<header class="hero compact">
+
+    <div class="container">
+
+        <div class="eyebrow">
+            UNIVERSITY OF WATERLOO · MOBILE ROBOTICS
+        </div>
+
+        <h1>
+            MPC-Based Path Following<br>
+            with a Summit Mobile Robot
+        </h1>
+
+        <p class="lead">
+            Experimental implementation of model predictive control
+            for path following using a holonomic Summit mobile robot
+            and Vicon motion-capture feedback.
+        </p>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     Project Overview
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Project Overview
+                </div>
+
+                <h2>
+                    From controller design to physical robot experiments
+                </h2>
+
+            </div>
+
+            <p>
+                This work focused on implementing and experimentally
+                evaluating model predictive control for path following
+                on a real holonomic mobile-robot platform.
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div class="metric">
+                <strong>Summit</strong>
+                <span>Holonomic mobile robot</span>
+            </div>
+
+            <div class="metric">
+                <strong>Vicon</strong>
+                <span>External pose feedback</span>
+            </div>
+
+            <div class="metric">
+                <strong>MPC</strong>
+                <span>Path-following controller</span>
+            </div>
+
+            <div class="metric">
+                <strong>Physical</strong>
+                <span>Experimental validation</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Experimental Platform
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Experimental Platform
+                </div>
+
+                <h2>
+                    Summit mobile robot in a Vicon-instrumented environment
+                </h2>
+
+            </div>
+
+            <p>
+                The experimental platform combined a holonomic Summit
+                mobile robot with an external Vicon motion-capture system
+                for real-time pose measurement during path-following tests.
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/mpc-summit/summit-vicon-lab.jpg"
+                alt="Summit mobile robot operating in a Vicon motion-capture laboratory"
+            >
+
+            <figcaption>
+                Experimental environment used for mobile-robot
+                path-following tests with Vicon motion capture.
+            </figcaption>
+
+        </figure>
+
+
+        <div class="grid" style="margin-top: 30px;">
+
+            <div class="card">
+
+                <div class="project-index">
+                    ROBOT PLATFORM
+                </div>
+
+                <h3>
+                    Holonomic Summit mobile robot
+                </h3>
+
+                <p>
+                    The Summit platform provides omnidirectional motion,
+                    allowing translational and rotational motion to be
+                    controlled independently during path-following experiments.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    LOCALIZATION
+                </div>
+
+                <h3>
+                    Vicon motion capture
+                </h3>
+
+                <p>
+                    Multiple Vicon cameras were used to measure the robot
+                    pose externally and provide accurate feedback for
+                    closed-loop control and experimental evaluation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     System Setup
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                System Integration
+            </div>
+
+            <h2>
+                Robot, motion capture, and networked control
+            </h2>
+
+            <p class="muted">
+                The experimental system integrated the physical robot,
+                Vicon motion-capture cameras, control computers, and
+                network infrastructure into a closed-loop robotics
+                test environment.
+            </p>
+
+            <p class="muted">
+                Vicon measurements provided the robot pose required
+                by the controller, while the control computer generated
+                commands for the Summit platform over the local network.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Experimental components
+            </h3>
+
+            <ul class="clean-list">
+                <li>Summit holonomic mobile robot</li>
+                <li>Multiple Vicon motion-capture cameras</li>
+                <li>Vicon tracking host</li>
+                <li>Ubuntu-based control computer</li>
+                <li>Windows-based Vicon workstation</li>
+                <li>Local network and router</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/mpc-summit/summit-vicon-setup.png"
+                alt="Annotated experimental setup with Summit mobile robot and Vicon cameras"
+            >
+
+            <figcaption>
+                Experimental setup showing the Summit mobile robot,
+                Vicon cameras, and host system.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     System Architecture
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    System Architecture
+                </div>
+
+                <h2>
+                    Closed-loop experimental infrastructure
+                </h2>
+
+            </div>
+
+            <p>
+                Robot motion, external localization, and controller
+                computation were connected through a networked
+                experimental architecture.
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/mpc-summit/vicon-system-architecture.png"
+                alt="System architecture of Summit robot, Vicon cameras, Ubuntu computer, Windows host, and router"
+            >
+
+            <figcaption>
+                System architecture connecting the Summit robot,
+                Vicon motion-capture system, control computer,
+                Vicon workstation, and network router.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Control Structure
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Control Structure
+            </div>
+
+            <h2>
+                MPC-based path following
+            </h2>
+
+            <p class="muted">
+                The controller used the measured robot pose together
+                with a reference path to repeatedly compute motion
+                commands over a finite prediction horizon.
+            </p>
+
+            <p class="muted">
+                At each control update, the measured state was fed
+                back to the controller and the optimization problem
+                was resolved using the current robot configuration.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Robot state
+            </h3>
+
+            <p>
+                The planar robot configuration was represented by:
+            </p>
+
+            <p style="font-size: 1.2rem; margin-top: 20px;">
+                <strong>
+                    x = [x, y, θ]<sup>T</sup>
+                </strong>
+            </p>
+
+            <p class="muted">
+                where x and y represent planar position and θ
+                represents robot orientation.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Control Loop
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="card">
+
+            <h3>
+                Closed-loop sequence
+            </h3>
+
+            <div class="pipeline-row">
+
+                <div class="pipeline-step">
+                    <strong>01</strong>
+                    <span>Reference Path</span>
+                </div>
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+                <div class="pipeline-step">
+                    <strong>02</strong>
+                    <span>MPC Controller</span>
+                </div>
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+                <div class="pipeline-step">
+                    <strong>03</strong>
+                    <span>Summit Robot</span>
+                </div>
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+                <div class="pipeline-step">
+                    <strong>04</strong>
+                    <span>Vicon Pose</span>
+                </div>
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+                <div class="pipeline-step">
+                    <strong>05</strong>
+                    <span>State Feedback</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Simulation / Path Following
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Path-Following Evaluation
+                </div>
+
+                <h2>
+                    Convergence from multiple initial conditions
+                </h2>
+
+            </div>
+
+            <p>
+                Path-following performance was evaluated from
+                multiple initial positions and orientations to assess
+                convergence toward the reference trajectory.
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/mpc-summit/mpc-path-convergence.png"
+                alt="MPC path-following trajectories from multiple initial conditions"
+            >
+
+            <figcaption>
+                Path-following trajectories from multiple initial
+                robot configurations. The trajectories converge toward
+                the common reference path.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Tracking Performance
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Tracking Performance
+                </div>
+
+                <h2>
+                    Reference-path error convergence
+                </h2>
+
+            </div>
+
+            <p>
+                Tracking error was evaluated over time for several
+                initial robot configurations.
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/mpc-summit/mpc-tracking-error.png"
+                alt="Reference trajectory tracking error for multiple initial conditions"
+            >
+
+            <figcaption>
+                Reference-trajectory error for multiple initial
+                conditions. The error decreases by several orders
+                of magnitude as the robot converges toward the path.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Value Function
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Closed-Loop Behavior
+            </div>
+
+            <h2>
+                Value-function evolution
+            </h2>
+
+            <p class="muted">
+                The controller value function was monitored during
+                the path-following process for multiple initial
+                conditions.
+            </p>
+
+            <p class="muted">
+                The observed decrease is consistent with the robot
+                progressing toward the target trajectory under the
+                closed-loop controller.
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/mpc-summit/mpc-value-function.png"
+                alt="MPC value function over time for different initial conditions"
+            >
+
+            <figcaption>
+                Evolution of the MPC value function for multiple
+                initial robot configurations.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Physical Experiment
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Physical Experiment
+                </div>
+
+                <h2>
+                    Real-robot validation
+                </h2>
+
+            </div>
+
+            <p>
+                The controller was validated on the physical Summit
+                platform in the Vicon-instrumented test area.
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/waterloo/mpc-summit/summit-path-following.jpg"
+                alt="Summit mobile robot during physical path-following experiment"
+            >
+
+            <figcaption>
+                Physical path-following experiment with the Summit
+                mobile robot in the Vicon motion-capture environment.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Engineering Interpretation
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Engineering Interpretation
+            </div>
+
+            <h2>
+                Experimental robotics beyond simulation
+            </h2>
+
+            <p class="muted">
+                The principal engineering contribution of this work
+                was the integration of model-based control with a
+                physical holonomic robot and an external localization
+                system.
+            </p>
+
+            <p class="muted">
+                Reliable experimental operation required coordination
+                between localization, network communication,
+                controller execution, robot motion, and test-environment
+                configuration.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Practical focus
+            </h3>
+
+            <ul class="clean-list">
+                <li>Physical mobile-robot experimentation</li>
+                <li>Vicon-based pose feedback</li>
+                <li>Closed-loop path following</li>
+                <li>MPC controller integration</li>
+                <li>Networked robotics infrastructure</li>
+                <li>Trajectory and error evaluation</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Back
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <a class="btn" href="../index.html">
+            ← Back to Waterloo Research
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Footer
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            Sooyong Kim · Robotics & Autonomous Systems
+        </div>
+
+        <div>
+            © <span data-year></span> sooyongtech.dev
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="../../../assets/js/site.js"></script>
+
+</body>
+
+</html>
