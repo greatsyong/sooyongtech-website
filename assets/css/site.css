@@ -181,3 +181,15 @@ p{margin:0 0 16px}
         aspect-ratio: 4 / 3;
     }
 }
+/* Research index cards: align buttons at the bottom */
+.research-index-card {
+    position: relative;
+    padding-bottom: 86px;
+}
+
+.research-index-btn {
+    position: absolute;
+    left: 26px;
+    right: 26px;
+    bottom: 24px;
+}
