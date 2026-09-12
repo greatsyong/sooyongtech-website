@@ -9,6 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      deployments: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -18,5 +22,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: "4"
-          command: whoami
+          command: pages deploy . --project-name=sooyongtech-website
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
