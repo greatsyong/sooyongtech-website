@@ -348,3 +348,14 @@ p{margin:0 0 16px}
     height: 100%;
     border: 0;
 }
+.turtlebot-figure {
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 700px) {
+    .turtlebot-figure {
+        max-width: 100%;
+    }
+}
