@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="System integration for multi-floor autonomous navigation using Summit XLS, ROS navigation, ZED vision, ArUco pose estimation, WAM manipulation, and elevator interaction."
+    >
+
+    <title>Summit XL Multi-Floor Autonomous Navigation — Sooyong Kim</title>
+
+    <link rel="stylesheet" href="../../../assets/css/site.css">
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     Navigation
+========================================================= -->
+
+<nav class="nav">
+    <div class="container nav-inner">
+
+        <a class="brand" href="../../../index.html">
+            SOOYONG KIM
+        </a>
+
+        <div class="nav-links">
+            <a href="../../../bio.html">Bio</a>
+            <a class="active" href="../../index.html">Research & Work</a>
+            <a href="../../../projects/index.html">Projects</a>
+            <a href="../../../resume/index.html">Resume</a>
+            <a href="../../../contact.html">Contact</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- =========================================================
+     Hero
+========================================================= -->
+
+<header class="hero compact">
+
+    <div class="container">
+
+        <div class="eyebrow">
+            UNIVERSITY OF WATERLOO · INTEGRATED ROBOTICS SYSTEM
+        </div>
+
+        <h1>
+            Summit XL Multi-Floor<br>
+            Autonomous Navigation
+        </h1>
+
+        <p class="lead">
+            System-level integration for multi-floor mobile-robot navigation
+            using Summit XLS, ROS navigation, vision-based pose estimation,
+            WAM manipulation, elevator interaction, and floor-specific maps.
+        </p>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     Project Overview
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Project Overview
+                </div>
+
+                <h2>
+                    Multi-floor navigation as an integrated robotics task
+                </h2>
+
+            </div>
+
+            <p>
+                The system was developed around a practical scenario:
+                navigate from a laboratory on the third floor to the elevator,
+                interact with the elevator controls, transition between floors,
+                and continue navigation toward the first-floor Robohub.
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div class="metric">
+                <strong>Summit XLS</strong>
+                <span>Mobile robot platform</span>
+            </div>
+
+            <div class="metric">
+                <strong>ROS</strong>
+                <span>Navigation & task integration</span>
+            </div>
+
+            <div class="metric">
+                <strong>ZED + ArUco</strong>
+                <span>Vision-based pose estimation</span>
+            </div>
+
+            <div class="metric">
+                <strong>WAM 7-DOF</strong>
+                <span>Elevator interaction</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Scenario
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Navigation Scenario
+                </div>
+
+                <h2>
+                    Third-floor laboratory to first-floor Robohub
+                </h2>
+
+            </div>
+
+            <p>
+                The scenario combined floor-specific navigation,
+                elevator interaction, manipulation, perception,
+                and task sequencing within one ROS-based system.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="pipeline-row">
+
+                <div class="pipeline-step">
+                    <strong>01</strong>
+                    <span>Navigate from Lab</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>02</strong>
+                    <span>Reach Elevator</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>03</strong>
+                    <span>Call Elevator</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>04</strong>
+                    <span>Elevator Interaction</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>05</strong>
+                    <span>Switch Floor Map</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>06</strong>
+                    <span>Navigate to Robohub</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Mapping & Navigation
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Mapping & Navigation
+            </div>
+
+            <h2>
+                Floor-specific maps and autonomous navigation
+            </h2>
+
+            <p class="muted">
+                Navigation maps were created for both the first and
+                third floors. The Summit XLS was configured and tested
+                to localize and navigate within each mapped environment.
+            </p>
+
+            <p class="muted">
+                Physical navigation tests were carried out from the
+                laboratory area to the elevator lobby, establishing the
+                mobile-navigation portion of the multi-floor workflow.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Navigation work
+            </h3>
+
+            <ul class="clean-list">
+                <li>First-floor navigation map</li>
+                <li>Third-floor navigation map</li>
+                <li>Summit XLS localization setup</li>
+                <li>ROS move_base integration</li>
+                <li>Goal-based autonomous navigation</li>
+                <li>Navigation to the elevator area</li>
+                <li>Floor-map transition logic</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     System Architecture
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    System Architecture
+                </div>
+
+                <h2>
+                    Navigation, perception, manipulation, and task control
+                </h2>
+
+            </div>
+
+            <p>
+                The system connected the Summit XLS navigation stack,
+                WAM manipulator, ZED camera, task-control software,
+                inverse kinematics, and networked computers.
+            </p>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <div class="project-index">
+                    MOBILE NAVIGATION
+                </div>
+
+                <h3>
+                    Summit XLS
+                </h3>
+
+                <p>
+                    ROS navigation and move_base were used for
+                    localization, goal execution, and autonomous
+                    movement within the mapped floors.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    PERCEPTION
+                </div>
+
+                <h3>
+                    ZED + ArUco
+                </h3>
+
+                <p>
+                    Vision-based marker detection was used to estimate
+                    the pose required for elevator-button interaction.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    MANIPULATION
+                </div>
+
+                <h3>
+                    WAM 7-DOF
+                </h3>
+
+                <p>
+                    The WAM manipulator was integrated with inverse
+                    kinematics and pose calibration for elevator-button
+                    interaction.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    TASK CONTROL
+                </div>
+
+                <h3>
+                    ROS task orchestration
+                </h3>
+
+                <p>
+                    A core task-control node coordinated navigation,
+                    perception, manipulation, and elevator-interaction
+                    stages across the system.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Elevator Interaction
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Elevator Interaction
+            </div>
+
+            <h2>
+                Vision-guided manipulation for button pressing
+            </h2>
+
+            <p class="muted">
+                Elevator interaction required the perception and
+                manipulation subsystems to share a consistent spatial
+                reference. ArUco markers were used as visual landmarks
+                for estimating the target pose.
+            </p>
+
+            <p class="muted">
+                The WAM manipulator then used the estimated pose and
+                inverse-kinematics solution to approach and press the
+                elevator control.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Interaction pipeline
+            </h3>
+
+            <ul class="clean-list">
+                <li>Detect ArUco marker</li>
+                <li>Estimate target pose</li>
+                <li>Transform pose into robot/manipulator frame</li>
+                <li>Solve WAM inverse kinematics</li>
+                <li>Execute button-press motion</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Coordinate Frames
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Calibration & Debugging
+                </div>
+
+                <h2>
+                    Coordinate-frame alignment
+                </h2>
+
+            </div>
+
+            <p>
+                Pose-estimation reliability depended on consistent
+                camera, robot, and manipulator coordinate frames.
+            </p>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+                    Frame-alignment issue
+                </h3>
+
+                <p>
+                    Testing indicated that the camera frame and the
+                    other system frames were not consistently aligned,
+                    introducing pose offsets during manipulation.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Calibration approach
+                </h3>
+
+                <p>
+                    Base ArUco markers were added to the Summit platform
+                    to establish a visual reference, and larger markers
+                    were used to improve pose-estimation reliability.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Integration Challenges
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                System Integration
+            </div>
+
+            <h2>
+                Practical robotics troubleshooting
+            </h2>
+
+            <p class="muted">
+                Integrating multiple robotic subsystems required
+                debugging beyond navigation and manipulation algorithms.
+            </p>
+
+            <p class="muted">
+                Communication, networking, planner behavior, and hardware
+                recovery all affected whether the integrated demo could
+                operate reliably.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Issues addressed
+            </h3>
+
+            <ul class="clean-list">
+                <li>CAN communication failure</li>
+                <li>Summit control loss</li>
+                <li>Remote-PC network disconnection</li>
+                <li>Router and network reconfiguration</li>
+                <li>Local-planner oscillation near the goal</li>
+                <li>Pose-estimation and frame-alignment errors</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Physical Verification
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Physical Verification
+                </div>
+
+                <h2>
+                    What was physically tested
+                </h2>
+
+            </div>
+
+            <p>
+                The project was developed and validated incrementally
+                through physical subsystem and integration tests.
+            </p>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <div class="project-index">
+                    NAVIGATION
+                </div>
+
+                <h3>
+                    Floor mapping and elevator approach
+                </h3>
+
+                <p>
+                    First- and third-floor maps were created, and the
+                    Summit XLS was physically tested for autonomous
+                    navigation from the laboratory area to the elevator lobby.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    MANIPULATION
+                </div>
+
+                <h3>
+                    Elevator-button interaction
+                </h3>
+
+                <p>
+                    Vision-based pose estimation and WAM manipulation
+                    were physically tested for interaction with the
+                    elevator control panel.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Video
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Demonstration
+                </div>
+
+                <h2>
+                    Elevator interaction demo
+                </h2>
+
+            </div>
+
+            <p>
+                Physical demonstration of the manipulation stage of
+                the multi-floor navigation workflow.
+            </p>
+
+        </div>
+
+
+        <div class="video-frame">
+
+            <!--
+            Replace YOUTUBE_VIDEO_ID after uploading the video to YouTube.
+
+            Example:
+            https://www.youtube.com/watch?v=ABC123XYZ
+            becomes:
+            https://www.youtube.com/embed/ABC123XYZ
+            -->
+
+            <iframe
+                src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID"
+                title="Summit XL Multi-Floor Navigation Demo"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+        <p class="muted research-note">
+            Video footage is available for the elevator-interaction stage.
+            Additional floor-mapping and autonomous-navigation tests were
+            performed without dedicated video recording.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Project Scope
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Project Scope
+            </div>
+
+            <h2>
+                System integration through elevator interaction
+            </h2>
+
+            <p class="muted">
+                The work established the navigation maps, Summit XLS
+                navigation setup, elevator approach, perception,
+                manipulation, and task-integration components required
+                for the larger multi-floor scenario.
+            </p>
+
+            <p class="muted">
+                The project concluded before a fully autonomous
+                end-to-end execution from the third-floor laboratory
+                through the elevator to the first-floor Robohub was completed.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Engineering focus
+            </h3>
+
+            <ul class="clean-list">
+                <li>ROS system integration</li>
+                <li>Autonomous mobile navigation</li>
+                <li>Multi-floor mapping</li>
+                <li>Vision-based pose estimation</li>
+                <li>Robotic manipulation</li>
+                <li>Coordinate-frame calibration</li>
+                <li>Hardware and network debugging</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Back
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <a class="btn" href="../index.html">
+            ← Back to Waterloo Research
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Footer
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            Sooyong Kim · Robotics & Autonomous Systems
+        </div>
+
+        <div>
+            © <span data-year></span> sooyongtech.dev
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="../../../assets/js/site.js"></script>
+
+</body>
+
+</html>
