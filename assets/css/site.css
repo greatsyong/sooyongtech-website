@@ -131,3 +131,14 @@ p{margin:0 0 16px}
   .hero{padding-top:64px}
   .section{padding:52px 0}
 }
+/* Research cards: keep action buttons aligned at the bottom */
+.research-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.research-card .card-actions {
+    margin-top: auto;
+    padding-top: 24px;
+}
