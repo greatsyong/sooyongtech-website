@@ -74,7 +74,7 @@
 
 
 <!-- =========================================================
-     Overview
+     Project Overview
 ========================================================= -->
 
 <section class="section">
@@ -84,11 +84,15 @@
         <div class="section-head">
 
             <div>
-                <div class="section-kicker">Project Overview</div>
+
+                <div class="section-kicker">
+                    Project Overview
+                </div>
 
                 <h2>
                     Multimodal perception for road detection
                 </h2>
+
             </div>
 
             <p>
@@ -131,7 +135,7 @@
 
 
 <!-- =========================================================
-     Problem
+     Motivation
 ========================================================= -->
 
 <section class="section">
@@ -151,15 +155,19 @@
             <p class="muted">
                 Camera-based semantic segmentation provides dense visual
                 information, but its performance can be affected by illumination,
-                image quality, and environmental conditions. LiDAR provides
-                complementary geometric and distance information that is less
-                dependent on scene appearance.
+                image quality, and environmental conditions.
             </p>
 
             <p class="muted">
-                This project explored the integration of the two sensing
-                modalities for binary road segmentation and compared
-                camera-only processing against two multimodal fusion strategies.
+                LiDAR provides complementary geometric and distance information
+                that is less dependent on scene appearance. Combining these
+                modalities therefore provides an opportunity to improve the
+                robustness of road perception.
+            </p>
+
+            <p class="muted">
+                This project compared camera-only road segmentation with
+                two multimodal architectures: early fusion and late fusion.
             </p>
 
         </div>
@@ -175,10 +183,10 @@
                 <li>KITTI camera and LiDAR data processing</li>
                 <li>LiDAR-to-camera coordinate transformation</li>
                 <li>Depth-map generation</li>
-                <li>Modified SegNet architecture</li>
-                <li>Early fusion</li>
-                <li>Late fusion</li>
-                <li>Quantitative performance comparison</li>
+                <li>Modified SegNet development</li>
+                <li>Early-fusion implementation</li>
+                <li>Late-fusion implementation</li>
+                <li>Quantitative performance evaluation</li>
             </ul>
 
         </div>
@@ -199,6 +207,7 @@
         <div class="section-head">
 
             <div>
+
                 <div class="section-kicker">
                     Data Pipeline
                 </div>
@@ -206,12 +215,13 @@
                 <h2>
                     LiDAR projection onto the camera plane
                 </h2>
+
             </div>
 
             <p>
                 KITTI calibration parameters were used to transform
                 Velodyne LiDAR points into the camera coordinate system
-                and project the resulting points onto the image plane.
+                and project them onto the RGB image plane.
             </p>
 
         </div>
@@ -230,28 +240,36 @@
                     <span>RGB Image</span>
                 </div>
 
-                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-arrow">
+                    →
+                </div>
 
                 <div class="pipeline-step">
                     <strong>02</strong>
                     <span>LiDAR Point Cloud</span>
                 </div>
 
-                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-arrow">
+                    →
+                </div>
 
                 <div class="pipeline-step">
                     <strong>03</strong>
                     <span>Calibration & Projection</span>
                 </div>
 
-                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-arrow">
+                    →
+                </div>
 
                 <div class="pipeline-step">
                     <strong>04</strong>
                     <span>Depth Map</span>
                 </div>
 
-                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-arrow">
+                    →
+                </div>
 
                 <div class="pipeline-step">
                     <strong>05</strong>
@@ -262,20 +280,19 @@
 
         </div>
 
+
         <p class="muted research-note">
-            The projected LiDAR data were converted into a sparse depth
+            The projected LiDAR points were converted into a sparse depth
             representation aligned with the RGB image and resized for
             network training and evaluation.
         </p>
 
 
-        <!-- Figure 1 -->
-
         <figure class="research-figure">
 
             <img
                 src="../../../assets/images/waterloo/lidar-camera-fusion/lidar-camera-depth-map.png"
-                alt="LiDAR depth map projected onto the KITTI camera image plane"
+                alt="LiDAR-derived depth representation and corresponding KITTI RGB image"
             >
 
             <figcaption>
@@ -291,7 +308,7 @@
 
 
 <!-- =========================================================
-     Network
+     Neural Network
 ========================================================= -->
 
 <section class="section">
@@ -311,15 +328,16 @@
                 </h2>
 
                 <p class="muted">
-                    The segmentation model was based on the SegNet
-                    encoder–decoder architecture and modified for binary
-                    road detection.
+                    The segmentation model was developed from the SegNet
+                    encoder–decoder architecture and adapted for binary
+                    road segmentation.
                 </p>
 
                 <p class="muted">
-                    The network used convolutional blocks with batch
-                    normalization, ReLU activation, dropout, and transposed
-                    convolution in the decoder for spatial upsampling.
+                    The network incorporated convolutional blocks,
+                    batch normalization, ReLU activation, dropout,
+                    and transposed convolution for spatial reconstruction
+                    in the decoder.
                 </p>
 
             </div>
@@ -338,7 +356,7 @@
                     <li>Learning rate: 0.0001</li>
                     <li>Batch size: 8</li>
                     <li>Epochs: 30</li>
-                    <li>Evaluation: MaxF, Accuracy, IoU</li>
+                    <li>Metrics: MaxF, Accuracy, IoU</li>
                 </ul>
 
             </div>
@@ -346,13 +364,11 @@
         </div>
 
 
-        <!-- Figure 2 -->
-
         <figure class="research-figure">
 
             <img
                 src="../../../assets/images/waterloo/lidar-camera-fusion/modified-segnet-architecture.png"
-                alt="Modified SegNet encoder-decoder architecture"
+                alt="Modified SegNet encoder-decoder network architecture"
             >
 
             <figcaption>
@@ -378,6 +394,7 @@
         <div class="section-head">
 
             <div>
+
                 <div class="section-kicker">
                     Sensor Fusion
                 </div>
@@ -385,30 +402,29 @@
                 <h2>
                     Early fusion vs. late fusion
                 </h2>
+
             </div>
 
             <p>
-                Two fusion architectures were implemented to evaluate
-                where RGB and LiDAR information should be combined
-                within the segmentation network.
+                Two architectures were implemented to investigate
+                how the location of multimodal fusion affected
+                segmentation performance.
             </p>
 
         </div>
 
 
-        <!-- Figure 3 -->
-
         <figure class="research-figure">
 
             <img
                 src="../../../assets/images/waterloo/lidar-camera-fusion/early-late-fusion.png"
-                alt="Early and late LiDAR-camera fusion architectures"
+                alt="Comparison of early and late LiDAR-camera fusion architectures"
             >
 
             <figcaption>
                 Early fusion combines RGB and LiDAR information at the
-                input level, while late fusion combines independently
-                encoded features before decoding.
+                input level, whereas late fusion combines features after
+                independent encoder processing.
             </figcaption>
 
         </figure>
@@ -428,9 +444,9 @@
 
                 <p>
                     RGB and LiDAR-derived depth information were
-                    concatenated before entering the encoder,
-                    allowing the network to learn directly from
-                    the combined low-level representation.
+                    concatenated before entering the encoder.
+                    The network therefore learned directly from
+                    a combined low-level multimodal representation.
                 </p>
 
             </div>
@@ -447,9 +463,10 @@
                 </h3>
 
                 <p>
-                    RGB and LiDAR data were processed through
-                    separate encoder branches and combined at
-                    the end of the encoding stage before decoding.
+                    RGB and LiDAR information were processed through
+                    independent encoder streams and combined near the end
+                    of the encoding stage before reconstruction
+                    in the decoder.
                 </p>
 
             </div>
@@ -462,7 +479,7 @@
 
 
 <!-- =========================================================
-     Results
+     Experimental Results
 ========================================================= -->
 
 <section class="section">
@@ -472,6 +489,7 @@
         <div class="section-head">
 
             <div>
+
                 <div class="section-kicker">
                     Experimental Results
                 </div>
@@ -479,12 +497,12 @@
                 <h2>
                     Fusion improved road segmentation
                 </h2>
+
             </div>
 
             <p>
-                The late-fusion architecture produced the strongest
-                overall result among the three evaluated sensor
-                configurations.
+                Late fusion produced the strongest overall result
+                among the three sensor configurations evaluated.
             </p>
 
         </div>
@@ -495,6 +513,7 @@
             <table class="research-table">
 
                 <thead>
+
                     <tr>
                         <th>Configuration</th>
                         <th>MaxF</th>
@@ -502,7 +521,9 @@
                         <th>IoU</th>
                         <th>Training Time</th>
                     </tr>
+
                 </thead>
+
 
                 <tbody>
 
@@ -537,13 +558,11 @@
         </div>
 
 
-        <!-- Figure 4 -->
-
         <figure class="research-figure">
 
             <img
                 src="../../../assets/images/waterloo/lidar-camera-fusion/fusion-results-comparison.png"
-                alt="Comparison of RGB-only, early-fusion, and late-fusion road segmentation results"
+                alt="Qualitative road-segmentation comparison of RGB-only, early fusion, and late fusion"
             >
 
             <figcaption>
@@ -559,7 +578,7 @@
 
 
 <!-- =========================================================
-     Architecture Comparison
+     Network Comparison
 ========================================================= -->
 
 <section class="section">
@@ -577,9 +596,9 @@
             </h2>
 
             <p class="muted">
-                Before evaluating multimodal fusion, the modified
-                network was compared with the original SegNet
-                architecture using RGB images.
+                Before evaluating multimodal fusion,
+                the modified architecture was compared with
+                the original SegNet using RGB images alone.
             </p>
 
         </div>
@@ -605,7 +624,7 @@
 
 
 <!-- =========================================================
-     Interpretation
+     Engineering Interpretation
 ========================================================= -->
 
 <section class="section">
@@ -619,19 +638,19 @@
             </div>
 
             <h2>
-                Accuracy versus computational cost
+                Performance versus computational cost
             </h2>
 
             <p class="muted">
-                Early fusion improved MaxF relative to the RGB-only
-                configuration without increasing the reported training
-                time.
+                Early fusion improved MaxF relative to the
+                camera-only configuration without increasing
+                the reported training time.
             </p>
 
             <p class="muted">
                 Late fusion achieved the highest MaxF, accuracy,
-                and IoU, but required two independent encoder streams
-                and therefore increased training time from 392 seconds
+                and IoU, but required two independent encoder streams.
+                Training time therefore increased from 392 seconds
                 to 584 seconds.
             </p>
 
@@ -646,8 +665,10 @@
 
             <p>
                 MaxF increased from
-                <strong>0.9010</strong> with RGB-only input
-                to <strong>0.9364</strong> with late fusion.
+                <strong>0.9010</strong>
+                with RGB-only input to
+                <strong>0.9364</strong>
+                with late LiDAR-camera fusion.
             </p>
 
         </div>
@@ -658,7 +679,7 @@
 
 
 <!-- =========================================================
-     Limitations
+     Limitations & Future Work
 ========================================================= -->
 
 <section class="section">
@@ -682,9 +703,9 @@
             </p>
 
             <p class="muted">
-                The project therefore does not establish performance
-                across the full range of adverse conditions that
-                would be encountered by a production autonomous vehicle.
+                The results therefore do not establish performance
+                across the full range of adverse conditions encountered
+                in production autonomous-driving environments.
             </p>
 
         </div>
@@ -711,7 +732,7 @@
 
 
 <!-- =========================================================
-     Documents
+     Final Technical Report
 ========================================================= -->
 
 <section class="section">
@@ -721,61 +742,65 @@
         <div class="section-head">
 
             <div>
+
                 <div class="section-kicker">
-                    Technical Documentation
+                    Technical Report
                 </div>
 
                 <h2>
-                    Original project materials
+                    Final technical report
                 </h2>
+
             </div>
 
             <p>
-                Original academic materials are retained alongside
-                the web presentation for technical reference.
+                The original academic report is being revised into
+                a polished final technical report while preserving
+                the original experiments, quantitative results,
+                technical content, figures, and references.
             </p>
 
         </div>
 
 
-        <div class="grid">
+        <div class="card">
 
-            <div class="card">
+            <div class="project-index">
+                REPORT
+            </div>
 
-                <h3>
-                    Technical Report
-                </h3>
+            <h3>
+                LiDAR–Camera Fusion for Road Segmentation
+            </h3>
 
-                <p>
-                    Full project report covering literature review,
-                    network architecture, sensor projection,
-                    experimental setup, results, and references.
-                </p>
+            <p>
+                A revised technical report will provide the complete
+                methodology, mathematical formulation, sensor calibration,
+                network architecture, experimental results, discussion,
+                and references.
+            </p>
+
+            <div class="tags">
 
                 <span class="tag">
-                    PDF will be added
+                    Final Report · In Editing
                 </span>
 
             </div>
 
+            <!--
+            When the final PDF is completed, replace the tag above with:
 
-            <div class="card">
-
-                <h3>
-                    Project Presentation
-                </h3>
-
-                <p>
-                    Presentation material covering project motivation,
-                    LiDAR-camera fusion strategies, KITTI processing,
-                    network design, and experimental development.
-                </p>
-
-                <span class="tag">
-                    Presentation archive
-                </span>
-
+            <div class="btns">
+                <a
+                    class="btn primary"
+                    href="documents/lidar-camera-fusion-road-segmentation-final-report.pdf"
+                    target="_blank"
+                >
+                    View Final Report
+                </a>
             </div>
+            -->
 
         </div>
 
