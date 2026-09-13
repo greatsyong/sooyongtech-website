@@ -359,3 +359,9 @@ p{margin:0 0 16px}
         max-width: 100%;
     }
 }
+.card-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
