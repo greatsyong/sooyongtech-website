@@ -1,0 +1,1472 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="Operational modal analysis, system identification, and stability estimation for regenerative chatter prediction in turning by Sooyong Kim at the University of Victoria."
+    >
+
+    <title>
+        Operational Modal Analysis for Chatter Prediction in Turning — Sooyong Kim
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../../../assets/css/site.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     Navigation
+========================================================= -->
+
+<nav class="nav">
+
+    <div class="container nav-inner">
+
+        <a
+            class="brand"
+            href="../../../index.html"
+        >
+            SOOYONG KIM
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="../../../bio.html">
+                Bio
+            </a>
+
+            <a
+                class="active"
+                href="../../index.html"
+            >
+                Research & Work
+            </a>
+
+            <a href="../../../projects/index.html">
+                Projects
+            </a>
+
+            <a href="../../../resume/index.html">
+                Resume
+            </a>
+
+            <a href="../../../contact.html">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     Hero
+========================================================= -->
+
+<header class="hero compact">
+
+    <div class="container">
+
+        <div class="eyebrow">
+            UNIVERSITY OF VICTORIA · MASc RESEARCH
+        </div>
+
+        <h1>
+            Operational Modal Analysis<br>
+            for Chatter Prediction in Turning
+        </h1>
+
+        <p class="lead">
+
+            Estimating machining stability from in-process vibration
+            measurements by identifying dominant structural poles,
+            modal damping, and the approach to regenerative instability.
+
+        </p>
+
+
+        <div class="card-actions">
+
+            <a
+                class="btn primary"
+                href="https://www.sciencedirect.com/science/article/abs/pii/S0888327019302948?via%3Dihub"
+                target="_blank"
+                rel="noopener"
+            >
+                View Publication
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     Publication
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Published Research
+                </div>
+
+                <h2>
+                    From graduate research to peer-reviewed publication
+                </h2>
+
+            </div>
+
+            <p>
+
+                The work was published in
+                <em>Mechanical Systems and Signal Processing</em>
+                as “Estimation of vibration stability in turning using
+                operational modal analysis.”
+
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div class="metric">
+
+                <strong>
+                    MSSP
+                </strong>
+
+                <span>
+                    Mechanical Systems and Signal Processing
+                </span>
+
+            </div>
+
+
+            <div class="metric">
+
+                <strong>
+                    2019
+                </strong>
+
+                <span>
+                    Publication year
+                </span>
+
+            </div>
+
+
+            <div class="metric">
+
+                <strong>
+                    OMA
+                </strong>
+
+                <span>
+                    Operational modal analysis
+                </span>
+
+            </div>
+
+
+            <div class="metric">
+
+                <strong>
+                    Chatter
+                </strong>
+
+                <span>
+                    Stability prediction
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Research Problem
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Research Problem
+            </div>
+
+            <h2>
+                Detecting instability before chatter fully develops
+            </h2>
+
+
+            <p class="muted">
+
+                Conventional chatter-monitoring methods commonly detect
+                instability after vibration amplitudes have already grown
+                and chatter marks may have formed on the workpiece.
+
+            </p>
+
+
+            <p class="muted">
+
+                The objective of this research was different: estimate
+                the stability margin while the cutting process is still
+                stable by identifying the dynamics of the turning system
+                directly from vibration measurements obtained during machining.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Research objective
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Measure machining vibration during stable cutting
+                </li>
+
+                <li>
+                    Identify dominant structural poles
+                </li>
+
+                <li>
+                    Estimate modal frequency and damping
+                </li>
+
+                <li>
+                    Track damping as stability decreases
+                </li>
+
+                <li>
+                    Detect the approach to regenerative chatter
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Physical Setup
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Experimental System
+                </div>
+
+                <h2>
+                    Instrumented orthogonal-turning experiments
+                </h2>
+
+            </div>
+
+            <p>
+
+                The experimental system combined controlled machining
+                conditions with multi-channel vibration acquisition and
+                independent acoustic monitoring.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/uvic/turning-oma/turning-experimental-setup.jpg"
+                alt="Experimental turning setup inside CNC machine"
+            >
+
+            <figcaption>
+
+                Experimental turning setup used to evaluate process
+                stability under different spindle speeds and widths of cut.
+
+            </figcaption>
+
+        </figure>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+                    Machining configuration
+                </h3>
+
+                <ul class="clean-list">
+
+                    <li>
+                        Aluminum 6061 workpiece
+                    </li>
+
+                    <li>
+                        38 mm tool overhang
+                    </li>
+
+                    <li>
+                        38 mm diameter workpiece
+                    </li>
+
+                    <li>
+                        Orthogonal turning configuration
+                    </li>
+
+                    <li>
+                        Multiple spindle-speed / width-of-cut conditions
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Measurement system
+                </h3>
+
+                <ul class="clean-list">
+
+                    <li>
+                        Four PCB accelerometers
+                    </li>
+
+                    <li>
+                        Feed and cutting directions
+                    </li>
+
+                    <li>
+                        NI data-acquisition hardware
+                    </li>
+
+                    <li>
+                        16,384 Hz vibration sampling
+                    </li>
+
+                    <li>
+                        Microphone for independent chatter verification
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Sensor Layout
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Instrumentation
+            </div>
+
+            <h2>
+                Multi-point vibration measurement
+            </h2>
+
+
+            <p class="muted">
+
+                Accelerometers were positioned at two locations in each
+                principal tool-vibration direction, providing four measured
+                degrees of freedom for modal identification.
+
+            </p>
+
+
+            <p class="muted">
+
+                This multi-channel configuration enabled direct and
+                cross-correlation analysis between vibration signals
+                measured at different locations and directions.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/uvic/turning-oma/turning-sensor-layout.jpg"
+                alt="Accelerometer positions on the turning tool holder"
+            >
+
+            <figcaption>
+
+                Sensor layout showing the four measured degrees of freedom
+                used for vibration acquisition and system identification.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Turning Geometry
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/uvic/turning-oma/turning-tool-workpiece-setup.jpg"
+                alt="Close-up of turning tool and cylindrical workpiece"
+            >
+
+            <figcaption>
+
+                Close-up of the orthogonal-turning configuration used
+                for the machining experiments.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Chatter
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Regenerative Chatter
+            </div>
+
+            <h2>
+                Instability leaves a permanent machining signature
+            </h2>
+
+
+            <p class="muted">
+
+                Regenerative chatter arises from delayed feedback between
+                the current cutting pass and surface waviness generated
+                during the previous revolution.
+
+            </p>
+
+
+            <p class="muted">
+
+                Once unstable vibration fully develops, the resulting
+                oscillation can degrade surface quality and leave visible
+                chatter marks on the workpiece.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/uvic/turning-oma/turning-chatter-surface.jpg"
+                alt="Machined workpiece showing chatter marks"
+            >
+
+            <figcaption>
+
+                Surface pattern produced under unstable cutting conditions.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Dynamics & Control Foundations
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Dynamics & Control Foundations
+                </div>
+
+                <h2>
+                    A machining problem formulated as a dynamic-system stability problem
+                </h2>
+
+            </div>
+
+            <p>
+
+                Although the application was machining dynamics, the
+                underlying framework was fundamentally a dynamic-systems
+                and stability problem.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/uvic/turning-oma/turning-dynamic-system-model.png"
+                alt="Closed-loop numerical simulation model of self-excited turning vibration"
+            >
+
+            <figcaption>
+
+                Numerical simulation framework representing modal dynamics,
+                regenerative delayed feedback, excitation, and measured
+                vibration response.
+
+            </figcaption>
+
+        </figure>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <div class="project-index">
+                    MODELING
+                </div>
+
+                <h3>
+                    State-space dynamics
+                </h3>
+
+                <p>
+
+                    Multi-degree-of-freedom tool dynamics were represented
+                    in modal and state-space form for numerical simulation.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    FEEDBACK
+                </div>
+
+                <h3>
+                    Time-delay dynamics
+                </h3>
+
+                <p>
+
+                    Regenerative cutting forces were represented as delayed
+                    feedback linking the current tool motion to vibration
+                    from the previous workpiece revolution.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    STABILITY
+                </div>
+
+                <h3>
+                    Pole and eigenvalue analysis
+                </h3>
+
+                <p>
+
+                    Stability was evaluated through the dominant system
+                    poles and their corresponding damping ratios.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="research-note card">
+
+            <h3>
+                Connection to later robotics work
+            </h3>
+
+            <p>
+
+                Although the application was machining dynamics, the
+                analytical framework relied on many of the same foundations
+                that later became central to my robotics work:
+                state-space modeling, feedback dynamics, numerical simulation,
+                eigenvalue-based stability analysis, system identification,
+                and sensor-driven estimation.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Signal Processing
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Signal Processing
+                </div>
+
+                <h2>
+                    Extracting structural dynamics from machining vibration
+                </h2>
+
+            </div>
+
+            <p>
+
+                Strong spindle harmonics coexist with structural vibration
+                during turning, making direct modal identification
+                significantly more difficult than in controlled impact testing.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/uvic/turning-oma/turning-measured-signal-psd.jpg"
+                alt="Measured machining signal and power spectral density"
+            >
+
+            <figcaption>
+
+                Measured process signal and frequency-domain representation.
+                Repeated spindle harmonics appear throughout the spectrum
+                while structural vibration develops in their vicinity.
+
+            </figcaption>
+
+        </figure>
+
+
+        <div class="card">
+
+            <div class="pipeline-row">
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        01
+                    </strong>
+
+                    <span>
+                        Record Vibration
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        02
+                    </strong>
+
+                    <span>
+                        Detrend
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        03
+                    </strong>
+
+                    <span>
+                        PSD Analysis
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        04
+                    </strong>
+
+                    <span>
+                        Band-Pass Filter
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        05
+                    </strong>
+
+                    <span>
+                        Correlation Function
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        06
+                    </strong>
+
+                    <span>
+                        Pole Identification
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     LSCE
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    System Identification
+                </div>
+
+                <h2>
+                    Separating structural modes from spindle harmonics
+                </h2>
+
+            </div>
+
+            <p>
+
+                Harmonic excitation from spindle rotation can dominate the
+                measured response and interfere with conventional
+                output-only modal identification.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/uvic/turning-oma/turning-lsce-identification.jpg"
+                alt="Modified LSCE stabilization diagram for structural pole identification"
+            >
+
+            <figcaption>
+
+                Modified LSCE identification treats known spindle harmonics
+                as undamped poles, enabling the nearby damped structural
+                mode to be identified separately.
+
+            </figcaption>
+
+        </figure>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+                    TDPR
+                </h3>
+
+                <p>
+
+                    Time Domain Poly Reference identification was used
+                    successfully in numerical simulations but became less
+                    reliable when strong experimental harmonics were present.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Modified LSCE
+                </h3>
+
+                <p>
+
+                    Known harmonic frequencies were incorporated explicitly
+                    as undamped poles, allowing nearby structural poles and
+                    modal damping to be estimated more robustly.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Quantitative Result
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Experimental Result
+                </div>
+
+                <h2>
+                    Damping decreased as the process approached instability
+                </h2>
+
+            </div>
+
+            <p>
+
+                The central result was not simply detecting chatter.
+                The identified structural damping provided a quantitative
+                indication of how close the process was to its stability boundary.
+
+            </p>
+
+        </div>
+
+
+        <div class="research-table-wrap">
+
+            <table class="research-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Spindle Speed</th>
+                        <th>Width of Cut</th>
+                        <th>Identified Mode</th>
+                        <th>Damping</th>
+                        <th>Condition</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            7500 rpm
+                        </td>
+
+                        <td>
+                            2.03 mm
+                        </td>
+
+                        <td>
+                            ~2476 Hz
+                        </td>
+
+                        <td>
+                            ~0.13%
+                        </td>
+
+                        <td>
+                            Stable
+                        </td>
+
+                    </tr>
+
+
+                    <tr class="research-best">
+
+                        <td>
+                            7500 rpm
+                        </td>
+
+                        <td>
+                            2.54 mm
+                        </td>
+
+                        <td>
+                            ~2477 Hz
+                        </td>
+
+                        <td>
+                            ~0.066%
+                        </td>
+
+                        <td>
+                            Near stability boundary
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            7500 rpm
+                        </td>
+
+                        <td>
+                            3.05 mm
+                        </td>
+
+                        <td>
+                            Chatter
+                        </td>
+
+                        <td>
+                            —
+                        </td>
+
+                        <td>
+                            Unstable
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../assets/images/uvic/turning-oma/turning-stability-damping-map.jpg"
+                alt="Experimental stability map showing damping ratio and stable and unstable turning conditions"
+            >
+
+            <figcaption>
+
+                Experimental stability map. Stable operating points are
+                associated with identified modal damping, while unstable
+                conditions are marked by chatter. The damping decreases
+                as the operating condition approaches the stability boundary.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Interpretation
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Engineering Interpretation
+            </div>
+
+            <h2>
+                Stability can be treated as an estimated dynamic state
+            </h2>
+
+
+            <p class="muted">
+
+                Traditional chatter monitoring focuses on identifying
+                vibration after instability has already developed.
+                This work instead estimated the dynamics of the system
+                while machining remained stable.
+
+            </p>
+
+
+            <p class="muted">
+
+                As the stability boundary was approached, the damping
+                of the dominant structural pole decreased. This provided
+                a physically meaningful numerical indicator of declining
+                stability before the vibration became fully unstable.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Key findings
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Structural poles can be identified from process vibration
+                </li>
+
+                <li>
+                    Modal damping decreases near the stability boundary
+                </li>
+
+                <li>
+                    Modified LSCE improves identification near spindle harmonics
+                </li>
+
+                <li>
+                    Stable-process vibration contains information about stability margin
+                </li>
+
+                <li>
+                    OMA can provide an early indicator of chatter onset
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Limitations
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Limitations
+            </div>
+
+            <h2>
+                Identification remains difficult under some operating conditions
+            </h2>
+
+
+            <p class="muted">
+
+                The method was most effective when the process was close
+                enough to the stability boundary for the structural mode
+                to become observable in the measured vibration spectrum.
+
+            </p>
+
+
+            <p class="muted">
+
+                Highly stable cuts and operating conditions where a structural
+                frequency coincided with a spindle harmonic could suppress
+                the structural mode and prevent reliable identification.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Future work
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Automated modal identification
+                </li>
+
+                <li>
+                    Reduced computational time
+                </li>
+
+                <li>
+                    Real-time implementation
+                </li>
+
+                <li>
+                    Improved robustness near harmonic coincidence
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Research Contribution
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                My Research
+            </div>
+
+            <h2>
+                Modeling, experimentation, signal analysis, and validation
+            </h2>
+
+
+            <p class="muted">
+
+                This work formed my MASc research at the University of Victoria
+                and combined analytical modeling, numerical simulation,
+                experimental modal analysis, machining experiments,
+                sensor instrumentation, MATLAB-based signal processing,
+                and system identification.
+
+            </p>
+
+
+            <p class="muted">
+
+                The research strengthened the dynamic-systems and numerical
+                analysis foundation that later carried directly into my work
+                in robotics, autonomous systems, estimation, and control.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Methods & tools
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    MATLAB
+                </li>
+
+                <li>
+                    Dynamic-system modeling
+                </li>
+
+                <li>
+                    State-space simulation
+                </li>
+
+                <li>
+                    Operational modal analysis
+                </li>
+
+                <li>
+                    Experimental modal analysis
+                </li>
+
+                <li>
+                    System identification
+                </li>
+
+                <li>
+                    Spectral / correlation analysis
+                </li>
+
+                <li>
+                    Accelerometers & DAQ
+                </li>
+
+                <li>
+                    CNC machining experiments
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Publication Link
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="project-index">
+                PUBLICATION
+            </div>
+
+            <h3>
+                Estimation of vibration stability in turning using operational modal analysis
+            </h3>
+
+            <p>
+
+                S. Kim · K. Ahmadi<br>
+                <em>Mechanical Systems and Signal Processing</em>, 2019
+
+            </p>
+
+
+            <div class="card-actions">
+
+                <a
+                    class="btn primary"
+                    href="https://www.sciencedirect.com/science/article/abs/pii/S0888327019302948?via%3Dihub"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    View Publication
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Back
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <a
+            class="btn"
+            href="../index.html"
+        >
+            ← Back to University of Victoria Research
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Footer
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            Sooyong Kim · Robotics & Autonomous Systems
+        </div>
+
+        <div>
+            © <span data-year></span> sooyongtech.dev
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="../../../assets/js/site.js"></script>
+
+
+</body>
+
+</html>
