@@ -1,0 +1,1175 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="RRT and RRT* path-planning laboratory development, planner comparison, and TurtleBot trajectory tracking by Sooyong Kim at the University of Waterloo."
+    >
+
+    <title>
+        Lab 3 — RRT / RRT* Path Planning & Trajectory Tracking — Sooyong Kim
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../../../../assets/css/site.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     Navigation
+========================================================= -->
+
+<nav class="nav">
+
+    <div class="container nav-inner">
+
+        <a
+            class="brand"
+            href="../../../../index.html"
+        >
+            SOOYONG KIM
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="../../../../bio.html">
+                Bio
+            </a>
+
+            <a
+                class="active"
+                href="../../../index.html"
+            >
+                Research & Work
+            </a>
+
+            <a href="../../../../projects/index.html">
+                Projects
+            </a>
+
+            <a href="../../../../resume/index.html">
+                Resume
+            </a>
+
+            <a href="../../../../contact.html">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     Hero
+========================================================= -->
+
+<header class="hero compact">
+
+    <div class="container">
+
+        <div class="eyebrow">
+            UNIVERSITY OF WATERLOO · ROBOTICS LAB DEVELOPMENT
+        </div>
+
+        <h1>
+            Lab 3 — RRT / RRT* Path Planning<br>
+            & Trajectory Tracking
+        </h1>
+
+        <p class="lead">
+
+            Development, validation, and instruction of a mobile-robot
+            planning laboratory comparing sampling-based planners,
+            robot-constrained state spaces, collision-safe path design,
+            and trajectory execution with Pure Pursuit.
+
+        </p>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     Overview
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Lab Overview
+                </div>
+
+                <h2>
+                    From geometric path planning to executable robot motion
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Lab 3 moved beyond localization and focused on generating,
+                evaluating, and executing collision-free paths for a
+                TurtleBot in the Gazebo Office environment.
+
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div class="metric">
+
+                <strong>
+                    RRT
+                </strong>
+
+                <span>
+                    Sampling-based planner
+                </span>
+
+            </div>
+
+
+            <div class="metric">
+
+                <strong>
+                    RRT*
+                </strong>
+
+                <span>
+                    Asymptotically optimal variant
+                </span>
+
+            </div>
+
+
+            <div class="metric">
+
+                <strong>
+                    0.18 m
+                </strong>
+
+                <span>
+                    Obstacle safety inflation
+                </span>
+
+            </div>
+
+
+            <div class="metric">
+
+                <strong>
+                    Pure Pursuit
+                </strong>
+
+                <span>
+                    Path-following controller
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Laboratory Design
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Laboratory Design
+            </div>
+
+            <h2>
+                Planning was evaluated as an engineering system
+            </h2>
+
+
+            <p class="muted">
+
+                Students first compared RRT and RRT* under controlled
+                start and goal conditions, then designed their own path,
+                and finally tested whether the planned waypoints could be
+                followed by the simulated TurtleBot.
+
+            </p>
+
+
+            <p class="muted">
+
+                The exercises therefore connected planner behavior,
+                state-space constraints, map representation, collision
+                margins, and controller tracking rather than treating
+                planning as an isolated algorithm.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Laboratory scope
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    RRT and RRT* comparison
+                </li>
+
+                <li>
+                    Known occupancy-grid environment
+                </li>
+
+                <li>
+                    Reeds-Shepp and Dubins state spaces
+                </li>
+
+                <li>
+                    Minimum turning-radius constraints
+                </li>
+
+                <li>
+                    Collision checking
+                </li>
+
+                <li>
+                    Obstacle inflation
+                </li>
+
+                <li>
+                    Planner parameter testing
+                </li>
+
+                <li>
+                    Waypoint generation
+                </li>
+
+                <li>
+                    Pure Pursuit tracking
+                </li>
+
+                <li>
+                    Planned-versus-actual trajectory analysis
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Planning Concepts
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Planning Methods
+                </div>
+
+                <h2>
+                    RRT versus RRT*
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Both planners expand a search tree through randomized
+                samples, but RRT* adds parent selection and rewiring
+                to improve path cost as planning continues.
+
+            </p>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <div class="project-index">
+                    RRT
+                </div>
+
+                <h3>
+                    Rapidly-exploring Random Tree
+                </h3>
+
+                <p>
+
+                    Efficiently explores the free configuration space
+                    and searches for a feasible connection between
+                    start and goal states.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    RRT*
+                </div>
+
+                <h3>
+                    Cost-aware tree refinement
+                </h3>
+
+                <p>
+
+                    Extends RRT using local cost comparison and rewiring,
+                    allowing the solution to improve toward a lower-cost
+                    path as sampling continues.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab3/lab3-rrt-path-examples.png"
+                alt="Examples of RRT and RRT Star search trees and planned paths in a binary occupancy grid"
+            >
+
+            <figcaption>
+
+                Example sampling-based planning results showing how
+                different planners and random search processes can
+                generate substantially different search trees and paths
+                in the same environment.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Robot-Aware Planning
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Robot-Aware Planning
+            </div>
+
+            <h2>
+                A collision-free point path is not enough
+            </h2>
+
+
+            <p class="muted">
+
+                The occupancy map was expanded to account for the
+                TurtleBot footprint. Obstacles were inflated before
+                planning so that a nominally collision-free path would
+                retain additional clearance during trajectory execution.
+
+            </p>
+
+
+            <p class="muted">
+
+                Robot kinematics were also represented through constrained
+                state spaces rather than treating the robot as an
+                unrestricted point moving in two dimensions.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Key constraints
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Obstacle safety inflation: 0.18 m
+                </li>
+
+                <li>
+                    Minimum turning radius: 0.143 m
+                </li>
+
+                <li>
+                    Validation distance: 0.01 m
+                </li>
+
+                <li>
+                    Deterministic random seed: 100
+                </li>
+
+                <li>
+                    Maximum iterations: 10,000
+                </li>
+
+                <li>
+                    Reeds-Shepp state space
+                </li>
+
+                <li>
+                    Dubins state space
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Parameter Study
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Planner Evaluation
+                </div>
+
+                <h2>
+                    Comparing path cost and search-tree size
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Planner behavior was compared by changing state space,
+                connection distance, and planner type while preserving
+                robot-specific constraints.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab3/lab3-planner-parameter-comparison.png"
+                alt="Table comparing RRT and RRT Star path cost and node count for Reeds-Shepp and Dubins state spaces"
+            >
+
+            <figcaption>
+
+                Cost and search-tree node count for multiple combinations
+                of state space, maximum connection distance, RRT, and RRT*.
+                The comparison demonstrates that planner performance is
+                highly configuration-dependent.
+
+            </figcaption>
+
+        </figure>
+
+
+        <div class="research-note card">
+
+            <h3>
+                Engineering observation
+            </h3>
+
+            <p>
+
+                Increasing maximum connection distance generally reduced
+                the number of search-tree nodes by allowing larger
+                expansions. RRT* often produced lower-cost solutions,
+                although planner randomness and route selection meant
+                that it was not uniformly superior in every tested case.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Path Selection
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Path Selection
+            </div>
+
+            <h2>
+                The lowest numerical cost was not the only criterion
+            </h2>
+
+
+            <p class="muted">
+
+                The final path was selected with execution safety in mind.
+                A route passing through the center of the doorway was
+                preferred because it provided greater clearance from
+                surrounding obstacles.
+
+            </p>
+
+
+            <p class="muted">
+
+                This introduced an important engineering distinction:
+                a mathematically shorter path is not necessarily the
+                most robust path for a physical robot to execute.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Selection criteria
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Valid collision-free path
+                </li>
+
+                <li>
+                    Reasonable path cost
+                </li>
+
+                <li>
+                    Manageable search-tree complexity
+                </li>
+
+                <li>
+                    Doorway clearance
+                </li>
+
+                <li>
+                    Robot turning constraints
+                </li>
+
+                <li>
+                    Robustness during tracking
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Tracking Result 1
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Trajectory Tracking
+                </div>
+
+                <h2>
+                    Planned path versus actual robot trajectory
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                The planned waypoint path was executed using a
+                Pure Pursuit controller and compared with the trajectory
+                actually traveled by the TurtleBot.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab3/lab3-path-tracking-result-1.jpg"
+                alt="RRT search tree with planned path and actual TurtleBot trajectory"
+            >
+
+            <figcaption>
+
+                Path-tracking result showing the sampling tree,
+                planned path, and actual TurtleBot trajectory.
+                The tracking trajectory does not exactly coincide with
+                the geometric plan, highlighting the need for clearance
+                during path design.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Tracking Result 2
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Additional Tracking Example
+                </div>
+
+                <h2>
+                    Different planning conditions produce different execution behavior
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                A second planning and tracking result reinforces the
+                influence of randomized tree construction, path geometry,
+                and controller behavior on the final robot motion.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab3/lab3-path-tracking-result-2.jpg"
+                alt="Second RRT search-tree and TurtleBot trajectory tracking example"
+            >
+
+            <figcaption>
+
+                Additional planning and tracking example showing a different
+                search tree and executed trajectory within the same
+                occupancy-grid environment.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Limitations
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Engineering Limitations
+            </div>
+
+            <h2>
+                Planning and execution are not identical problems
+            </h2>
+
+
+            <p class="muted">
+
+                Even after inflating obstacles to account for robot size,
+                collision remains possible if the tracking controller
+                deviates from the planned path.
+
+            </p>
+
+
+            <p class="muted">
+
+                The lab therefore emphasized that path planning must
+                include adequate safety clearance and should be evaluated
+                together with the behavior of the downstream controller.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Practical limitations
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Randomized planner output
+                </li>
+
+                <li>
+                    Planner sensitivity to parameters
+                </li>
+
+                <li>
+                    Finite collision-check resolution
+                </li>
+
+                <li>
+                    Controller tracking error
+                </li>
+
+                <li>
+                    Wall and corner clearance
+                </li>
+
+                <li>
+                    Difference between geometric and executable paths
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Teaching & Assessment
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Teaching & Assessment
+            </div>
+
+            <h2>
+                Students designed, tested, and defended their own planning choices
+            </h2>
+
+
+            <p class="muted">
+
+                The laboratory gave students freedom to change planner
+                configurations and design their own start and goal poses,
+                encouraging experimentation rather than reproduction of a
+                single fixed result.
+
+            </p>
+
+
+            <p class="muted">
+
+                Student reports were expected to explain planner behavior,
+                discuss RRT limitations, interpret planning results, and
+                identify methods for improving performance and robustness.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Assessment focus
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    RRT / RRT* theory
+                </li>
+
+                <li>
+                    Planner implementation
+                </li>
+
+                <li>
+                    Path design
+                </li>
+
+                <li>
+                    Parameter selection
+                </li>
+
+                <li>
+                    Path-following validation
+                </li>
+
+                <li>
+                    Limitations and improvements
+                </li>
+
+                <li>
+                    MATLAB code documentation
+                </li>
+
+                <li>
+                    Technical reporting
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     My Role
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                My Role
+            </div>
+
+            <h2>
+                Laboratory development, reference validation, and instruction
+            </h2>
+
+
+            <p class="muted">
+
+                I developed and revised the laboratory material,
+                validated the planning and trajectory-tracking workflow,
+                prepared reference results and evaluation material,
+                supported students during implementation and
+                troubleshooting, and participated in grading and
+                technical feedback.
+
+            </p>
+
+
+            <p class="muted">
+
+                The laboratory was designed to connect sampling-based
+                planning theory with robot constraints, collision safety,
+                planner configuration, and executable mobile-robot motion.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Responsibilities
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Lab manual development
+                </li>
+
+                <li>
+                    Reference-solution validation
+                </li>
+
+                <li>
+                    Planner parameter testing
+                </li>
+
+                <li>
+                    Gazebo / TurtleBot validation
+                </li>
+
+                <li>
+                    Pure Pursuit tracking verification
+                </li>
+
+                <li>
+                    Live laboratory instruction
+                </li>
+
+                <li>
+                    Student troubleshooting
+                </li>
+
+                <li>
+                    Grading and technical feedback
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Laboratory Sequence
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Laboratory Sequence
+                </div>
+
+                <h2>
+                    Completing the mobile-robotics laboratory sequence
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                The three main laboratories progressed from ROS and SLAM,
+                through probabilistic localization, to path planning
+                and trajectory execution.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="pipeline-row">
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        LAB 01
+                    </strong>
+
+                    <span>
+                        ROS, SLAM & Navigation
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        LAB 02
+                    </strong>
+
+                    <span>
+                        AMCL Localization
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        LAB 03
+                    </strong>
+
+                    <span>
+                        RRT / RRT* Planning
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Back
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <a
+            class="btn"
+            href="../../index.html"
+        >
+            ← Back to Waterloo Research & Work
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Footer
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            Sooyong Kim · Robotics & Autonomous Systems
+        </div>
+
+        <div>
+            © <span data-year></span> sooyongtech.dev
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="../../../../assets/js/site.js"></script>
+
+
+</body>
+
+</html>
