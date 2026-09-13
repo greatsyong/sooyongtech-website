@@ -365,3 +365,15 @@ p{margin:0 0 16px}
   flex-wrap: wrap;
   margin-top: 1.25rem;
 }
+.resume-page .card {
+  display: flex;
+  flex-direction: column;
+}
+
+.resume-page .card-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
