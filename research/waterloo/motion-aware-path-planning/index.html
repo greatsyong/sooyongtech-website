@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="Experimental support for motion-aware path-planning research using a Summit mobile robot at the University of Waterloo."
+    >
+
+    <title>Motion-Aware Path Planning with a Summit Mobile Robot — Sooyong Kim</title>
+
+    <link rel="stylesheet" href="../../../assets/css/site.css">
+</head>
+
+
+<body>
+
+<nav class="nav">
+    <div class="container nav-inner">
+
+        <a class="brand" href="../../../index.html">
+            SOOYONG KIM
+        </a>
+
+        <div class="nav-links">
+            <a href="../../../bio.html">Bio</a>
+            <a class="active" href="../../index.html">Research & Work</a>
+            <a href="../../../projects/index.html">Projects</a>
+            <a href="../../../resume/index.html">Resume</a>
+            <a href="../../../contact.html">Contact</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<header class="hero compact">
+
+    <div class="container">
+
+        <div class="eyebrow">
+            UNIVERSITY OF WATERLOO · EXPERIMENTAL ROBOTICS
+        </div>
+
+        <h1>
+            Motion-Aware Path Planning<br>
+            with a Summit Mobile Robot
+        </h1>
+
+        <p class="lead">
+            Experimental support for motion-aware path-planning research
+            using a Summit mobile robot, with emphasis on physical validation
+            of path choices under robot motion and speed constraints.
+        </p>
+
+    </div>
+
+</header>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <div class="section-kicker">
+                    Project Context
+                </div>
+
+                <h2>
+                    When the shortest path is not the fastest path
+                </h2>
+            </div>
+
+            <p>
+                The research investigated path selection that considers
+                not only geometric distance, but also how quickly a mobile robot
+                can safely traverse a route.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <p>
+                A narrow or sharply turning path may be geometrically shorter,
+                but can require substantial speed reduction. A wider and smoother
+                route may be longer in distance while still producing a shorter
+                traversal time because the robot can maintain a higher velocity.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Planning Concept
+            </div>
+
+            <h2>
+                Path geometry and robot motion capability
+            </h2>
+
+            <p class="muted">
+                The planning approach considered the relationship between
+                route geometry and the mobile robot's achievable motion.
+            </p>
+
+            <p class="muted">
+                Wider passages and smoother turns can allow the robot to
+                sustain higher speed, while constrained spaces and sharp
+                changes in direction can reduce feasible velocity.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Path-selection factors
+            </h3>
+
+            <ul class="clean-list">
+                <li>Geometric path length</li>
+                <li>Available free-space width</li>
+                <li>Turn severity</li>
+                <li>Robot motion limits</li>
+                <li>Achievable travel speed</li>
+                <li>Overall traversal efficiency</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <div class="section-kicker">
+                    Experimental Platform
+                </div>
+
+                <h2>
+                    Physical validation using Summit
+                </h2>
+            </div>
+
+            <p>
+                The path-planning behavior was evaluated experimentally
+                using a Summit mobile robot in an indoor environment.
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div class="metric">
+                <strong>Summit</strong>
+                <span>Mobile robot platform</span>
+            </div>
+
+            <div class="metric">
+                <strong>Indoor</strong>
+                <span>Physical test environment</span>
+            </div>
+
+            <div class="metric">
+                <strong>Path Choice</strong>
+                <span>Distance vs. traversability</span>
+            </div>
+
+            <div class="metric">
+                <strong>Validation</strong>
+                <span>Real robot experiment</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <div class="section-kicker">
+                    Demonstration
+                </div>
+
+                <h2>
+                    Motion-aware path-planning experiment
+                </h2>
+            </div>
+
+            <p>
+                The demonstration compares robot behavior when path geometry
+                and achievable motion are considered during route selection.
+            </p>
+
+        </div>
+
+
+        <div class="video-frame">
+
+            <!--
+            Replace YOUTUBE_VIDEO_ID after uploading the experiment video.
+            Example:
+            https://www.youtube.com/watch?v=ABC123XYZ
+            becomes:
+            https://www.youtube.com/embed/ABC123XYZ
+            -->
+
+            <iframe
+                src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID"
+                title="Motion-Aware Path Planning with Summit Mobile Robot"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                My Role
+            </div>
+
+            <h2>
+                Experimental implementation and robot testing
+            </h2>
+
+            <p class="muted">
+                This work supported research led by Dr. Jeong-woo Han.
+                My contribution focused on the experimental implementation
+                and physical validation of the path-planning approach using
+                the Summit mobile-robot platform.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Contribution
+            </h3>
+
+            <ul class="clean-list">
+                <li>Summit robot experiment setup</li>
+                <li>Physical path-planning tests</li>
+                <li>Robot operation during validation</li>
+                <li>Experimental demonstration support</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <a class="btn" href="../index.html">
+            ← Back to Waterloo Research
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            Sooyong Kim · Robotics & Autonomous Systems
+        </div>
+
+        <div>
+            © <span data-year></span> sooyongtech.dev
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="../../../assets/js/site.js"></script>
+
+</body>
+
+</html>
