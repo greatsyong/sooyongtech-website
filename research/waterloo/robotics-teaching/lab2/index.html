@@ -1,0 +1,1415 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="AMCL localization and particle-filter laboratory development, experimentation, and robotics instruction by Sooyong Kim at the University of Waterloo."
+    >
+
+    <title>
+        Lab 2 — AMCL Localization & Particle-Filter Analysis — Sooyong Kim
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../../../../assets/css/site.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     Navigation
+========================================================= -->
+
+<nav class="nav">
+
+    <div class="container nav-inner">
+
+        <a
+            class="brand"
+            href="../../../../index.html"
+        >
+            SOOYONG KIM
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="../../../../bio.html">
+                Bio
+            </a>
+
+            <a
+                class="active"
+                href="../../../index.html"
+            >
+                Research & Work
+            </a>
+
+            <a href="../../../../projects/index.html">
+                Projects
+            </a>
+
+            <a href="../../../../resume/index.html">
+                Resume
+            </a>
+
+            <a href="../../../../contact.html">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     Hero
+========================================================= -->
+
+<header class="hero compact">
+
+    <div class="container">
+
+        <div class="eyebrow">
+            UNIVERSITY OF WATERLOO · ROBOTICS LAB DEVELOPMENT
+        </div>
+
+        <h1>
+            Lab 2 — AMCL Localization<br>
+            & Particle-Filter Analysis
+        </h1>
+
+        <p class="lead">
+
+            Development, validation, and instruction of a mobile-robot
+            localization laboratory examining particle-filter behavior,
+            sensor uncertainty, particle count, pose estimation,
+            and computational trade-offs.
+
+        </p>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     Lab Overview
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Lab Overview
+                </div>
+
+                <h2>
+                    From successful localization to understanding why it works
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Lab 2 extended the localization component of the previous
+                robotics laboratory into a dedicated experiment using
+                Adaptive Monte Carlo Localization with a simulated TurtleBot.
+
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div class="metric">
+
+                <strong>
+                    AMCL
+                </strong>
+
+                <span>
+                    Particle-filter localization
+                </span>
+
+            </div>
+
+
+            <div class="metric">
+
+                <strong>
+                    MATLAB
+                </strong>
+
+                <span>
+                    Implementation & analysis
+                </span>
+
+            </div>
+
+
+            <div class="metric">
+
+                <strong>
+                    ROS
+                </strong>
+
+                <span>
+                    LiDAR, odometry & control
+                </span>
+
+            </div>
+
+
+            <div class="metric">
+
+                <strong>
+                    60
+                </strong>
+
+                <span>
+                    Filter updates per experiment
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Laboratory Design
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Laboratory Design
+            </div>
+
+            <h2>
+                Connecting probabilistic robotics theory to experiments
+            </h2>
+
+
+            <p class="muted">
+
+                Students first established a working AMCL implementation
+                using a known map, odometry, and range measurements.
+                The baseline system was then deliberately modified to
+                examine how individual model parameters affected
+                localization performance.
+
+            </p>
+
+
+            <p class="muted">
+
+                The laboratory was designed to move beyond simply
+                obtaining a successful pose estimate. Students were
+                required to interpret particle distributions, estimated
+                trajectories, covariance, localization error, and
+                computation time using particle-filter theory.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Experimental scope
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Known occupancy-grid map
+                </li>
+
+                <li>
+                    Odometry motion model
+                </li>
+
+                <li>
+                    Likelihood-field sensor model
+                </li>
+
+                <li>
+                    LiDAR measurement processing
+                </li>
+
+                <li>
+                    Particle propagation
+                </li>
+
+                <li>
+                    Measurement weighting
+                </li>
+
+                <li>
+                    Particle resampling
+                </li>
+
+                <li>
+                    Pose and covariance estimation
+                </li>
+
+                <li>
+                    Parameter sensitivity experiments
+                </li>
+
+                <li>
+                    Computation-time analysis
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     AMCL Principle
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Localization Principle
+                </div>
+
+                <h2>
+                    Motion, sensing, weighting, and resampling
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                The laboratory followed the fundamental particle-filter
+                cycle used by Monte Carlo Localization.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="pipeline-row">
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        01
+                    </strong>
+
+                    <span>
+                        Motion Update
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        02
+                    </strong>
+
+                    <span>
+                        LiDAR Measurement
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        03
+                    </strong>
+
+                    <span>
+                        Particle Weighting
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        04
+                    </strong>
+
+                    <span>
+                        Resampling
+                    </span>
+
+                </div>
+
+
+                <div class="pipeline-arrow">
+                    →
+                </div>
+
+
+                <div class="pipeline-step">
+
+                    <strong>
+                        05
+                    </strong>
+
+                    <span>
+                        Pose Estimate
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     System Configuration
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                System Configuration
+            </div>
+
+            <h2>
+                MATLAB localization connected to a ROS robot simulation
+            </h2>
+
+
+            <p class="muted">
+
+                The Gazebo TurtleBot environment supplied robot motion,
+                odometry, and laser-scan measurements through ROS.
+                MATLAB received those measurements and executed the AMCL
+                localization procedure.
+
+            </p>
+
+
+            <p class="muted">
+
+                Coordinate transformations were used to express sensor
+                measurements relative to the robot base, while motion
+                and likelihood-field models represented uncertainty in
+                the robot motion and range observations.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Baseline configuration
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Binary occupancy-grid map
+                </li>
+
+                <li>
+                    Differential-drive motion model
+                </li>
+
+                <li>
+                    Odometry noise: 0.2 baseline
+                </li>
+
+                <li>
+                    Likelihood-field sensor model
+                </li>
+
+                <li>
+                    LiDAR range: 0.12–3.5 m
+                </li>
+
+                <li>
+                    ROS /scan subscription
+                </li>
+
+                <li>
+                    ROS /odom subscription
+                </li>
+
+                <li>
+                    Velocity-command publisher
+                </li>
+
+                <li>
+                    Sensor-to-base coordinate transform
+                </li>
+
+                <li>
+                    Movement-triggered AMCL updates
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Baseline Result
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Scenario 01 · Baseline
+                </div>
+
+                <h2>
+                    Successful localization under nominal conditions
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                The baseline experiment established the reference
+                localization performance used for comparison with
+                the modified parameter scenarios.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab2/lab2-amcl-baseline.png"
+                alt="Baseline AMCL experiment showing particle distribution, actual and estimated trajectory, and covariance"
+            >
+
+            <figcaption>
+
+                Baseline AMCL result after 60 updates. The estimated
+                trajectory closely follows the reference pose while the
+                localization covariance decreases as the particle filter
+                converges.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Video Demonstration
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Dynamic Demonstration
+                </div>
+
+                <h2>
+                    AMCL particle evolution during robot motion
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                The dynamic experiment shows the localization process
+                as particles evolve and the estimated pose is updated
+                while the simulated TurtleBot moves through the environment.
+
+            </p>
+
+        </div>
+
+
+        <div class="video-frame">
+
+            <iframe
+                src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID"
+                title="AMCL Localization Demonstration"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Parameter Study
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Parameter Sensitivity
+                </div>
+
+                <h2>
+                    Deliberately degrading the localization model
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Each experiment modified a single parameter relative
+                to the baseline so that its influence on localization
+                could be isolated and interpreted.
+
+            </p>
+
+        </div>
+
+
+        <div class="grid">
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    SCENARIO 01
+                </div>
+
+                <h3>
+                    Baseline
+                </h3>
+
+                <p>
+
+                    Default AMCL configuration used as the reference
+                    localization condition.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    SCENARIO 02
+                </div>
+
+                <h3>
+                    Reduced Measurement Weight
+                </h3>
+
+                <p>
+
+                    Expected measurement weight was reduced to 0.2
+                    to investigate localization behavior when sensor
+                    observations are assigned less confidence.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    SCENARIO 03
+                </div>
+
+                <h3>
+                    Reduced Particle Count
+                </h3>
+
+                <p>
+
+                    The particle limit was reduced to only 50 particles
+                    to investigate insufficient sampling of the robot's
+                    belief distribution.
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="project-index">
+                    SCENARIO 04
+                </div>
+
+                <h3>
+                    Increased Measurement Noise
+                </h3>
+
+                <p>
+
+                    Measurement noise was increased to 2.0 to examine
+                    localization behavior under degraded sensing.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Particle Count Comparison
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Particle Representation
+                </div>
+
+                <h2>
+                    Too few particles can prevent reliable localization
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Reducing the number of particles limits how well the
+                probability distribution over possible robot poses can
+                be represented.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab2/lab2-particle-count-comparison.png"
+                alt="AMCL comparison between 5000 particles and 50 particles at multiple filter updates"
+            >
+
+            <figcaption>
+
+                Comparison between the 5,000-particle baseline and the
+                50-particle experiment at multiple filter updates.
+                The reduced particle set provides an insufficient
+                representation of the pose belief and produces degraded
+                localization behavior.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Measurement Noise
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Measurement Uncertainty
+                </div>
+
+                <h2>
+                    Higher sensor noise weakens particle convergence
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Increasing measurement uncertainty makes sensor
+                observations less informative when evaluating candidate
+                robot poses.
+
+            </p>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab2/lab2-measurement-noise-comparison.png"
+                alt="AMCL comparison between baseline measurement noise and high measurement noise"
+            >
+
+            <figcaption>
+
+                Particle-filter evolution with baseline measurement noise
+                and increased measurement noise. Greater measurement
+                uncertainty produces a broader and less stable particle
+                distribution.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Extended Particle Experiment
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Extended Experiment
+                </div>
+
+                <h2>
+                    Particle count versus computational cost
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Additional testing extended the particle-count study
+                beyond the required laboratory scenarios by comparing
+                50, 5,000, and 50,000 particles.
+
+            </p>
+
+        </div>
+
+
+        <div class="research-table-wrap">
+
+            <table class="research-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Particle Count
+                        </th>
+
+                        <th>
+                            Time for 60 Updates
+                        </th>
+
+                        <th>
+                            Interpretation
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            50
+                        </td>
+
+                        <td>
+                            0.4455 s
+                        </td>
+
+                        <td>
+
+                            Lowest computation time, but insufficient
+                            particle representation produced poor
+                            localization accuracy.
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr class="research-best">
+
+                        <td>
+                            5,000
+                        </td>
+
+                        <td>
+                            1.0499 s
+                        </td>
+
+                        <td>
+
+                            Baseline configuration providing a practical
+                            balance between localization performance
+                            and computation.
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            50,000
+                        </td>
+
+                        <td>
+                            4.1961 s
+                        </td>
+
+                        <td>
+
+                            Dense particle representation with
+                            substantially increased computation time.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab2/lab2-particle-computation-tradeoff.png"
+                alt="AMCL pose error and computation time comparison for 50, 5000, and 50000 particles"
+            >
+
+            <figcaption>
+
+                Extended particle-count experiment comparing localization
+                error and computation time for 50, 5,000, and 50,000
+                particles over 60 AMCL updates.
+
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Engineering Interpretation
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Engineering Interpretation
+            </div>
+
+            <h2>
+                Localization quality is a system-level trade-off
+            </h2>
+
+
+            <p class="muted">
+
+                The experiments demonstrated that localization performance
+                depends on the interaction between motion uncertainty,
+                sensor-model quality, particle representation, and
+                computational resources.
+
+            </p>
+
+
+            <p class="muted">
+
+                More particles can improve the representation of the
+                probability distribution, but increasing particle count
+                also increases computation. Conversely, too few particles
+                may execute quickly while failing to represent the belief
+                distribution adequately.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Key observations
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Particle count controls belief resolution
+                </li>
+
+                <li>
+                    Too few particles can degrade pose estimation
+                </li>
+
+                <li>
+                    Higher sensor uncertainty weakens localization
+                </li>
+
+                <li>
+                    Reduced measurement confidence affects convergence
+                </li>
+
+                <li>
+                    Higher particle counts increase computation
+                </li>
+
+                <li>
+                    Localization requires an accuracy–cost trade-off
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Teaching & Assessment
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Teaching & Assessment
+            </div>
+
+            <h2>
+                Students had to explain why localization degraded
+            </h2>
+
+
+            <p class="muted">
+
+                The laboratory report required students to connect
+                experimental observations to particle-filter theory rather
+                than simply demonstrate that the software executed.
+
+            </p>
+
+
+            <p class="muted">
+
+                Students documented the localization methodology,
+                presented their simulation results, explained the causes
+                of degraded performance, and discussed limitations that
+                could negatively affect AMCL.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Assessment focus
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Particle-filter theory
+                </li>
+
+                <li>
+                    AMCL implementation
+                </li>
+
+                <li>
+                    Experimental results
+                </li>
+
+                <li>
+                    Pose estimation behavior
+                </li>
+
+                <li>
+                    Covariance interpretation
+                </li>
+
+                <li>
+                    Localization degradation
+                </li>
+
+                <li>
+                    Model limitations
+                </li>
+
+                <li>
+                    Technical reporting
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     My Role
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                My Role
+            </div>
+
+            <h2>
+                Laboratory development, validation, instruction, and analysis
+            </h2>
+
+
+            <p class="muted">
+
+                I developed and revised the laboratory material,
+                validated the AMCL workflow in the virtual TurtleBot
+                environment, prepared instructional and experimental
+                analysis material, supported students during implementation
+                and troubleshooting, and participated in assessment
+                and grading.
+
+            </p>
+
+
+            <p class="muted">
+
+                The laboratory was structured to connect theoretical
+                probabilistic localization with observable robot behavior,
+                quantitative results, and engineering interpretation.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Responsibilities
+            </h3>
+
+            <ul class="clean-list">
+
+                <li>
+                    Lab manual redevelopment
+                </li>
+
+                <li>
+                    AMCL workflow validation
+                </li>
+
+                <li>
+                    MATLAB / ROS integration testing
+                </li>
+
+                <li>
+                    Experimental scenario development
+                </li>
+
+                <li>
+                    Live laboratory instruction
+                </li>
+
+                <li>
+                    Student troubleshooting
+                </li>
+
+                <li>
+                    Results analysis
+                </li>
+
+                <li>
+                    Grading and technical feedback
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Next Lab
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Laboratory Sequence
+                </div>
+
+                <h2>
+                    Next: sampling-based path planning
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Lab 3 moved from localization into sampling-based path
+                planning using RRT and RRT*, followed by path execution
+                using Pure Pursuit.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="project-index">
+                NEXT · LAB 03
+            </div>
+
+            <h3>
+                RRT / RRT* Path Planning
+            </h3>
+
+            <p>
+
+                Sampling-based path planning, robot motion constraints,
+                obstacle inflation, planning-quality comparison,
+                and trajectory tracking.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Back
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <a
+            class="btn"
+            href="../../index.html"
+        >
+            ← Back to Waterloo Research & Work
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     Footer
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            Sooyong Kim · Robotics & Autonomous Systems
+        </div>
+
+        <div>
+            © <span data-year></span> sooyongtech.dev
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="../../../../assets/js/site.js"></script>
+
+
+</body>
+
+</html>
