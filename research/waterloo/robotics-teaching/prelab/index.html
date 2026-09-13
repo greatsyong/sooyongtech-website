@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="Virtual ROS robotics environment development for senior undergraduate and graduate robotics instruction at the University of Waterloo."
+    >
+
+    <title>Pre-Lab — Virtual ROS Robotics Environment — Sooyong Kim</title>
+
+    <link rel="stylesheet" href="../../../../assets/css/site.css">
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     Navigation
+========================================================= -->
+
+<nav class="nav">
+
+    <div class="container nav-inner">
+
+        <a class="brand" href="../../../../index.html">
+            SOOYONG KIM
+        </a>
+
+        <div class="nav-links">
+            <a href="../../../../bio.html">Bio</a>
+            <a class="active" href="../../../index.html">Research & Work</a>
+            <a href="../../../../projects/index.html">Projects</a>
+            <a href="../../../../resume/index.html">Resume</a>
+            <a href="../../../../contact.html">Contact</a>
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     Hero
+========================================================= -->
+
+<header class="hero compact">
+
+    <div class="container">
+
+        <div class="eyebrow">
+            UNIVERSITY OF WATERLOO · ROBOTICS LAB DEVELOPMENT
+        </div>
+
+        <h1>
+            Pre-Lab — Virtual ROS<br>
+            Robotics Environment
+        </h1>
+
+        <p class="lead">
+            Development and validation of a virtual robotics environment
+            enabling students to run ROS, Gazebo, MATLAB, and TurtleBot
+            experiments remotely.
+        </p>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     Overview
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Overview
+                </div>
+
+                <h2>
+                    Building the foundation for remote robotics laboratories
+                </h2>
+
+            </div>
+
+            <p>
+                The pre-lab was developed to give senior undergraduate
+                and graduate students a reproducible robotics environment
+                before beginning localization, navigation, and
+                path-planning laboratories.
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div class="metric">
+                <strong>ROS</strong>
+                <span>Robot middleware</span>
+            </div>
+
+            <div class="metric">
+                <strong>Gazebo</strong>
+                <span>Robot simulation</span>
+            </div>
+
+            <div class="metric">
+                <strong>MATLAB</strong>
+                <span>Algorithm development</span>
+            </div>
+
+            <div class="metric">
+                <strong>VMware</strong>
+                <span>Virtual lab environment</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Why It Was Needed
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Lab Redesign
+            </div>
+
+            <h2>
+                Moving robotics experiments into a virtual environment
+            </h2>
+
+            <p class="muted">
+                The laboratory sequence had previously relied heavily on
+                access to physical mobile robots and local laboratory
+                infrastructure.
+            </p>
+
+            <p class="muted">
+                To support remote delivery, the robotics environment was
+                rebuilt around a virtual machine containing Ubuntu, ROS,
+                and Gazebo, with MATLAB running on the host computer and
+                communicating with ROS over the network.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Design objectives
+            </h3>
+
+            <ul class="clean-list">
+                <li>Enable robotics experiments away from the physical lab</li>
+                <li>Provide a consistent software environment</li>
+                <li>Reduce setup ambiguity for students</li>
+                <li>Connect MATLAB algorithms to ROS simulation</li>
+                <li>Prepare students for later localization and planning labs</li>
+                <li>Document common setup and networking failures</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Environment Architecture
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Environment Architecture
+                </div>
+
+                <h2>
+                    VMware, Ubuntu, ROS, Gazebo, and MATLAB
+                </h2>
+
+            </div>
+
+            <p>
+                The virtual laboratory connected a simulated TurtleBot
+                environment running inside Ubuntu with MATLAB running
+                on the host computer through the ROS network.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="pipeline-row">
+
+                <div class="pipeline-step">
+                    <strong>01</strong>
+                    <span>VMware</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>02</strong>
+                    <span>Ubuntu + ROS</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>03</strong>
+                    <span>Gazebo</span>
+                </div>
+
+                <div class="pipeline-arrow">↔</div>
+
+                <div class="pipeline-step">
+                    <strong>04</strong>
+                    <span>ROS Network</span>
+                </div>
+
+                <div class="pipeline-arrow">↔</div>
+
+                <div class="pipeline-step">
+                    <strong>05</strong>
+                    <span>MATLAB</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/prelab-ros-gazebo-environment.png"
+                alt="Virtual ROS and Gazebo robotics environment used for remote laboratory instruction"
+            >
+
+            <figcaption>
+                Virtual robotics environment integrating Ubuntu, ROS,
+                Gazebo, and MATLAB through a networked VMware setup.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Student Workflow
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Student Workflow
+            </div>
+
+            <h2>
+                A reproducible setup process
+            </h2>
+
+            <p class="muted">
+                The manual was written as a step-by-step workflow so
+                students could establish the same environment before
+                beginning the technical robotics laboratories.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Setup sequence
+            </h3>
+
+            <ul class="clean-list">
+                <li>Install and launch the provided VMware image</li>
+                <li>Run the Ubuntu robotics environment</li>
+                <li>Launch Gazebo Office</li>
+                <li>Identify the virtual-machine IP address</li>
+                <li>Connect MATLAB to the ROS master</li>
+                <li>Verify active ROS topics</li>
+                <li>Test publisher/subscriber communication</li>
+                <li>Validate TurtleBot simulation access</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Networking
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    ROS Networking
+                </div>
+
+                <h2>
+                    Connecting MATLAB to the simulated robot
+                </h2>
+
+            </div>
+
+            <p>
+                A major part of the pre-lab was ensuring reliable
+                communication between the host computer and the
+                ROS environment running inside the virtual machine.
+            </p>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+                    Network configuration
+                </h3>
+
+                <p>
+                    Students identified the VM IP address, connected
+                    MATLAB to the ROS master, and verified that ROS
+                    topics from the Gazebo simulation were visible
+                    across the network.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Communication verification
+                </h3>
+
+                <p>
+                    Topic discovery and ROS initialization were used
+                    to verify that MATLAB, ROS, and the simulated
+                    TurtleBot were communicating correctly before
+                    proceeding to later labs.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Troubleshooting
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Troubleshooting
+            </div>
+
+            <h2>
+                Designing for the failures students actually encounter
+            </h2>
+
+            <p class="muted">
+                The lab material was not limited to ideal installation
+                instructions. It also documented practical issues that
+                could prevent students from completing the robotics labs.
+            </p>
+
+            <p class="muted">
+                These setup problems were reproduced and verified during
+                development so that students could be supported during
+                live laboratory sessions.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Typical issues addressed
+            </h3>
+
+            <ul class="clean-list">
+                <li>Virtual-machine network configuration</li>
+                <li>Incorrect IP address or ROS master connection</li>
+                <li>VPN interference with ROS communication</li>
+                <li>Windows firewall / ROS communication permissions</li>
+                <li>Gazebo startup problems</li>
+                <li>MATLAB–ROS connectivity failures</li>
+                <li>Publisher configuration issues</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Teaching Role
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                My Role
+            </div>
+
+            <h2>
+                Development, verification, documentation, and student support
+            </h2>
+
+            <p class="muted">
+                I developed and tested the virtual laboratory workflow,
+                rewrote the student-facing instructions, verified the
+                software and networking configuration, and supported
+                students as they encountered technical issues during
+                laboratory sessions.
+            </p>
+
+            <p class="muted">
+                The pre-lab established a common technical foundation
+                for the subsequent ROS, localization, navigation, and
+                path-planning exercises.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Responsibilities
+            </h3>
+
+            <ul class="clean-list">
+                <li>Virtual robotics environment development</li>
+                <li>Lab workflow verification</li>
+                <li>Technical manual redevelopment</li>
+                <li>ROS / Gazebo / MATLAB integration testing</li>
+                <li>Network troubleshooting</li>
+                <li>Student technical instruction</li>
+                <li>Live lab troubleshooting support</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Next Lab
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Laboratory Sequence
+                </div>
+
+                <h2>
+                    Foundation for the robotics labs
+                </h2>
+
+            </div>
+
+            <p>
+                Once the virtual environment was established, students
+                progressed into ROS operation, SLAM, localization,
+                navigation, and path planning.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="project-index">
+                NEXT
+            </div>
+
+            <h3>
+                Lab 1 — ROS, SLAM & Navigation
+            </h3>
+
+            <p>
+                Introduction to ROS tools, simulated TurtleBot control,
+                sensor visualization, mapping, localization, and
+                autonomous navigation.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Back
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <a class="btn" href="../index.html">
+            ← Back to Waterloo Research & Work
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Footer
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            Sooyong Kim · Robotics & Autonomous Systems
+        </div>
+
+        <div>
+            © <span data-year></span> sooyongtech.dev
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="../../../../assets/js/site.js"></script>
+
+</body>
+
+</html>
