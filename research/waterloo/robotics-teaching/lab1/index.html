@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="description"
+        content="ROS, SLAM, and mobile-robot navigation laboratory development and live instruction by Sooyong Kim at the University of Waterloo."
+    >
+
+    <title>Lab 1 — ROS Foundations, SLAM & Navigation — Sooyong Kim</title>
+
+    <link rel="stylesheet" href="../../../../assets/css/site.css">
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     Navigation
+========================================================= -->
+
+<nav class="nav">
+
+    <div class="container nav-inner">
+
+        <a class="brand" href="../../../../index.html">
+            SOOYONG KIM
+        </a>
+
+        <div class="nav-links">
+            <a href="../../../../bio.html">Bio</a>
+            <a class="active" href="../../../index.html">Research & Work</a>
+            <a href="../../../../projects/index.html">Projects</a>
+            <a href="../../../../resume/index.html">Resume</a>
+            <a href="../../../../contact.html">Contact</a>
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     Hero
+========================================================= -->
+
+<header class="hero compact">
+
+    <div class="container">
+
+        <div class="eyebrow">
+            UNIVERSITY OF WATERLOO · ROBOTICS LAB DEVELOPMENT
+        </div>
+
+        <h1>
+            Lab 1 — ROS Foundations,<br>
+            SLAM & Navigation
+        </h1>
+
+        <p class="lead">
+            Development, validation, and live delivery of a virtual
+            mobile-robotics laboratory introducing ROS fundamentals,
+            TurtleBot simulation, sensor visualization, SLAM,
+            localization, and autonomous navigation.
+        </p>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     Overview
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Lab Overview
+                </div>
+
+                <h2>
+                    From ROS fundamentals to autonomous navigation
+                </h2>
+
+            </div>
+
+            <p>
+                Lab 1 introduced students to the ROS software ecosystem
+                and progressively connected fundamental concepts to a
+                simulated TurtleBot mobile-robot system.
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div class="metric">
+                <strong>ROS</strong>
+                <span>Nodes, topics & messages</span>
+            </div>
+
+            <div class="metric">
+                <strong>TurtleBot3</strong>
+                <span>Mobile robot platform</span>
+            </div>
+
+            <div class="metric">
+                <strong>Gmapping</strong>
+                <span>SLAM & map building</span>
+            </div>
+
+            <div class="metric">
+                <strong>AMCL</strong>
+                <span>Localization & navigation</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     What I Developed
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Laboratory Development
+            </div>
+
+            <h2>
+                A complete virtual robotics learning workflow
+            </h2>
+
+            <p class="muted">
+                The laboratory material was redesigned so students could
+                develop practical ROS skills using a virtual TurtleBot
+                environment rather than relying exclusively on access to
+                physical laboratory hardware.
+            </p>
+
+            <p class="muted">
+                The work combined a detailed student-facing lab manual
+                with a separate live instructional session in which students
+                were guided through ROS concepts, commands, simulation,
+                mapping, localization, and navigation.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Development scope
+            </h3>
+
+            <ul class="clean-list">
+                <li>Step-by-step laboratory manual</li>
+                <li>Live guided instruction</li>
+                <li>ROS environment verification</li>
+                <li>TurtleBot simulation workflow</li>
+                <li>SLAM and navigation exercises</li>
+                <li>Troubleshooting guidance</li>
+                <li>Student technical support</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Live Instruction
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Live Instruction
+                </div>
+
+                <h2>
+                    Learning ROS by observing the system change
+                </h2>
+
+            </div>
+
+            <p>
+                The live session complemented the written manual with
+                guided exercises intended to make ROS communication
+                concepts visible through direct experimentation.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="pipeline-row">
+
+                <div class="pipeline-step">
+                    <strong>01</strong>
+                    <span>ROS Concepts</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>02</strong>
+                    <span>Turtlesim</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>03</strong>
+                    <span>Gazebo</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>04</strong>
+                    <span>ROS Tools</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>05</strong>
+                    <span>SLAM</span>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <strong>06</strong>
+                    <span>Navigation</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab1/lab1-live-instruction.png"
+                alt="Live ROS instruction using Turtlesim to demonstrate nodes and topics"
+            >
+
+            <figcaption>
+                Live ROS exercise using Turtlesim. Students repeatedly
+                inspected nodes and topics while starting and controlling
+                new ROS processes.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ROS Foundations
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                ROS Foundations
+            </div>
+
+            <h2>
+                Nodes, topics, messages, and communication
+            </h2>
+
+            <p class="muted">
+                The lab first established the ROS execution and
+                communication model before introducing the complete
+                mobile-robot simulation.
+            </p>
+
+            <p class="muted">
+                Students used Turtlesim to observe how active nodes and
+                topics changed as processes were launched, allowing the
+                publisher–subscriber model to be connected to behavior
+                they could immediately see.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Core concepts
+            </h3>
+
+            <ul class="clean-list">
+                <li>ROS master</li>
+                <li>Nodes and packages</li>
+                <li>Messages</li>
+                <li>Topics</li>
+                <li>Publishers and subscribers</li>
+                <li>ROS launch and execution tools</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Simulation and Control
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Simulation & Control
+                </div>
+
+                <h2>
+                    Connecting ROS commands to robot motion
+                </h2>
+
+            </div>
+
+            <p>
+                Students moved from Turtlesim to a simulated TurtleBot3
+                Waffle operating inside the Gazebo Office environment.
+            </p>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+                    Teleoperation
+                </h3>
+
+                <p>
+                    Keyboard teleoperation was used to establish the
+                    connection between ROS commands and physical-style
+                    mobile-robot motion.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Velocity commands
+                </h3>
+
+                <p>
+                    Students directly published
+                    <code>geometry_msgs/Twist</code> messages to
+                    <code>/cmd_vel</code> and observed the resulting
+                    linear and angular motion.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Sensor visualization
+                </h3>
+
+                <p>
+                    RViz was used to visualize laser scans, camera data,
+                    coordinate frames, and other topics generated by
+                    the simulated robot.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ROS Tools
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                ROS Diagnostics & Data
+            </div>
+
+            <h2>
+                Inspecting what is happening inside the robot system
+            </h2>
+
+            <p class="muted">
+                Students were introduced to the command-line and GUI
+                tools required to inspect communication, record data,
+                and understand the active ROS computation graph.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Tools used
+            </h3>
+
+            <ul class="clean-list">
+                <li>rostopic list / echo / info / hz</li>
+                <li>rosnode</li>
+                <li>rosbag</li>
+                <li>rqt_graph</li>
+                <li>rqt_image_view</li>
+                <li>RViz</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SLAM
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    SLAM & Mapping
+                </div>
+
+                <h2>
+                    Building a map of the simulated environment
+                </h2>
+
+            </div>
+
+            <p>
+                Students then used Gmapping with the simulated TurtleBot
+                to construct an occupancy map of the Gazebo Office environment.
+            </p>
+
+        </div>
+
+
+        <div class="split">
+
+            <div>
+
+                <p class="muted">
+                    The TurtleBot was manually driven through the
+                    environment while RViz displayed the map being built
+                    from range observations.
+                </p>
+
+                <p class="muted">
+                    Once sufficient coverage was obtained, the resulting
+                    occupancy map was saved and reused in the subsequent
+                    localization and navigation exercise.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Mapping workflow
+                </h3>
+
+                <ul class="clean-list">
+                    <li>Launch Gazebo Office</li>
+                    <li>Run Gmapping SLAM</li>
+                    <li>Drive TurtleBot with teleoperation</li>
+                    <li>Observe map formation in RViz</li>
+                    <li>Complete environmental coverage</li>
+                    <li>Save the occupancy map</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab1/lab1-slam-mapping.png"
+                alt="Gazebo TurtleBot simulation and completed SLAM map in RViz"
+            >
+
+            <figcaption>
+                Gazebo Office and the corresponding occupancy map
+                generated through TurtleBot SLAM and saved for later
+                localization and navigation.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Localization and Navigation
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Localization & Navigation
+                </div>
+
+                <h2>
+                    From a saved map to autonomous goal navigation
+                </h2>
+
+            </div>
+
+            <p>
+                The final stage connected the previously generated map
+                to AMCL localization and the ROS navigation stack.
+            </p>
+
+        </div>
+
+
+        <div class="split">
+
+            <div>
+
+                <p class="muted">
+                    Students provided an initial pose estimate in RViz,
+                    observed the AMCL particle distribution converge,
+                    and compared the laser observations with the stored map.
+                </p>
+
+                <p class="muted">
+                    Once localization was established, navigation goals
+                    were assigned through RViz and the TurtleBot autonomously
+                    planned and executed paths through the environment.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>
+                    Navigation workflow
+                </h3>
+
+                <ul class="clean-list">
+                    <li>Load the saved occupancy map</li>
+                    <li>Launch the navigation stack</li>
+                    <li>Initialize robot pose</li>
+                    <li>Observe AMCL particle convergence</li>
+                    <li>Set a 2D navigation goal</li>
+                    <li>Observe autonomous path execution</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <figure class="research-figure">
+
+            <img
+                src="../../../../assets/images/waterloo/robotics-teaching/lab1/lab1-amcl-navigation.png"
+                alt="AMCL localization and TurtleBot autonomous navigation in RViz"
+            >
+
+            <figcaption>
+                AMCL localization and autonomous navigation in RViz,
+                showing the robot pose, sensor information, costmap,
+                and planned trajectory.
+            </figcaption>
+
+        </figure>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Teaching Method
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                Teaching Method
+            </div>
+
+            <h2>
+                Manual for reference, live lab for understanding
+            </h2>
+
+            <p class="muted">
+                The written manual provided a reproducible reference,
+                while the live session focused on guided experimentation,
+                observation, questions, and troubleshooting.
+            </p>
+
+            <p class="muted">
+                Rather than only demonstrating completed results,
+                students were encouraged to run commands themselves,
+                inspect the changing ROS system state, diagnose problems,
+                and connect observed behavior to the underlying concepts.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Live-lab approach
+            </h3>
+
+            <ul class="clean-list">
+                <li>Explain the concept</li>
+                <li>Run the command together</li>
+                <li>Observe system behavior</li>
+                <li>Inspect nodes and topics</li>
+                <li>Discuss unexpected behavior</li>
+                <li>Troubleshoot student environments</li>
+                <li>Verify completion before proceeding</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     My Role
+========================================================= -->
+
+<section class="section">
+
+    <div class="container split">
+
+        <div>
+
+            <div class="section-kicker">
+                My Role
+            </div>
+
+            <h2>
+                Laboratory development, validation, and instruction
+            </h2>
+
+            <p class="muted">
+                I developed and revised the laboratory material,
+                verified the complete virtual robotics workflow,
+                prepared the live instructional content, guided students
+                through the exercises, and provided troubleshooting
+                support during laboratory sessions.
+            </p>
+
+            <p class="muted">
+                The objective was not only to make the software run,
+                but to ensure that students could understand the
+                ROS architecture underlying the simulated robot behavior.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Responsibilities
+            </h3>
+
+            <ul class="clean-list">
+                <li>Lab manual redevelopment</li>
+                <li>ROS workflow verification</li>
+                <li>Gazebo / TurtleBot integration testing</li>
+                <li>Live laboratory instruction</li>
+                <li>SLAM and navigation demonstrations</li>
+                <li>Technical troubleshooting</li>
+                <li>Student support and grading</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Next Lab
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    Laboratory Sequence
+                </div>
+
+                <h2>
+                    Next: localization in greater depth
+                </h2>
+
+            </div>
+
+            <p>
+                Lab 2 expanded the localization component into a
+                dedicated AMCL experiment examining particle-filter
+                behavior and parameter sensitivity.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="project-index">
+                NEXT · LAB 02
+            </div>
+
+            <h3>
+                AMCL Localization
+            </h3>
+
+            <p>
+                Particle-filter localization, sensor and motion models,
+                measurement uncertainty, particle count, pose error,
+                covariance, and computation-time analysis.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     Back
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <a class="btn" href="../../index.html">
+            ← Back to Waterloo Research & Work
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div>
+            Sooyong Kim · Robotics & Autonomous Systems
+        </div>
+
+        <div>
+            © <span data-year></span> sooyongtech.dev
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="../../../../assets/js/site.js"></script>
+
+</body>
+
+</html>
