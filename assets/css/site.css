@@ -435,3 +435,16 @@ p{margin:0 0 16px}
     text-align:center;
   }
 }
+.project-nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  margin-top:28px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+}
+
+.project-nav a{
+  display:inline-block;
+}
