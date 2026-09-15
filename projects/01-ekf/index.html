@@ -1,31 +1,1080 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Sooyong Kim robotics and engineering portfolio">
-<title>EKF Sensor Fusion — Sooyong Kim</title>
-<link rel="stylesheet" href="../../assets/css/site.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EKF Sensor Fusion for Mobile Robot Localization</title>
+
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+
+main{
+  max-width:1040px;
+  margin:auto;
+  padding:48px 24px 72px;
+}
+
+h1{
+  font-size:52px;
+  line-height:1.05;
+  margin:10px 0 16px;
+  letter-spacing:-.025em;
+}
+
+h2{
+  margin-top:48px;
+  font-size:29px;
+}
+
+h3{
+  margin-top:30px;
+  font-size:21px;
+}
+
+h4{
+  margin-top:22px;
+  font-size:17px;
+}
+
+p,
+li{
+  color:#ced9ef;
+}
+
+a{
+  color:var(--accent2);
+  text-decoration:none;
+}
+
+a:hover{
+  text-decoration:underline;
+}
+
+.tag{
+  display:inline-block;
+  border:1px solid #2d3e63;
+  border-radius:999px;
+  padding:6px 10px;
+  margin:4px;
+  font-size:13px;
+  color:#b9c9e6;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin:28px 0;
+}
+
+.metric{
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+}
+
+.metric strong{
+  display:block;
+  font-size:30px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+  margin:18px 0;
+}
+
+pre{
+  background:#08101d;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px;
+  overflow:auto;
+  color:#d8e8ff;
+  line-height:1.45;
+}
+
+code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:var(--panel);
+  margin:18px 0;
+  border:1px solid var(--line);
+}
+
+th,
+td{
+  padding:12px 14px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+  text-align:left;
+}
+
+th{
+  background:#121d33;
+  color:#dce8fb;
+}
+
+.compact td,
+.compact th{
+  font-size:14px;
+}
+
+.callout{
+  border-left:4px solid var(--accent);
+  background:#0d1729;
+  padding:18px 20px;
+  border-radius:10px;
+  margin:18px 0;
+}
+
+.note{
+  border-left:4px solid #7dd3fc;
+  background:#0d1729;
+  padding:16px 18px;
+  border-radius:10px;
+  margin:18px 0;
+  color:#cbd8ef;
+}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.eq{
+  font-family:Georgia,serif;
+  font-size:18px;
+  background:#0b1424;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:12px 15px;
+  margin:10px 0;
+  color:#eef5ff;
+}
+
+.small{
+  font-size:14px;
+  color:var(--muted);
+}
+
+.arch-list{
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:8px 18px;
+}
+
+.arch-list div{
+  padding:8px 0;
+  border-bottom:1px solid rgba(41,57,87,.65);
+}
+
+.arch-list strong{
+  color:#eef5ff;
+}
+
+
+/* ---------- Demo Video ---------- */
+
+.video-wrap{
+  width:100%;
+  aspect-ratio:16 / 9;
+  margin:22px 0 12px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  background:#08101d;
+}
+
+.video-wrap iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+
+.video-link{
+  margin-top:10px;
+}
+
+
+/* ---------- Project Figures ---------- */
+
+.project-figure{
+  margin:20px 0;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.project-figure img{
+  display:block;
+  width:100%;
+  height:auto;
+  background:#fff;
+}
+
+.project-figure figcaption{
+  padding:14px 16px 16px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.project-figure figcaption strong{
+  display:block;
+  color:#eef5ff;
+  margin-bottom:4px;
+  font-size:15px;
+}
+
+
+@media(max-width:760px){
+
+  .grid,
+  .two{
+    grid-template-columns:1fr;
+  }
+
+  .arch-list{
+    grid-template-columns:1fr;
+  }
+
+  h1{
+    font-size:38px;
+  }
+
+  table{
+    display:block;
+    overflow-x:auto;
+  }
+}
+</style>
 </head>
+
+
 <body>
-<nav class="nav"><div class="container nav-inner">
-<a class="brand" href="../../index.html">SOOYONG KIM</a>
-<div class="nav-links"><a class="" href="../../bio.html">Bio</a><a class="" href="../../research/index.html">Research & Work</a><a class="active" href="../../projects/index.html">Projects</a><a class="" href="../../resume/index.html">Resume</a><a class="" href="../../contact.html">Contact</a></div></div></nav>
 
-<header class="hero compact"><div class="container">
-<div class="project-index">PROJECT 01 · STATE ESTIMATION</div><h1>EKF Sensor Fusion</h1>
-<p class="lead">Wheel odometry and IMU fusion for mobile robot localization using an Extended Kalman Filter in ROS 2 and Gazebo.</p>
-<div class="btns"><a class="btn primary" href="report.html">HTML Technical Report</a><a class="btn" target="_blank" href="https://github.com/greatsyong/SK/tree/main/01_ekf_sensor_fusion">GitHub</a></div>
-<div class="tags"><span class="tag">ROS 2 Humble</span><span class="tag">EKF</span><span class="tag">Gazebo</span><span class="tag">Sensor Fusion</span></div>
-</div></header>
-<section class="section"><div class="container">
-<div class="section-head"><div><div class="section-kicker">Demo</div><h2>System in operation</h2></div><p>When the YouTube demo is published, it will play directly here without sending the viewer away from the portfolio.</p></div>
-<div class="media-placeholder">YouTube embed slot — EKF demo</div>
-</div></section>
-<section class="section"><div class="container"><div class="callout">Project pages intentionally use the same information hierarchy across the entire portfolio: result → demo → report → source.</div></div></section>
+<main>
 
-<footer class="footer"><div class="container footer-inner">
-<div>Sooyong Kim · Robotics & Autonomous Systems</div>
-<div>© <span data-year></span> sooyongtech.dev</div>
-</div></footer>
-<script src="../../assets/js/site.js"></script>
-</body></html>
+<p style="color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase">
+  Robotics Portfolio Project 01
+</p>
+
+<h1>EKF Sensor Fusion for Mobile Robot Localization</h1>
+
+<p style="font-size:20px">
+A ROS 2 Humble implementation of an Extended Kalman Filter (EKF) that fuses
+wheel odometry and IMU yaw-rate measurements, with quantitative evaluation
+against independent Gazebo ground truth.
+</p>
+
+
+<div>
+  <span class="tag">ROS 2 Humble</span>
+  <span class="tag">Gazebo</span>
+  <span class="tag">Python</span>
+  <span class="tag">Extended Kalman Filter</span>
+  <span class="tag">Wheel Odometry</span>
+  <span class="tag">IMU</span>
+</div>
+
+
+<div class="grid">
+
+  <div class="metric">
+    <strong>1.2074 m</strong>
+    Raw wheel odometry RMSE
+  </div>
+
+  <div class="metric">
+    <strong>0.4652 m</strong>
+    EKF position RMSE
+  </div>
+
+  <div class="metric">
+    <strong>61.5%</strong>
+    RMSE reduction
+  </div>
+
+</div>
+
+
+<p>
+  <a href="https://github.com/greatsyong/SK" target="_blank" rel="noopener">
+    View source on GitHub →
+  </a>
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- DEMO -->
+<!-- ====================================================== -->
+
+<h2>Demo</h2>
+
+<div class="video-wrap">
+  <iframe
+    src="https://www.youtube.com/embed/9eI5zcSsCYI"
+    title="EKF Sensor Fusion for Mobile Robot Localization Demo"
+    loading="lazy"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<p class="video-link">
+  <a
+    href="https://youtu.be/9eI5zcSsCYI"
+    target="_blank"
+    rel="noopener">
+    Watch on YouTube →
+  </a>
+</p>
+
+
+
+<!-- ====================================================== -->
+<!-- PROJECT OBJECTIVE -->
+<!-- ====================================================== -->
+
+<h2>1. Project Objective</h2>
+
+<p>
+The goal of this project was to implement and evaluate a custom EKF for planar
+mobile-robot state estimation. Wheel odometry supplies forward velocity, the IMU
+supplies yaw rate, and Gazebo ground truth is used only for evaluation.
+The project intentionally separates <em>estimation</em> from <em>evaluation</em>
+so that the effect of sensor fusion can be measured quantitatively rather than
+judged only by visual trajectory overlap.
+</p>
+
+
+
+<h2>2. Why an EKF?</h2>
+
+<p>
+A differential-drive mobile robot is naturally described by a nonlinear
+kinematic model. Even when the commanded or measured linear velocity is simple,
+the mapping from heading and speed to Cartesian motion contains
+<code>cos(ψ)</code> and <code>sin(ψ)</code>. A standard linear Kalman Filter
+assumes a linear state-transition model, so it is not directly suitable for
+this motion model without changing the model itself.
+</p>
+
+<p>
+The EKF was selected because it provides a practical compromise between model
+fidelity, computational cost, transparency, and implementation complexity.
+It preserves the nonlinear robot motion model, but locally linearizes it at
+each time step so the Kalman covariance machinery can still be used.
+For this project, the state dimension is small, the dynamics are smooth,
+and the robot operates with short sampling intervals, making EKF linearization
+a reasonable engineering choice.
+</p>
+
+
+
+<h3>Filter Comparison</h3>
+
+<table class="compact">
+
+<thead>
+<tr>
+  <th>Filter</th>
+  <th>Core Idea</th>
+  <th>Advantages</th>
+  <th>Limitations</th>
+  <th>Relevance to This Project</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td><strong>Linear Kalman Filter (KF)</strong></td>
+<td>Propagates a Gaussian state estimate through linear state and measurement models.</td>
+<td>Very efficient; mathematically clean; optimal for linear systems with Gaussian noise under the standard assumptions.</td>
+<td>Cannot directly represent the nonlinear differential-drive motion model because Cartesian motion depends on <code>sin(ψ)</code> and <code>cos(ψ)</code>.</td>
+<td>Too restrictive unless the robot model is simplified or externally linearized.</td>
+</tr>
+
+<tr>
+<td><strong>Extended Kalman Filter (EKF)</strong></td>
+<td>Uses the nonlinear model directly, then approximates it locally with Jacobians.</td>
+<td>Computationally efficient; widely used in robotics; easy to inspect; suitable for smooth, mildly nonlinear systems.</td>
+<td>Accuracy depends on local linearization; large uncertainty or strongly nonlinear motion can make the approximation poor.</td>
+<td><strong>Selected.</strong> It matches the nonlinear mobile-robot kinematics while remaining lightweight and interpretable.</td>
+</tr>
+
+<tr>
+<td><strong>Unscented Kalman Filter (UKF)</strong></td>
+<td>Propagates a deterministic set of sigma points through the nonlinear model instead of computing Jacobians.</td>
+<td>Captures nonlinear transformations more accurately than a first-order EKF in many cases; no analytical Jacobian required.</td>
+<td>Higher computational cost; more tuning and implementation complexity; benefits may be small for a low-dimensional, smooth model.</td>
+<td>A strong alternative if the model becomes more nonlinear or the state grows, but unnecessary for this first implementation.</td>
+</tr>
+
+<tr>
+<td><strong>Particle Filter (PF)</strong></td>
+<td>Represents the belief with many weighted samples rather than a single Gaussian distribution.</td>
+<td>Can represent nonlinear, non-Gaussian, and multimodal uncertainty; useful for global localization and ambiguous observations.</td>
+<td>Computationally expensive; sample count and resampling strategy matter; unnecessary when the belief is approximately unimodal and low dimensional.</td>
+<td>Better suited to problems such as global localization than this compact velocity-fusion problem.</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<div class="callout">
+<strong>Selection rationale:</strong>
+the EKF was not chosen because it is universally “better.”
+It was chosen because the robot model is nonlinear but smooth, the state is
+small, Gaussian noise is a useful approximation, and real-time computation in
+ROS 2 should remain lightweight.
+</div>
+
+
+
+<h2>3. System Architecture</h2>
+
+<pre>
+                     Gazebo Physics
+                          │
+          ┌───────────────┴───────────────┐
+          │                               │
+   Differential Drive                   IMU
+          │                               │
+      Wheel Odometry                 Yaw Rate
+          │                               │
+          └──────────────┬────────────────┘
+                         │
+                         ▼
+                Extended Kalman Filter
+                         │
+                         ▼
+                /odometry/filtered
+
+             Gazebo Ground Truth
+                     │
+                     ▼
+        Ground Truth / Raw / EKF
+                     │
+                     ▼
+             RMSE Evaluation
+</pre>
+
+
+
+<h3>Architecture Components</h3>
+
+<div class="arch-list">
+
+<div><strong>Gazebo Physics</strong></div>
+<div>
+Simulates the robot body, wheel motion, inertial effects, and sensor environment.
+It is the physical simulation layer from which both robot motion and simulated
+sensor data originate.
+</div>
+
+<div><strong>Differential Drive</strong></div>
+<div>
+Models a two-wheel mobile base. Wheel motion determines the robot's forward and
+rotational motion and is also used to produce wheel odometry.
+</div>
+
+<div><strong>Wheel Odometry</strong></div>
+<div>
+Provides the robot's measured forward velocity and an odometric pose estimate.
+In the EKF itself, the linear velocity measurement is used to update the state.
+</div>
+
+<div><strong>IMU</strong></div>
+<div>
+Provides angular velocity about the vertical axis. The project uses
+<code>angular_velocity.z</code> as the yaw-rate measurement.
+</div>
+
+<div><strong>Extended Kalman Filter</strong></div>
+<div>
+Predicts the robot state with the nonlinear motion model, then corrects
+velocity-related states using wheel and IMU measurements.
+</div>
+
+<div><strong>/odometry/filtered</strong></div>
+<div>
+The ROS 2 output topic containing the EKF-estimated pose, linear velocity,
+angular velocity, and covariance information.
+</div>
+
+<div><strong>Gazebo Ground Truth</strong></div>
+<div>
+The simulated true robot pose obtained independently from Gazebo.
+It is not fed into the EKF; it is used only as a reference for evaluation.
+</div>
+
+<div><strong>RMSE Evaluation</strong></div>
+<div>
+Compares raw odometry and EKF estimates against ground truth and reports
+position Root Mean Square Error (RMSE).
+</div>
+
+</div>
+
+
+
+<h2>4. EKF State Model</h2>
+
+<p>The estimated state is:</p>
+
+<div class="eq">
+x = [ p<sub>x</sub>, p<sub>y</sub>, ψ, v, ω ]<sup>T</sup>
+</div>
+
+
+<table class="compact">
+
+<thead>
+<tr>
+  <th>State</th>
+  <th>Meaning</th>
+  <th>Why It Is Included</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>p<sub>x</sub></td>
+<td>Robot x-position in the planar world frame</td>
+<td>Required to reconstruct the robot trajectory.</td>
+</tr>
+
+<tr>
+<td>p<sub>y</sub></td>
+<td>Robot y-position in the planar world frame</td>
+<td>Required to reconstruct the robot trajectory.</td>
+</tr>
+
+<tr>
+<td>ψ</td>
+<td>Yaw / heading angle</td>
+<td>Determines how forward velocity projects into x and y motion.</td>
+</tr>
+
+<tr>
+<td>v</td>
+<td>Forward linear velocity</td>
+<td>Updated from wheel odometry and used in the motion prediction.</td>
+</tr>
+
+<tr>
+<td>ω</td>
+<td>Yaw angular velocity</td>
+<td>Updated from the IMU and used to propagate heading.</td>
+</tr>
+
+</tbody>
+</table>
+
+
+
+<h3>Nonlinear Motion Model</h3>
+
+<div class="card">
+
+<div class="eq">
+p<sub>x,k+1</sub> =
+p<sub>x,k</sub> +
+v<sub>k</sub> cos(ψ<sub>k</sub>) Δt
+</div>
+
+<div class="eq">
+p<sub>y,k+1</sub> =
+p<sub>y,k</sub> +
+v<sub>k</sub> sin(ψ<sub>k</sub>) Δt
+</div>
+
+<div class="eq">
+ψ<sub>k+1</sub> =
+ψ<sub>k</sub> +
+ω<sub>k</sub> Δt
+</div>
+
+<div class="eq">
+v<sub>k+1</sub> = v<sub>k</sub>
+</div>
+
+<div class="eq">
+ω<sub>k+1</sub> = ω<sub>k</sub>
+</div>
+
+</div>
+
+
+<p>
+The first two equations are nonlinear because the next Cartesian position
+depends on <code>cos(ψ)</code> and <code>sin(ψ)</code>. The robot moves forward
+in its own body direction, but that forward motion must be projected into the
+world x-y frame according to the current heading.
+</p>
+
+
+
+<h3>Why the Nonlinear Model Can Be Linearized</h3>
+
+<p>
+The EKF does not assume that the full robot motion is globally linear.
+Instead, it assumes that over one sufficiently short sampling interval,
+the nonlinear function can be approximated near the current state estimate
+by its first-order Taylor expansion.
+</p>
+
+
+<div class="eq">
+f(x) ≈ f(x̂) + F(x − x̂)
+</div>
+
+
+<p>
+Here, <code>F</code> is the Jacobian matrix of the nonlinear transition function
+with respect to the state. It describes how a small perturbation in each state
+variable changes the predicted next state. For this model:
+</p>
+
+
+<pre>
+F =
+[ 1  0  -v sin(ψ)Δt   cos(ψ)Δt   0  ]
+[ 0  1   v cos(ψ)Δt   sin(ψ)Δt   0  ]
+[ 0  0        1            0      Δt ]
+[ 0  0        0            1       0 ]
+[ 0  0        0            0       1 ]
+</pre>
+
+
+<p>
+The EKF evaluates this Jacobian at the current estimated state during every
+prediction step. Because the sampling interval is short and the state normally
+changes only a limited amount between consecutive updates, this local
+first-order approximation is adequate for the current differential-drive
+experiment.
+</p>
+
+
+<div class="note">
+The important point is that the EKF does <strong>not</strong> permanently replace
+the nonlinear model with one fixed linear model. The nonlinear state transition
+is still used for the state prediction; only the covariance propagation uses a
+local linear approximation through the Jacobian.
+</div>
+
+
+
+<h3>Measurement Updates</h3>
+
+<p>
+The project uses two direct scalar measurements:
+</p>
+
+
+<div class="eq">
+z<sub>odom</sub> = v + noise
+</div>
+
+<div class="eq">
+z<sub>imu</sub> = ω + noise
+</div>
+
+
+<p>
+Wheel odometry therefore corrects the <code>v</code> state, while the IMU
+corrects <code>ω</code>. The corrected velocity states then influence future
+pose predictions through the nonlinear motion model. The covariance update uses
+the Joseph form to improve numerical stability and preserve a well-behaved
+covariance matrix.
+</p>
+
+
+
+<h2>5. Validation Strategy</h2>
+
+
+<h3>5.1 Synthetic Validation</h3>
+
+<p>
+A synthetic sensor generator was used first to verify the EKF prediction/update
+pipeline, ROS 2 communication, CSV logging, trajectory plotting, and evaluation
+workflow independently of Gazebo.
+</p>
+
+
+<h3>5.2 Gazebo Physics Validation</h3>
+
+<p>
+The final evaluation used a differential-drive robot in Gazebo.
+Ground truth was obtained independently from Gazebo state access and published
+on <code>/ground_truth</code>.
+</p>
+
+
+
+<h2>6. Experiment 1 — Ideal Gazebo Baseline</h2>
+
+<p>
+The first Gazebo experiment intentionally kept the simulated sensing and
+actuation close to ideal. This established a baseline before realistic
+imperfections were introduced.
+</p>
+
+
+<table>
+
+<tr>
+<th>Estimator</th>
+<th>Position RMSE</th>
+</tr>
+
+<tr>
+<td>Raw Odometry</td>
+<td><strong>0.0400 m</strong></td>
+</tr>
+
+<tr>
+<td>EKF</td>
+<td><strong>0.1121 m</strong></td>
+</tr>
+
+</table>
+
+
+<div class="callout">
+The ideal baseline showed that sensor fusion does not automatically outperform
+an already near-perfect source. When raw Gazebo odometry is almost equivalent
+to ground truth, adding a noisy IMU measurement can increase rather than
+decrease estimation error.
+</div>
+
+
+
+<h2>7. Experiment 2 — Realistic Sensor / Actuator Model</h2>
+
+<p>
+The second experiment changed a small number of parameters to make the
+simulation more representative of a real mobile robot, while avoiding excessive
+artificial degradation of raw odometry. The same basic trajectory and
+evaluation method were retained so the effect of the changed assumptions could
+be compared directly.
+</p>
+
+
+
+<h3>What Changed from Experiment 1?</h3>
+
+
+<table class="compact">
+
+<thead>
+
+<tr>
+<th>Parameter</th>
+<th>Experiment 1 — Ideal Baseline</th>
+<th>Experiment 2 — Realistic Model</th>
+<th>Effect / Reason</th>
+</tr>
+
+</thead>
+
+
+<tbody>
+
+<tr>
+<td>Odometry source</td>
+<td><strong>World</strong></td>
+<td><strong>Encoder</strong></td>
+<td>
+Moves from near-ground-truth Gazebo world odometry to wheel-derived dead
+reckoning, allowing accumulated odometric error.
+</td>
+</tr>
+
+<tr>
+<td>Maximum wheel acceleration</td>
+<td><strong>5.0 m/s²</strong></td>
+<td><strong>1.0 m/s²</strong></td>
+<td>
+Introduces a more realistic acceleration-limited actuator response instead of
+near-instant wheel-speed changes.
+</td>
+</tr>
+
+<tr>
+<td>IMU yaw-rate bias</td>
+<td><strong>0 rad/s</strong></td>
+<td><strong>0.005 rad/s</strong></td>
+<td>
+Adds a small systematic angular-rate offset representative of sensor bias.
+</td>
+</tr>
+
+<tr>
+<td>IMU yaw-rate noise σ</td>
+<td><strong>0 rad/s</strong></td>
+<td><strong>0.008 rad/s</strong></td>
+<td>
+Adds stochastic angular-rate measurement noise.
+</td>
+</tr>
+
+<tr>
+<td>Wheel odometry update rate</td>
+<td>50 Hz</td>
+<td>50 Hz</td>
+<td>
+Held constant so the comparison isolates model/sensor changes rather than
+sampling-rate changes.
+</td>
+</tr>
+
+<tr>
+<td>IMU update rate</td>
+<td>100 Hz</td>
+<td>100 Hz</td>
+<td>
+Held constant between experiments.
+</td>
+</tr>
+
+<tr>
+<td>Sensor latency</td>
+<td>Disabled</td>
+<td>Disabled</td>
+<td>
+Held out because the evaluator does not yet perform exact timestamp
+synchronization.
+</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<p>
+Latency was intentionally excluded because the current evaluator records the
+latest available messages rather than performing exact timestamp
+synchronization. Adding latency at this stage would mix estimator error with
+time-alignment error and make the RMSE comparison difficult to interpret.
+</p>
+
+
+<div class="note">
+Only the realistic changes actually implemented in the simulation are reported
+here. Wheel-radius mismatch, asymmetric wheel geometry, and explicit wheel slip
+were considered but intentionally not added to this experiment.
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- RESULTS -->
+<!-- ====================================================== -->
+
+<h2>8. Results</h2>
+
+
+<table>
+
+<tr>
+<th>Estimator</th>
+<th>Position RMSE</th>
+</tr>
+
+<tr>
+<td>Raw Wheel Odometry</td>
+<td><strong>1.2074 m</strong></td>
+</tr>
+
+<tr>
+<td>EKF Sensor Fusion</td>
+<td><strong>0.4652 m</strong></td>
+</tr>
+
+</table>
+
+
+<div class="callout">
+<strong>Key result:</strong>
+under the realistic simulation configuration, the EKF reduced position RMSE
+from <strong>1.2074 m</strong> to <strong>0.4652 m</strong>, corresponding to
+approximately <strong>61.5%</strong> lower position error.
+</div>
+
+
+
+<div class="two">
+
+  <figure class="project-figure">
+
+    <img
+      src="../../assets/images/projects/ekf/ekf_trajectory_comparison.png"
+      alt="Ground truth, raw wheel odometry, and EKF sensor fusion trajectory comparison"
+      loading="lazy">
+
+    <figcaption>
+      <strong>Trajectory Comparison — Ground Truth vs. Raw Odometry vs. EKF</strong>
+      Comparison of the reference Gazebo trajectory, accumulated wheel-odometry
+      estimate, and EKF fused-state trajectory during the realistic simulation.
+    </figcaption>
+
+  </figure>
+
+
+  <figure class="project-figure">
+
+    <img
+      src="../../assets/images/projects/ekf/ekf_localization_error.png"
+      alt="Raw wheel odometry and EKF localization error over time"
+      loading="lazy">
+
+    <figcaption>
+      <strong>Localization Error Over Time — Raw Odometry vs. EKF</strong>
+      Position-error evolution throughout the experiment, showing reduced
+      accumulated localization error after EKF sensor fusion.
+    </figcaption>
+
+  </figure>
+
+</div>
+
+
+
+<h2>9. Interpretation</h2>
+
+<p>
+The comparison between the ideal and realistic cases is the main engineering
+result of the project. In the ideal case, raw odometry was already extremely
+accurate and therefore left little useful information for fusion to improve.
+In the realistic case, encoder-based dead reckoning and more realistic
+actuator/sensor behavior allowed odometric error to accumulate. The IMU
+provided an independent yaw-rate measurement, and the EKF combined the two
+sources according to their modeled uncertainty.
+</p>
+
+<p>
+This demonstrates an important state-estimation principle: the value of sensor
+fusion depends on the error characteristics of the individual sensors.
+A filter should not be evaluated only by whether its final trajectory “looks
+better”; the sensor assumptions, noise models, and reference data must also be
+physically and statistically meaningful.
+</p>
+
+
+
+<h2>10. ROS 2 Interfaces</h2>
+
+<pre>
+/cmd_vel
+/odom
+/imu
+/ground_truth
+/odometry/filtered
+</pre>
+
+
+
+<h2>11. Project Structure</h2>
+
+<pre>
+01_ekf_sensor_fusion/
+├── description/
+│   └── ekf_robot.urdf.xacro
+├── ekf_sensor_fusion/
+│   ├── ekf_core.py
+│   ├── ekf_node.py
+│   ├── evaluation_node.py
+│   ├── gazebo_ground_truth_node.py
+│   └── synthetic_sensor_node.py
+├── launch/
+│   ├── gazebo_ekf.launch.py
+│   └── synthetic_ekf.launch.py
+├── results/
+├── worlds/
+│   └── ekf_test.world
+├── package.xml
+├── setup.cfg
+└── setup.py
+</pre>
+
+
+
+<h2>12. Limitations and Next Steps</h2>
+
+<p>
+The current EKF does not use an absolute position measurement, so long-term
+position drift cannot be completely eliminated. Future extensions could
+incorporate LiDAR localization, visual odometry, GPS, or landmark observations.
+</p>
+
+<p>
+Additional simulation realism could include wheel-radius mismatch, asymmetric
+wheel geometry, wheel slip, time-varying IMU bias, and synchronized sensor
+latency. A future evaluation should also use timestamp synchronization or
+interpolation before introducing explicit sensor delays.
+</p>
+
+
+
+<h2>13. Key Takeaway</h2>
+
+<div class="callout">
+
+<strong>Realistic Gazebo simulation:</strong>
+EKF sensor fusion reduced position RMSE from
+<strong>1.2074 m</strong> to <strong>0.4652 m</strong> — an improvement of
+approximately <strong>61.5%</strong>.
+
+The result was obtained without adding artificial wheel slip or geometry
+mismatch solely to make the EKF outperform raw odometry.
+
+</div>
+
+
+<p style="margin-top:50px;color:#8ea1c0">
+Project by Sooyong Kim · ROS 2 Robotics Portfolio
+</p>
+
+</main>
+
+</body>
+</html>
