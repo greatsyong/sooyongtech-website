@@ -1,43 +1,245 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Sooyong Kim robotics and engineering portfolio">
 <title>Projects — Sooyong Kim</title>
 <link rel="stylesheet" href="../assets/css/site.css">
 </head>
+
 <body>
-<nav class="nav"><div class="container nav-inner">
+
+<nav class="nav">
+<div class="container nav-inner">
 <a class="brand" href="../index.html">SOOYONG KIM</a>
-<div class="nav-links"><a class="" href="../bio.html">Bio</a><a class="" href="../research/index.html">Research & Work</a><a class="active" href="../projects/index.html">Projects</a><a class="" href="../resume/index.html">Resume</a><a class="" href="../contact.html">Contact</a></div></div></nav>
+<div class="nav-links">
+<a href="../bio.html">Bio</a>
+<a href="../research/index.html">Research & Work</a>
+<a class="active" href="../projects/index.html">Projects</a>
+<a href="../resume/index.html">Resume</a>
+<a href="../contact.html">Contact</a>
+</div>
+</div>
+</nav>
 
-<header class="hero compact"><div class="container"><div class="eyebrow">Projects</div><h1>Robotics portfolio</h1>
-<p class="lead">Ten projects organized by robotics capability. Completed work includes direct evidence through reports, demos, performance data, and GitHub source code.</p></div></header>
-<section class="section"><div class="container"><div class="grid"><article class="card"><div class="project-index">PROJECT 01 · STATE ESTIMATION</div><h3>EKF Sensor Fusion</h3><p>Wheel odometry + IMU fusion using an Extended Kalman Filter in ROS 2 and Gazebo.</p><div class="status live"><span class="dot"></span>Completed</div>
-<div class="tags"><span class="tag">ROS 2</span><span class="tag">EKF</span><span class="tag">Gazebo</span><span class="tag">Python</span></div>
-<div class="btns"><a class="btn primary" href="01-ekf/index.html">View Project</a></div></article><article class="card"><div class="project-index">PROJECT 02 · PERCEPTION</div><h3>Vision Perception</h3><p>YOLO object detection, persistent tracking, and instance segmentation with GPU benchmarking.</p><div class="status live"><span class="dot"></span>Completed</div>
-<div class="tags"><span class="tag">ROS 2</span><span class="tag">YOLO</span><span class="tag">PyTorch</span><span class="tag">OpenCV</span></div>
-<div class="btns"><a class="btn primary" href="02-vision/index.html">View Project</a></div></article><article class="card"><div class="project-index">PROJECT 03 · SENSOR FUSION</div><h3>LiDAR-Camera Fusion</h3><p>Multi-modal LiDAR-camera perception and geometric/data fusion.</p><div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags"><span class="tag">LiDAR</span><span class="tag">Camera</span><span class="tag">Fusion</span><span class="tag">ROS 2</span></div>
-<div class="btns"><a class="btn " href="03-lidar-camera/index.html">View Project</a></div></article><article class="card"><div class="project-index">PROJECT 04 · LOCALIZATION / SLAM</div><h3>SLAM + Benchmark</h3><p>Mapping and localization with quantitative benchmarking.</p><div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags"><span class="tag">SLAM</span><span class="tag">Localization</span><span class="tag">ROS 2</span><span class="tag">Benchmark</span></div>
-<div class="btns"><a class="btn " href="04-slam/index.html">View Project</a></div></article><article class="card"><div class="project-index">PROJECT 05 · PLANNING</div><h3>Nav2 + RRT / RRT*</h3><p>Navigation stack integration with sampling-based planning or custom planner implementation.</p><div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags"><span class="tag">Nav2</span><span class="tag">RRT*</span><span class="tag">Planning</span><span class="tag">ROS 2</span></div>
-<div class="btns"><a class="btn " href="05-planning/index.html">View Project</a></div></article><article class="card"><div class="project-index">PROJECT 06 · CONTROL</div><h3>Trajectory Tracking Comparison</h3><p>Pure Pursuit, LQR, and MPC trajectory tracking comparison.</p><div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags"><span class="tag">Pure Pursuit</span><span class="tag">LQR</span><span class="tag">MPC</span><span class="tag">Control</span></div>
-<div class="btns"><a class="btn " href="06-control/index.html">View Project</a></div></article><article class="card"><div class="project-index">PROJECT 07 · MANIPULATOR</div><h3>Vision-Guided Manipulation</h3><p>MoveIt 2 based vision-guided pick-and-place.</p><div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags"><span class="tag">MoveIt 2</span><span class="tag">Manipulation</span><span class="tag">Vision</span><span class="tag">ROS 2</span></div>
-<div class="btns"><a class="btn " href="07-manipulator/index.html">View Project</a></div></article><article class="card"><div class="project-index">PROJECT 08 · AERIAL ROBOTICS</div><h3>PX4 Drone Autonomy</h3><p>PX4 state estimation, control, and vision integration.</p><div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags"><span class="tag">PX4</span><span class="tag">UAV</span><span class="tag">Control</span><span class="tag">Vision</span></div>
-<div class="btns"><a class="btn " href="08-drone/index.html">View Project</a></div></article><article class="card"><div class="project-index">PROJECT 09 · DYNAMICS / DATA</div><h3>Dynamics & Data Analysis</h3><p>Signal preprocessing, FFT/PSD, dominant-frequency analysis, and system/modal identification.</p><div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags"><span class="tag">FFT</span><span class="tag">PSD</span><span class="tag">System ID</span><span class="tag">Python</span></div>
-<div class="btns"><a class="btn " href="09-dynamics/index.html">View Project</a></div></article><article class="card"><div class="project-index">PROJECT 10 · SYSTEM INTEGRATION</div><h3>Integrated Autonomous Robot</h3><p>Integrated demo combining state estimation, perception, fusion, SLAM, planning, navigation, and control.</p><div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags"><span class="tag">Integration</span><span class="tag">ROS 2</span><span class="tag">Autonomy</span><span class="tag">Gazebo</span></div>
-<div class="btns"><a class="btn " href="10-integrated/index.html">View Project</a></div></article></div></div></section>
+<header class="hero compact">
+<div class="container">
+<div class="eyebrow">Projects</div>
+<h1>Robotics portfolio</h1>
+<p class="lead">
+Nine projects organized around autonomous robotics, from state estimation and perception
+to planning, control, learning-based methods, manipulation, and full-system integration.
+Completed work includes technical reports, demos, quantitative evaluation, and GitHub source code.
+</p>
+</div>
+</header>
 
-<footer class="footer"><div class="container footer-inner">
+<section class="section">
+<div class="container">
+<div class="grid">
+
+<!-- PROJECT 01 -->
+<article class="card">
+<div class="project-index">PROJECT 01 · STATE ESTIMATION</div>
+<h3>EKF Sensor Fusion</h3>
+<p>
+Wheel odometry and IMU fusion using an Extended Kalman Filter in ROS 2 and Gazebo,
+with quantitative state-estimation analysis.
+</p>
+<div class="status live"><span class="dot"></span>Completed</div>
+<div class="tags">
+<span class="tag">ROS 2</span>
+<span class="tag">EKF</span>
+<span class="tag">Gazebo</span>
+<span class="tag">Python</span>
+</div>
+<div class="btns">
+<a class="btn primary" href="01-ekf/index.html">View Project</a>
+</div>
+</article>
+
+
+<!-- PROJECT 02 -->
+<article class="card">
+<div class="project-index">PROJECT 02 · PERCEPTION</div>
+<h3>Vision Perception</h3>
+<p>
+YOLO object detection, persistent tracking, and instance segmentation
+with GPU-based inference and performance benchmarking.
+</p>
+<div class="status live"><span class="dot"></span>Completed</div>
+<div class="tags">
+<span class="tag">ROS 2</span>
+<span class="tag">YOLO</span>
+<span class="tag">PyTorch</span>
+<span class="tag">OpenCV</span>
+</div>
+<div class="btns">
+<a class="btn primary" href="02-vision/index.html">View Project</a>
+</div>
+</article>
+
+
+<!-- PROJECT 03 -->
+<article class="card">
+<div class="project-index">PROJECT 03 · 3D PERCEPTION / SENSOR FUSION</div>
+<h3>LiDAR-Camera 3D Perception & Fusion</h3>
+<p>
+3D point-cloud processing, LiDAR-camera calibration, geometric projection,
+object association, and multi-modal perception in ROS 2.
+</p>
+<div class="status build"><span class="dot"></span>Planned / In Development</div>
+<div class="tags">
+<span class="tag">LiDAR</span>
+<span class="tag">Camera</span>
+<span class="tag">Point Cloud</span>
+<span class="tag">ROS 2</span>
+</div>
+<div class="btns">
+<a class="btn" href="03-lidar-camera/index.html">View Project</a>
+</div>
+</article>
+
+
+<!-- PROJECT 04 -->
+<article class="card">
+<div class="project-index">PROJECT 04 · SLAM / AUTONOMOUS NAVIGATION</div>
+<h3>SLAM & Autonomous Navigation</h3>
+<p>
+Mapping, localization, Nav2 integration, costmaps, obstacle avoidance,
+recovery behaviors, and quantitative autonomous-navigation evaluation.
+</p>
+<div class="status build"><span class="dot"></span>Planned / In Development</div>
+<div class="tags">
+<span class="tag">SLAM</span>
+<span class="tag">Nav2</span>
+<span class="tag">Localization</span>
+<span class="tag">ROS 2</span>
+</div>
+<div class="btns">
+<a class="btn" href="04-navigation/index.html">View Project</a>
+</div>
+</article>
+
+
+<!-- PROJECT 05 -->
+<article class="card">
+<div class="project-index">PROJECT 05 · MOTION PLANNING</div>
+<h3>Path Planning Benchmark</h3>
+<p>
+Implementation and comparison of sampling-based motion planners from RRT and RRT*
+to informed and heuristic-guided planning methods, evaluated in simulated environments.
+</p>
+<div class="status build"><span class="dot"></span>Planned / In Development</div>
+<div class="tags">
+<span class="tag">RRT</span>
+<span class="tag">RRT*</span>
+<span class="tag">OMPL</span>
+<span class="tag">Planning</span>
+</div>
+<div class="btns">
+<a class="btn" href="05-planning/index.html">View Project</a>
+</div>
+</article>
+
+
+<!-- PROJECT 06 -->
+<article class="card">
+<div class="project-index">PROJECT 06 · ESTIMATION / CONTROL</div>
+<h3>Robust Estimation & Control Benchmark</h3>
+<p>
+Comparative evaluation of state-estimation and trajectory-control methods under
+sensor noise, wheel slip, parameter mismatch, disturbances, and changing robot dynamics.
+</p>
+<div class="status build"><span class="dot"></span>Planned / In Development</div>
+<div class="tags">
+<span class="tag">PID</span>
+<span class="tag">LQR</span>
+<span class="tag">MPC</span>
+<span class="tag">EKF</span>
+</div>
+<div class="btns">
+<a class="btn" href="06-control/index.html">View Project</a>
+</div>
+</article>
+
+
+<!-- PROJECT 07 -->
+<article class="card">
+<div class="project-index">PROJECT 07 · LEARNING-BASED CONTROL</div>
+<h3>Learning-Enhanced Predictive Control</h3>
+<p>
+Reinforcement-learning-enhanced model predictive control for robust trajectory tracking
+under model uncertainty, disturbances, and randomized operating conditions.
+</p>
+<div class="status build"><span class="dot"></span>Planned / In Development</div>
+<div class="tags">
+<span class="tag">MPC</span>
+<span class="tag">Reinforcement Learning</span>
+<span class="tag">Isaac Lab</span>
+<span class="tag">Control</span>
+</div>
+<div class="btns">
+<a class="btn" href="07-learning-control/index.html">View Project</a>
+</div>
+</article>
+
+
+<!-- PROJECT 08 -->
+<article class="card">
+<div class="project-index">PROJECT 08 · ROBOT MANIPULATION</div>
+<h3>Advanced Vision-Guided Manipulation</h3>
+<p>
+Perception-driven robotic manipulation using object-pose estimation, kinematics,
+motion planning, collision avoidance, grasp execution, and closed-loop visual correction.
+</p>
+<div class="status build"><span class="dot"></span>Planned / In Development</div>
+<div class="tags">
+<span class="tag">MoveIt 2</span>
+<span class="tag">MoveIt Servo</span>
+<span class="tag">Vision</span>
+<span class="tag">ros2_control</span>
+</div>
+<div class="btns">
+<a class="btn" href="08-manipulation/index.html">View Project</a>
+</div>
+</article>
+
+
+<!-- PROJECT 09 -->
+<article class="card">
+<div class="project-index">PROJECT 09 · SYSTEM INTEGRATION</div>
+<h3>Integrated Autonomous Robot</h3>
+<p>
+Full autonomous robotic system integrating perception, state estimation, SLAM,
+navigation, planning, control, behavior coordination, and system-level fault recovery.
+</p>
+<div class="status build"><span class="dot"></span>Planned / In Development</div>
+<div class="tags">
+<span class="tag">ROS 2</span>
+<span class="tag">Nav2</span>
+<span class="tag">Behavior Trees</span>
+<span class="tag">Autonomy</span>
+</div>
+<div class="btns">
+<a class="btn" href="09-integrated/index.html">View Project</a>
+</div>
+</article>
+
+
+</div>
+</div>
+</section>
+
+<footer class="footer">
+<div class="container footer-inner">
 <div>Sooyong Kim · Robotics & Autonomous Systems</div>
 <div>© <span data-year></span> sooyongtech.dev</div>
-</div></footer>
+</div>
+</footer>
+
 <script src="../assets/js/site.js"></script>
-</body></html>
+
+</body>
+</html>
