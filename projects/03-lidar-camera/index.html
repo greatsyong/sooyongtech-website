@@ -1,23 +1,835 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Sooyong Kim robotics and engineering portfolio">
-<title>LiDAR-Camera Fusion — Sooyong Kim</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="LiDAR-Camera 3D Perception & Fusion — Sooyong Kim">
+<title>LiDAR-Camera 3D Perception & Fusion — Sooyong Kim</title>
+
 <link rel="stylesheet" href="../../assets/css/site.css">
+
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+
+main{
+  max-width:1040px;
+  margin:auto;
+  padding:48px 24px 72px;
+}
+
+h1{
+  font-size:52px;
+  line-height:1.05;
+  margin:10px 0 16px;
+  letter-spacing:-.025em;
+}
+
+h2{
+  margin-top:52px;
+  font-size:29px;
+}
+
+h3{
+  margin-top:30px;
+  font-size:21px;
+}
+
+p,li{color:#ced9ef}
+
+a{
+  color:var(--accent2);
+  text-decoration:none;
+}
+
+a:hover{text-decoration:underline}
+
+.tag{
+  display:inline-block;
+  border:1px solid #2d3e63;
+  border-radius:999px;
+  padding:6px 10px;
+  margin:4px;
+  font-size:13px;
+  color:#b9c9e6;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin:28px 0;
+}
+
+.metric{
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+}
+
+.metric strong{
+  display:block;
+  font-size:28px;
+  margin-bottom:4px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+  margin:18px 0;
+}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+pre{
+  background:#08101d;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px;
+  overflow:auto;
+  color:#d8e8ff;
+  line-height:1.45;
+}
+
+code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:var(--panel);
+  margin:18px 0;
+  border:1px solid var(--line);
+}
+
+th,td{
+  padding:12px 14px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+  text-align:left;
+}
+
+th{
+  background:#121d33;
+  color:#dce8fb;
+}
+
+.compact td,.compact th{
+  font-size:14px;
+}
+
+.callout{
+  border-left:4px solid var(--accent);
+  background:#0d1729;
+  padding:18px 20px;
+  border-radius:10px;
+  margin:18px 0;
+}
+
+.small{
+  font-size:14px;
+  color:var(--muted);
+}
+
+.btn-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:24px 0 8px;
+}
+
+.action-btn{
+  display:inline-block;
+  border:1px solid #35527d;
+  border-radius:10px;
+  padding:10px 14px;
+  color:#eaf1ff;
+  background:#101b31;
+  font-weight:700;
+}
+
+.action-btn.primary{
+  background:#17335a;
+  border-color:#4b7fbd;
+}
+
+.action-btn:hover{
+  text-decoration:none;
+  transform:translateY(-1px);
+}
+
+/* ---------- Video ---------- */
+
+.video-wrap{
+  width:100%;
+  aspect-ratio:16 / 9;
+  margin:22px 0 12px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  background:#08101d;
+}
+
+.video-wrap iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+
+.video-placeholder{
+  min-height:260px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:var(--muted);
+  padding:28px;
+}
+
+/* ---------- Figures ---------- */
+
+.project-figure{
+  margin:22px auto 32px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.project-figure.half-width{
+  width:min(100%, 720px);
+}
+
+.project-figure img{
+  display:block;
+  width:100%;
+  height:auto;
+  background:#fff;
+}
+
+.project-figure figcaption{
+  padding:14px 16px 16px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.project-figure figcaption strong{
+  display:block;
+  color:#eef5ff;
+  margin-bottom:4px;
+  font-size:15px;
+}
+
+.figure-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin:22px 0 10px;
+}
+
+.figure-grid .project-figure{
+  margin:0;
+  width:100%;
+}
+
+.figure-grid .span-two{
+  grid-column:1 / -1;
+  width:min(100%, 720px);
+  justify-self:center;
+}
+
+.arch-list{
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:8px 18px;
+}
+
+.arch-list div{
+  padding:8px 0;
+  border-bottom:1px solid rgba(41,57,87,.65);
+}
+
+.arch-list strong{color:#eef5ff}
+
+@media(max-width:760px){
+  .grid,.two,.figure-grid{
+    grid-template-columns:1fr;
+  }
+
+  .figure-grid .span-two{
+    grid-column:auto;
+  }
+
+  .arch-list{
+    grid-template-columns:1fr;
+  }
+
+  h1{font-size:38px}
+
+  table{
+    display:block;
+    overflow-x:auto;
+  }
+}
+</style>
 </head>
+
 <body>
-<nav class="nav"><div class="container nav-inner">
-<a class="brand" href="../../index.html">SOOYONG KIM</a>
-<div class="nav-links"><a class="" href="../../bio.html">Bio</a><a class="" href="../../research/index.html">Research & Work</a><a class="active" href="../../projects/index.html">Projects</a><a class="" href="../../resume/index.html">Resume</a><a class="" href="../../contact.html">Contact</a></div></div></nav>
 
-<header class="hero compact"><div class="container"><div class="project-index">PROJECT 03 · SENSOR FUSION</div><h1>LiDAR-Camera Fusion</h1>
-<p class="lead">Multi-modal LiDAR-camera perception and geometric/data fusion.</p><div class="tags"><span class="tag">LiDAR</span><span class="tag">Camera</span><span class="tag">Fusion</span><span class="tag">ROS 2</span></div></div></header>
-<section class="section"><div class="container"><div class="media-placeholder"><div><div class="section-kicker">Project workspace</div><h2>In development</h2><p>This page is already reserved in the final site structure. Demo, measured results, HTML report, and GitHub link will be added when the project is completed.</p></div></div></div></section>
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="../../index.html">SOOYONG KIM</a>
 
-<footer class="footer"><div class="container footer-inner">
-<div>Sooyong Kim · Robotics & Autonomous Systems</div>
-<div>© <span data-year></span> sooyongtech.dev</div>
-</div></footer>
-<script src="../../assets/js/site.js"></script>
-</body></html>
+    <div class="nav-links">
+      <a href="../../bio.html">Bio</a>
+      <a href="../../research/index.html">Research &amp; Work</a>
+      <a class="active" href="../../projects/index.html">Projects</a>
+      <a href="../../resume/index.html">Resume</a>
+      <a href="../../contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<p style="color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase">
+  Robotics Portfolio Project 03
+</p>
+
+<h1>LiDAR-Camera 3D Perception &amp; Fusion</h1>
+
+<p style="font-size:20px">
+A ROS 2 multi-modal perception pipeline that combines open-vocabulary RGB detection,
+prompted instance masks, calibrated LiDAR-to-camera projection, depth-based association,
+and robust 3D statistics in a warehouse simulation environment.
+</p>
+
+<div>
+  <span class="tag">ROS 2 Humble</span>
+  <span class="tag">Isaac Sim</span>
+  <span class="tag">LiDAR</span>
+  <span class="tag">RGB Camera</span>
+  <span class="tag">YOLO-World</span>
+  <span class="tag">FastSAM</span>
+  <span class="tag">TF2</span>
+  <span class="tag">PointCloud2</span>
+  <span class="tag">Python</span>
+  <span class="tag">CUDA</span>
+</div>
+
+<p>
+  <a href="https://github.com/greatsyong/SK/tree/main/03_lidar_camera_fusion"
+     target="_blank"
+     rel="noopener">
+    View source on GitHub →
+  </a>
+</p>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/lidar-camera/project03_hero_nova_carter_warehouse.png"
+    alt="Nova Carter robot in the Isaac Sim warehouse environment"
+    loading="eager">
+
+  <figcaption>
+    <strong>Project 03 — Isaac Sim Warehouse Test Environment</strong>
+    Nova Carter equipped with front RGB camera and 3D LiDAR was used as the simulated
+    sensing platform for projection, object association, viewpoint robustness,
+    range sensitivity, and extrinsic-calibration experiments.
+  </figcaption>
+</figure>
+
+<!-- ====================================================== -->
+<!-- DEMO -->
+<!-- ====================================================== -->
+
+<h2>Demo</h2>
+
+<div class="video-wrap">
+  <iframe
+    src="https://www.youtube.com/embed/Y9ADKC5EJKI"
+    title="LiDAR-Camera 3D Perception & Fusion Demo"
+    loading="lazy"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<p class="video-link">
+  <a
+    href="https://youtu.be/Y9ADKC5EJKI"
+    target="_blank"
+    rel="noopener">
+    Watch on YouTube →
+  </a>
+</p>
+
+<p class="small">
+  The demo is intended as a qualitative visualization of detection, mask generation,
+  LiDAR association, and object-level distance estimation. Quantitative conclusions are
+  based on the controlled experiments summarized below.
+</p>
+
+<!-- ====================================================== -->
+<!-- 1. OBJECTIVE -->
+<!-- ====================================================== -->
+
+<h2>1. Project Objective</h2>
+
+<p>
+RGB cameras provide dense semantic information but do not directly measure metric depth.
+LiDAR provides accurate 3D geometry but lacks rich semantic interpretation.
+The purpose of this project was to combine these complementary sensing modalities into
+a practical ROS 2 perception pipeline that can associate camera detections with
+geometrically consistent LiDAR returns.
+</p>
+
+<p>
+The project focuses on three engineering questions:
+whether LiDAR points can be projected reliably into the image plane using calibrated
+sensor geometry, whether object-level depth can be estimated robustly from the projected
+points, and how the fusion pipeline behaves when viewpoint, sensing range, and extrinsic
+calibration are deliberately changed.
+</p>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/lidar-camera/project03_fusion_baseline.png"
+    alt="Baseline LiDAR-camera fusion output with object masks and distance labels"
+    loading="lazy">
+
+  <figcaption>
+    <strong>Figure 1 — Baseline Fusion Output</strong>
+    YOLO-World detections are refined with FastSAM masks and associated with projected
+    LiDAR points. Object-level distance estimates are computed after depth clustering
+    and robust 3D filtering.
+  </figcaption>
+</figure>
+
+<!-- ====================================================== -->
+<!-- 2. ARCHITECTURE -->
+<!-- ====================================================== -->
+
+<h2>2. Processing Architecture</h2>
+
+<p>
+The RGB and LiDAR streams remain separate until geometric projection creates a common
+image-plane reference. The camera branch provides semantic object hypotheses, while
+the LiDAR branch provides metric 3D measurements. The two streams are associated using
+either a detector bounding box or a prompted segmentation mask before robust depth
+statistics are computed.
+</p>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/lidar-camera/project03_architecture.png"
+    alt="Project 03 LiDAR-camera fusion processing architecture"
+    loading="lazy">
+
+  <figcaption>
+    <strong>Figure 2 — LiDAR-Camera Fusion Architecture</strong>
+    RGB camera data are processed with YOLO-World and FastSAM, while 3D LiDAR points
+    are transformed with TF and camera intrinsics before image-plane association,
+    depth clustering, and object-level 3D measurement.
+  </figcaption>
+</figure>
+
+<div class="arch-list">
+  <div><strong>Semantic perception</strong></div>
+  <div>YOLO-World open-vocabulary object detection with a warehouse-oriented vocabulary.</div>
+
+  <div><strong>Mask refinement</strong></div>
+  <div>FastSAM prompted by the detector bounding box to obtain an object-specific pixel mask.</div>
+
+  <div><strong>Geometric alignment</strong></div>
+  <div>LiDAR points are transformed into the camera frame using TF and projected using camera intrinsics.</div>
+
+  <div><strong>Association</strong></div>
+  <div>BBox-based and mask-based LiDAR association are evaluated in parallel.</div>
+
+  <div><strong>Robust depth estimation</strong></div>
+  <div>Depth-gap clustering and MAD filtering suppress unrelated surfaces before centroid, extent, and range estimation.</div>
+</div>
+
+<!-- ====================================================== -->
+<!-- 3. GEOMETRY -->
+<!-- ====================================================== -->
+
+<h2>3. Coordinate Transformation and Projection</h2>
+
+<p>
+A LiDAR return is initially expressed in the LiDAR coordinate frame and must be
+transformed into the camera frame before it can be compared with image detections.
+For a LiDAR point <code>p<sub>L</sub></code>, the camera-frame point is obtained through
+the rigid-body extrinsic transform
+<code>p<sub>C</sub> = R<sub>CL</sub> p<sub>L</sub> + t<sub>CL</sub></code>.
+Only points with positive camera-frame depth are retained.
+</p>
+
+<p>
+The transformed 3D points are then projected with the camera intrinsic parameters:
+<code>u = f<sub>x</sub>X/Z + c<sub>x</sub></code> and
+<code>v = f<sub>y</sub>Y/Z + c<sub>y</sub></code>.
+This geometric step creates the bridge between a 3D LiDAR measurement and a 2D
+camera detection. Errors in the extrinsic transform therefore shift projected
+LiDAR points relative to the visual object, which motivates the calibration-sensitivity
+experiment later in the project.
+</p>
+
+<div class="callout">
+  <strong>Key design point:</strong>
+  object distance is not taken from every LiDAR point inside a 2D region.
+  The candidate depth values are clustered first, and the closest sufficiently supported
+  depth cluster is refined with a median-absolute-deviation filter. This reduces background
+  contamination when a 2D box contains multiple physical surfaces.
+</div>
+
+<!-- ====================================================== -->
+<!-- 4. VIEWPOINT / RANGE -->
+<!-- ====================================================== -->
+
+<h2>4. Viewpoint and Range Robustness</h2>
+
+<p>
+The robot pose was changed in a controlled manner while the fusion algorithm and sensor
+calibration remained fixed. This isolates the effect of viewpoint and target range without
+mixing it with changes to the fusion algorithm itself. The baseline pose was compared with
+a 30° left-view condition, a 3 m increased-range condition, and a 30° right-view condition.
+</p>
+
+<div class="figure-grid">
+
+  <figure class="project-figure">
+    <img
+      src="../../assets/images/projects/lidar-camera/project03_viewpoint_yaw_minus30.png"
+      alt="LiDAR-camera fusion result at yaw minus 30 degrees"
+      loading="lazy">
+    <figcaption>
+      <strong>Figure 3A — Viewpoint: Yaw −30°</strong>
+      Fusion output after rotating the robot 30° toward the left-side viewpoint while
+      preserving the same LiDAR-camera extrinsic calibration.
+    </figcaption>
+  </figure>
+
+  <figure class="project-figure">
+    <img
+      src="../../assets/images/projects/lidar-camera/project03_range_plus3m.png"
+      alt="LiDAR-camera fusion result from 3 meters farther away"
+      loading="lazy">
+    <figcaption>
+      <strong>Figure 3B — Range: +3 m</strong>
+      Fusion output after returning to the baseline heading and moving the robot 3 m
+      farther from the observed objects.
+    </figcaption>
+  </figure>
+
+  <figure class="project-figure span-two">
+    <img
+      src="../../assets/images/projects/lidar-camera/project03_viewpoint_yaw_plus30.png"
+      alt="LiDAR-camera fusion result at yaw plus 30 degrees"
+      loading="lazy">
+    <figcaption>
+      <strong>Figure 3C — Viewpoint: Yaw +30°</strong>
+      Fusion output after rotating 30° toward the opposite viewpoint. The test exposes
+      different visible object geometry while using the same perception and association pipeline.
+    </figcaption>
+  </figure>
+
+</div>
+
+<p>
+The strongest range-dependent effect was the reduction in available LiDAR support as
+objects became farther away. The viewpoint changes also altered the number and distribution
+of projected returns because object surfaces, occlusions, and image occupancy changed.
+These effects are expected in real multi-modal perception and are important when setting
+minimum-support thresholds for object-level depth estimation.
+</p>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/lidar-camera/project03_graph_pose_range_lidar_support.png"
+    alt="Traffic cone LiDAR support across pose and range conditions"
+    loading="lazy">
+
+  <figcaption>
+    <strong>Figure 4 — LiDAR Support Across Pose / Range Conditions</strong>
+    Mean traffic-cone LiDAR support before and after depth filtering. The +3 m range
+    condition shows the clearest decrease in associated LiDAR points.
+  </figcaption>
+</figure>
+
+<!-- ====================================================== -->
+<!-- 5. EXTRINSIC -->
+<!-- ====================================================== -->
+
+<h2>5. Extrinsic Calibration Sensitivity</h2>
+
+<p>
+A second controlled experiment evaluates how geometric association degrades when
+LiDAR-to-camera yaw calibration is deliberately perturbed. The nominal extrinsic
+transform is used as the 0° reference, after which +1°, +3°, and +5° yaw errors are
+injected into the LiDAR-frame rotation before the nominal camera transform is applied.
+All other processing parameters remain unchanged.
+</p>
+
+<p>
+This is not intended to emulate every possible calibration error. Translation error,
+roll/pitch error, timing offset, or a full six-degree-of-freedom perturbation could also
+be evaluated. Yaw was selected because it produces an intuitive horizontal projection
+shift in this warehouse scene and allows the geometric sensitivity of the association
+stage to be isolated with a single controlled variable.
+</p>
+
+<div class="figure-grid">
+
+  <figure class="project-figure">
+    <img
+      src="../../assets/images/projects/lidar-camera/project03_extrinsic_yaw_0deg.png"
+      alt="Fusion output with zero-degree extrinsic yaw perturbation"
+      loading="lazy">
+    <figcaption>
+      <strong>Figure 5A — Extrinsic Yaw Error: 0°</strong>
+      Nominal LiDAR-camera calibration used as the reference condition.
+    </figcaption>
+  </figure>
+
+  <figure class="project-figure">
+    <img
+      src="../../assets/images/projects/lidar-camera/project03_extrinsic_yaw_1deg.png"
+      alt="Fusion output with one-degree extrinsic yaw perturbation"
+      loading="lazy">
+    <figcaption>
+      <strong>Figure 5B — Extrinsic Yaw Error: +1°</strong>
+      Small artificial calibration error introduced while preserving the scene and algorithm.
+    </figcaption>
+  </figure>
+
+  <figure class="project-figure">
+    <img
+      src="../../assets/images/projects/lidar-camera/project03_extrinsic_yaw_3deg.png"
+      alt="Fusion output with three-degree extrinsic yaw perturbation"
+      loading="lazy">
+    <figcaption>
+      <strong>Figure 5C — Extrinsic Yaw Error: +3°</strong>
+      Geometric support decreases substantially as projected points drift away from their
+      intended visual regions.
+    </figcaption>
+  </figure>
+
+  <figure class="project-figure">
+    <img
+      src="../../assets/images/projects/lidar-camera/project03_extrinsic_yaw_5deg.png"
+      alt="Fusion output with five-degree extrinsic yaw perturbation"
+      loading="lazy">
+    <figcaption>
+      <strong>Figure 5D — Extrinsic Yaw Error: +5°</strong>
+      Larger projection error can cause points to enter unrelated image regions and
+      produce incorrect depth-surface association rather than a simple monotonic loss of support.
+    </figcaption>
+  </figure>
+
+</div>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/lidar-camera/project03_graph_extrinsic_yaw_support.png"
+    alt="Extrinsic yaw sensitivity of filtered LiDAR support"
+    loading="lazy">
+
+  <figcaption>
+    <strong>Figure 6 — Extrinsic-Yaw Sensitivity</strong>
+    Filtered LiDAR support decreases strongly by 3° of injected yaw error.
+    The partial increase at 5° should not be interpreted as recovery; projection can
+    begin capturing geometrically incorrect surfaces as the misalignment grows.
+  </figcaption>
+</figure>
+
+<!-- ====================================================== -->
+<!-- 6. ASSOCIATION -->
+<!-- ====================================================== -->
+
+<h2>6. BBox vs. Mask Association</h2>
+
+<p>
+Two object-association strategies were evaluated. The bounding-box method keeps projected
+LiDAR points that fall anywhere inside the detector box, while the mask method keeps only
+points whose image coordinates fall inside the FastSAM object mask. Mask association can
+reduce background contamination when the mask accurately follows the object boundary,
+but it is not automatically superior: a poor mask can include irrelevant surfaces or
+exclude valid LiDAR returns.
+</p>
+
+<p>
+The experiments therefore treat BBox and mask association as complementary strategies
+rather than assuming one universally dominates the other. Compact, well-separated
+objects can benefit from mask refinement, while larger or visually ambiguous structures
+may be more stable with BBox association followed by depth clustering.
+</p>
+
+<!-- ====================================================== -->
+<!-- 7. FAILURE ANALYSIS -->
+<!-- ====================================================== -->
+
+<h2>7. Failure Analysis</h2>
+
+<p>
+The open-vocabulary detector occasionally assigned the label <code>truck</code> to
+warehouse shelving. Those samples were excluded from the quantitative fusion conclusions
+because the semantic class itself was incorrect. This is an important systems-level result:
+even when the geometric projection stage is functioning correctly, an upstream perception
+error can propagate through association and produce a plausible but semantically incorrect
+3D estimate.
+</p>
+
+<p>
+A second failure mode occurs when the segmentation mask spreads into a neighboring or
+background region. In that case the mask may admit LiDAR points from the wrong physical
+surface. The depth-clustering stage reduces this risk, but calibration error or severe
+mask spill can still generate a geometrically supported yet incorrect depth cluster.
+</p>
+
+<div class="callout">
+  <strong>Engineering takeaway:</strong>
+  LiDAR-camera fusion quality is jointly limited by semantic perception,
+  geometric calibration, object-region association, and depth filtering.
+  A downstream fusion stage cannot fully recover from an incorrect semantic detection
+  or a severely incorrect projected region.
+</div>
+
+<!-- ====================================================== -->
+<!-- 8. RESULT SUMMARY -->
+<!-- ====================================================== -->
+
+<h2>8. Experimental Takeaways</h2>
+
+<div class="grid">
+
+  <div class="metric">
+    <strong>±30°</strong>
+    Controlled viewpoint change evaluated around the baseline heading.
+  </div>
+
+  <div class="metric">
+    <strong>+3 m</strong>
+    Increased-range test used to examine LiDAR support degradation.
+  </div>
+
+  <div class="metric">
+    <strong>0° / 1° / 3° / 5°</strong>
+    Injected extrinsic-yaw errors used for calibration-sensitivity analysis.
+  </div>
+
+</div>
+
+<p>
+The final pipeline maintained geometric fusion under controlled viewpoint changes and
+continued producing object-level range estimates at the increased sensing distance,
+although LiDAR support decreased substantially with range. The extrinsic perturbation
+experiment demonstrated that even small calibration errors can reduce geometrically
+consistent support, and larger errors can lead to incorrect surface reassociation rather
+than simply reducing the number of points.
+</p>
+
+<p>
+The project therefore goes beyond a visual overlay demonstration: it evaluates how
+association quality changes under controlled pose, range, and calibration perturbations,
+and it documents both successful operating conditions and observed failure modes.
+</p>
+
+<!-- ====================================================== -->
+<!-- 9. TECHNICAL REPORT / REPOSITORY -->
+<!-- ====================================================== -->
+
+<h2>9. Technical Report</h2>
+
+<div class="card">
+  <h3 style="margin-top:0">Technical Report</h3>
+  <p>
+    The full report contains the coordinate-transform derivation, algorithm-selection
+    rationale, controlled experimental methodology, quantitative interpretation,
+    limitations, and detailed failure analysis.
+  </p>
+
+  <p>
+    <span class="action-btn" style="opacity:.55;cursor:default;pointer-events:none;">
+      Download Report — Coming Soon
+    </span>
+  </p>
+
+  
+</div>
+
+<!-- ====================================================== -->
+<!-- NAVIGATION -->
+<!-- ====================================================== -->
+
+<div style="
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  margin-top:42px;
+  padding-top:20px;
+  border-top:1px solid #293957;
+">
+
+  <a
+    href="../02-vision/index.html"
+    style="
+      color:#7dd3fc;
+      text-decoration:none;
+      font-weight:600;
+      white-space:nowrap;
+    "
+  >
+    ← Previous Project
+  </a>
+
+  <a
+    href="../index.html"
+    style="
+      color:#7dd3fc;
+      text-decoration:none;
+      font-weight:600;
+      white-space:nowrap;
+    "
+  >
+    Back to Projects →
+  </a>
+</div>
+
+<p style="margin-top:50px;color:#8ea1c0">
+Project by Sooyong Kim · ROS 2 Robotics Portfolio
+</p>
+
+</main>
+</body>
+</html>
