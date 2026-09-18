@@ -6,12 +6,31 @@
 
 <meta
   name="description"
-  content="Sooyong Kim robotics projects in vision, control systems, and reinforcement learning."
+  content="Sooyong Kim robotics projects in perception and autonomy, control systems, and reinforcement learning."
 >
 
 <title>Projects — Sooyong Kim</title>
 
 <link rel="stylesheet" href="../assets/css/site.css">
+
+<style>
+/* Project page layout refinements */
+.section .grid {
+  align-items: stretch;
+}
+
+.section .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.section .card .btns {
+  margin-top: auto;
+  padding-top: 24px;
+}
+</style>
+
 </head>
 
 
@@ -41,7 +60,6 @@ SOOYONG KIM
 </nav>
 
 
-
 <!-- =========================================================
      HERO
 ========================================================= -->
@@ -58,9 +76,9 @@ Projects
 
 <p class="lead">
 My robotics projects are organized into three technical areas:
-Vision & Sensor Fusion, Control Systems, and Reinforcement Learning.
-The work progresses from fundamental implementation and analysis
-to robotic application, experimental evaluation, and engineering decision-making.
+Perception & Autonomy, Control Systems, and Reinforcement Learning.
+The work progresses from sensing and perception to model-based control,
+physical robotic implementation, learning-based adaptation, and engineering evaluation.
 </p>
 
 </div>
@@ -68,9 +86,8 @@ to robotic application, experimental evaluation, and engineering decision-making
 </header>
 
 
-
 <!-- =========================================================
-     VISION & SENSOR FUSION
+     PERCEPTION & AUTONOMY
 ========================================================= -->
 
 <section class="section">
@@ -79,16 +96,13 @@ to robotic application, experimental evaluation, and engineering decision-making
 
 <div class="section-head">
 
-<div class="eyebrow">
-01 · VISION & SENSOR FUSION
-</div>
-
-<h2>Vision & Sensor Fusion</h2>
+<h2>Perception & Autonomy</h2>
 
 <p>
-Robotic perception projects focused on extracting useful information from visual
-and range sensors, then combining heterogeneous measurements into a common
-spatial representation.
+Robotic perception, multi-sensor integration, and autonomous path planning.
+The projects progress from extracting useful information from visual and range sensors
+to combining heterogeneous measurements and selecting practical planning strategies
+for navigation through complex environments.
 </p>
 
 </div>
@@ -101,9 +115,6 @@ spatial representation.
 
 <article class="card">
 
-<div class="project-index">
-VISION PROJECT 01 · REAL-TIME PERCEPTION
-</div>
 
 <h3>Vision Perception</h3>
 
@@ -135,14 +146,10 @@ View Project
 </article>
 
 
-
 <!-- VISION PROJECT 02 -->
 
 <article class="card">
 
-<div class="project-index">
-VISION PROJECT 02 · MULTI-SENSOR PERCEPTION
-</div>
 
 <h3>LiDAR-Camera 3D Perception & Fusion</h3>
 
@@ -174,11 +181,45 @@ View Project
 </article>
 
 
+<!-- PATH PLANNING & NAVIGATION -->
+
+<article class="card">
+
+<h3>Path Planning & Navigation</h3>
+
+<p>
+Comparative evaluation of motion-planning strategies across open, cluttered,
+narrow, and dynamically changing environments, with emphasis on path quality,
+feasibility, replanning behavior, computational cost, and practical suitability
+for autonomous robotic systems.
+</p>
+
+<div class="status build">
+<span class="dot"></span>
+Planned / In Development
+</div>
+
+<div class="tags">
+<span class="tag">Nav2</span>
+<span class="tag">A*</span>
+<span class="tag">RRT*</span>
+<span class="tag">Planning</span>
+<span class="tag">Navigation</span>
+</div>
+
+<div class="btns">
+<a class="btn" href="05-planning/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
 </div>
 </div>
 
 </section>
-
 
 
 <!-- =========================================================
@@ -191,9 +232,6 @@ View Project
 
 <div class="section-head">
 
-<div class="eyebrow">
-02 · CONTROL SYSTEMS
-</div>
 
 <h2>Control Systems</h2>
 
@@ -214,9 +252,6 @@ and practical suitability.
 
 <article class="card">
 
-<div class="project-index">
-CONTROL PROJECT 01 · STATE ESTIMATION
-</div>
 
 <h3>EKF Sensor Fusion</h3>
 
@@ -248,14 +283,10 @@ View Project
 </article>
 
 
-
 <!-- CONTROL PROJECT 02 -->
 
 <article class="card">
 
-<div class="project-index">
-CONTROL PROJECT 02 · CONTROL FUNDAMENTALS
-</div>
 
 <h3>Control System Design & Tuning</h3>
 
@@ -287,14 +318,10 @@ View Project
 </article>
 
 
-
 <!-- CONTROL PROJECT 03 -->
 
 <article class="card">
 
-<div class="project-index">
-CONTROL PROJECT 03 · ROBOTIC IMPLEMENTATION
-</div>
 
 <h3>Robotic Control Implementation</h3>
 
@@ -326,14 +353,10 @@ View Project
 </article>
 
 
-
 <!-- CONTROL PROJECT 04 -->
 
 <article class="card">
 
-<div class="project-index">
-CONTROL PROJECT 04 · ENGINEERING SYNTHESIS
-</div>
 
 <h3>Comparative Control Engineering Study</h3>
 
@@ -372,7 +395,6 @@ View Project
 </section>
 
 
-
 <!-- =========================================================
      REINFORCEMENT LEARNING
 ========================================================= -->
@@ -383,9 +405,6 @@ View Project
 
 <div class="section-head">
 
-<div class="eyebrow">
-03 · REINFORCEMENT LEARNING
-</div>
 
 <h2>Reinforcement Learning</h2>
 
@@ -405,9 +424,6 @@ well-tuned model-based control and hybrid control-learning approaches.
 
 <article class="card">
 
-<div class="project-index">
-RL PROJECT 01 · LEARNING FUNDAMENTALS
-</div>
 
 <h3>Reinforcement Learning Fundamentals</h3>
 
@@ -439,14 +455,10 @@ View Project
 </article>
 
 
-
 <!-- RL PROJECT 02 -->
 
 <article class="card">
 
-<div class="project-index">
-RL PROJECT 02 · PHYSICAL ROBOTICS
-</div>
 
 <h3>Reinforcement Learning for Robotic Systems</h3>
 
@@ -479,14 +491,10 @@ View Project
 </article>
 
 
-
 <!-- RL PROJECT 03 -->
 
 <article class="card">
 
-<div class="project-index">
-RL PROJECT 03 · ENGINEERING SYNTHESIS
-</div>
 
 <h3>Classical, Learning-Based & Hybrid Control</h3>
 
@@ -523,7 +531,6 @@ View Project
 </div>
 
 </section>
-
 
 
 <!-- =========================================================
