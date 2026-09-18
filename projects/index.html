@@ -3,16 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Sooyong Kim robotics and engineering portfolio">
+
+<meta
+  name="description"
+  content="Sooyong Kim robotics projects in vision, control systems, and reinforcement learning."
+>
+
 <title>Projects — Sooyong Kim</title>
+
 <link rel="stylesheet" href="../assets/css/site.css">
 </head>
 
+
 <body>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
 
 <nav class="nav">
 <div class="container nav-inner">
-<a class="brand" href="../index.html">SOOYONG KIM</a>
+
+<a class="brand" href="../index.html">
+SOOYONG KIM
+</a>
+
 <div class="nav-links">
 <a href="../bio.html">Bio</a>
 <a href="../research/index.html">Research & Work</a>
@@ -20,224 +36,516 @@
 <a href="../resume/index.html">Resume</a>
 <a href="../contact.html">Contact</a>
 </div>
+
 </div>
 </nav>
 
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
 <header class="hero compact">
+
 <div class="container">
-<div class="eyebrow">Projects</div>
-<h1>Robotics portfolio</h1>
-<p class="lead">
-Nine projects organized around autonomous robotics, from state estimation and perception
-to planning, control, learning-based methods, manipulation, and full-system integration.
-Completed work includes technical reports, demos, quantitative evaluation, and GitHub source code.
-</p>
+
+<div class="eyebrow">
+Projects
 </div>
+
+<h1>Projects</h1>
+
+<p class="lead">
+My robotics projects are organized into three technical areas:
+Vision & Sensor Fusion, Control Systems, and Reinforcement Learning.
+The work progresses from fundamental implementation and analysis
+to robotic application, experimental evaluation, and engineering decision-making.
+</p>
+
+</div>
+
 </header>
 
+
+
+<!-- =========================================================
+     VISION & SENSOR FUSION
+========================================================= -->
+
 <section class="section">
+
 <div class="container">
+
+<div class="section-head">
+
+<div class="eyebrow">
+01 · VISION & SENSOR FUSION
+</div>
+
+<h2>Vision & Sensor Fusion</h2>
+
+<p>
+Robotic perception projects focused on extracting useful information from visual
+and range sensors, then combining heterogeneous measurements into a common
+spatial representation.
+</p>
+
+</div>
+
+
 <div class="grid">
 
-<!-- PROJECT 01 -->
-<article class="card">
-<div class="project-index">PROJECT 01 · STATE ESTIMATION</div>
-<h3>EKF Sensor Fusion</h3>
-<p>
-Wheel odometry and IMU fusion using an Extended Kalman Filter in ROS 2 and Gazebo,
-with quantitative state-estimation analysis.
-</p>
-<div class="status live"><span class="dot"></span>Completed</div>
-<div class="tags">
-<span class="tag">ROS 2</span>
-<span class="tag">EKF</span>
-<span class="tag">Gazebo</span>
-<span class="tag">Python</span>
-</div>
-<div class="btns">
-<a class="btn primary" href="01-ekf/index.html">View Project</a>
-</div>
-</article>
 
+<!-- VISION PROJECT 01 -->
 
-<!-- PROJECT 02 -->
 <article class="card">
-<div class="project-index">PROJECT 02 · PERCEPTION</div>
+
+<div class="project-index">
+VISION PROJECT 01 · REAL-TIME PERCEPTION
+</div>
+
 <h3>Vision Perception</h3>
+
 <p>
-YOLO object detection, persistent tracking, and instance segmentation
-with GPU-based inference and performance benchmarking.
+Real-time object detection, persistent tracking, and instance segmentation
+using GPU-accelerated deep-learning models, with quantitative evaluation
+of inference latency, processing speed, and perception performance.
 </p>
-<div class="status live"><span class="dot"></span>Completed</div>
+
+<div class="status live">
+<span class="dot"></span>
+Completed
+</div>
+
 <div class="tags">
 <span class="tag">ROS 2</span>
 <span class="tag">YOLO</span>
+<span class="tag">Tracking</span>
+<span class="tag">Segmentation</span>
 <span class="tag">PyTorch</span>
-<span class="tag">OpenCV</span>
 </div>
+
 <div class="btns">
-<a class="btn primary" href="02-vision/index.html">View Project</a>
+<a class="btn primary" href="02-vision/index.html">
+View Project
+</a>
 </div>
+
 </article>
 
 
-<!-- PROJECT 03 -->
+
+<!-- VISION PROJECT 02 -->
+
 <article class="card">
-<div class="project-index">PROJECT 03 · 3D PERCEPTION / SENSOR FUSION</div>
+
+<div class="project-index">
+VISION PROJECT 02 · MULTI-SENSOR PERCEPTION
+</div>
+
 <h3>LiDAR-Camera 3D Perception & Fusion</h3>
+
 <p>
-Multi-modal ROS 2 perception combining YOLO-World, FastSAM, calibrated LiDAR-camera
-projection, object-level depth association, and robustness evaluation in NVIDIA Isaac Sim.
+Multi-modal ROS 2 perception combining calibrated LiDAR-camera geometry,
+3D-to-2D projection, object-level depth association, YOLO-World,
+FastSAM, and robustness evaluation in NVIDIA Isaac Sim.
 </p>
-<div class="status live"><span class="dot"></span>Completed</div>
+
+<div class="status live">
+<span class="dot"></span>
+Completed
+</div>
+
 <div class="tags">
 <span class="tag">ROS 2</span>
 <span class="tag">Isaac Sim</span>
 <span class="tag">LiDAR</span>
-<span class="tag">YOLO-World</span>
+<span class="tag">Camera</span>
+<span class="tag">Sensor Fusion</span>
 </div>
+
 <div class="btns">
-<a class="btn primary" href="03-lidar-camera/index.html">View Project</a>
+<a class="btn primary" href="03-lidar-camera/index.html">
+View Project
+</a>
 </div>
-</article>
 
-
-<!-- PROJECT 04 -->
-<article class="card">
-<div class="project-index">PROJECT 04 · SLAM / AUTONOMOUS NAVIGATION</div>
-<h3>SLAM & Autonomous Navigation</h3>
-<p>
-Mapping, localization, Nav2 integration, costmaps, obstacle avoidance,
-recovery behaviors, and quantitative autonomous-navigation evaluation.
-</p>
-<div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags">
-<span class="tag">SLAM</span>
-<span class="tag">Nav2</span>
-<span class="tag">Localization</span>
-<span class="tag">ROS 2</span>
-</div>
-<div class="btns">
-<a class="btn" href="04-navigation/index.html">View Project</a>
-</div>
-</article>
-
-
-<!-- PROJECT 05 -->
-<article class="card">
-<div class="project-index">PROJECT 05 · MOTION PLANNING</div>
-<h3>Path Planning Benchmark</h3>
-<p>
-Implementation and comparison of sampling-based motion planners from RRT and RRT*
-to informed and heuristic-guided planning methods, evaluated in simulated environments.
-</p>
-<div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags">
-<span class="tag">RRT</span>
-<span class="tag">RRT*</span>
-<span class="tag">OMPL</span>
-<span class="tag">Planning</span>
-</div>
-<div class="btns">
-<a class="btn" href="05-planning/index.html">View Project</a>
-</div>
-</article>
-
-
-<!-- PROJECT 06 -->
-<article class="card">
-<div class="project-index">PROJECT 06 · ESTIMATION / CONTROL</div>
-<h3>Robust Estimation & Control Benchmark</h3>
-<p>
-Comparative evaluation of state-estimation and trajectory-control methods under
-sensor noise, wheel slip, parameter mismatch, disturbances, and changing robot dynamics.
-</p>
-<div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags">
-<span class="tag">PID</span>
-<span class="tag">LQR</span>
-<span class="tag">MPC</span>
-<span class="tag">EKF</span>
-</div>
-<div class="btns">
-<a class="btn" href="06-control/index.html">View Project</a>
-</div>
-</article>
-
-
-<!-- PROJECT 07 -->
-<article class="card">
-<div class="project-index">PROJECT 07 · LEARNING-BASED CONTROL</div>
-<h3>Learning-Enhanced Predictive Control</h3>
-<p>
-Reinforcement-learning-enhanced model predictive control for robust trajectory tracking
-under model uncertainty, disturbances, and randomized operating conditions.
-</p>
-<div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags">
-<span class="tag">MPC</span>
-<span class="tag">Reinforcement Learning</span>
-<span class="tag">Isaac Lab</span>
-<span class="tag">Control</span>
-</div>
-<div class="btns">
-<a class="btn" href="07-learning-control/index.html">View Project</a>
-</div>
-</article>
-
-
-<!-- PROJECT 08 -->
-<article class="card">
-<div class="project-index">PROJECT 08 · ROBOT MANIPULATION</div>
-<h3>Advanced Vision-Guided Manipulation</h3>
-<p>
-Perception-driven robotic manipulation using object-pose estimation, kinematics,
-motion planning, collision avoidance, grasp execution, and closed-loop visual correction.
-</p>
-<div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags">
-<span class="tag">MoveIt 2</span>
-<span class="tag">MoveIt Servo</span>
-<span class="tag">Vision</span>
-<span class="tag">ros2_control</span>
-</div>
-<div class="btns">
-<a class="btn" href="08-manipulation/index.html">View Project</a>
-</div>
-</article>
-
-
-<!-- PROJECT 09 -->
-<article class="card">
-<div class="project-index">PROJECT 09 · SYSTEM INTEGRATION</div>
-<h3>Integrated Autonomous Robot</h3>
-<p>
-Full autonomous robotic system integrating perception, state estimation, SLAM,
-navigation, planning, control, behavior coordination, and system-level fault recovery.
-</p>
-<div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags">
-<span class="tag">ROS 2</span>
-<span class="tag">Nav2</span>
-<span class="tag">Behavior Trees</span>
-<span class="tag">Autonomy</span>
-</div>
-<div class="btns">
-<a class="btn" href="09-integrated/index.html">View Project</a>
-</div>
 </article>
 
 
 </div>
 </div>
+
 </section>
 
-<footer class="footer">
-<div class="container footer-inner">
-<div>Sooyong Kim · Robotics & Autonomous Systems</div>
-<div>© <span data-year></span> sooyongtech.dev</div>
+
+
+<!-- =========================================================
+     CONTROL SYSTEMS
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+<div class="eyebrow">
+02 · CONTROL SYSTEMS
 </div>
+
+<h2>Control Systems</h2>
+
+<p>
+Control projects progressing from state estimation and mathematical controller
+design to implementation on mobile robots and manipulators, followed by
+comparative evaluation of performance, robustness, computational cost,
+and practical suitability.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+
+<!-- CONTROL PROJECT 01 -->
+
+<article class="card">
+
+<div class="project-index">
+CONTROL PROJECT 01 · STATE ESTIMATION
+</div>
+
+<h3>EKF Sensor Fusion</h3>
+
+<p>
+Wheel odometry and IMU fusion using an Extended Kalman Filter in ROS 2 and Gazebo,
+providing the state-estimation foundation for subsequent closed-loop robotic
+control experiments.
+</p>
+
+<div class="status live">
+<span class="dot"></span>
+Completed
+</div>
+
+<div class="tags">
+<span class="tag">ROS 2</span>
+<span class="tag">EKF</span>
+<span class="tag">IMU</span>
+<span class="tag">Odometry</span>
+<span class="tag">Python</span>
+</div>
+
+<div class="btns">
+<a class="btn primary" href="01-ekf/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
+
+<!-- CONTROL PROJECT 02 -->
+
+<article class="card">
+
+<div class="project-index">
+CONTROL PROJECT 02 · CONTROL FUNDAMENTALS
+</div>
+
+<h3>Control System Design & Tuning</h3>
+
+<p>
+Python-based controller design and analysis using dynamic and state-space models.
+PI/PID, LQR, and MPC are developed and tuned through transient response,
+stability, disturbance rejection, control effort, and constraint analysis.
+</p>
+
+<div class="status build">
+<span class="dot"></span>
+Planned / In Development
+</div>
+
+<div class="tags">
+<span class="tag">PI / PID</span>
+<span class="tag">LQR</span>
+<span class="tag">MPC</span>
+<span class="tag">State-Space</span>
+<span class="tag">Python</span>
+</div>
+
+<div class="btns">
+<a class="btn" href="04-control-fundamentals/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
+
+<!-- CONTROL PROJECT 03 -->
+
+<article class="card">
+
+<div class="project-index">
+CONTROL PROJECT 03 · ROBOTIC IMPLEMENTATION
+</div>
+
+<h3>Robotic Control Implementation</h3>
+
+<p>
+Controllers developed in the fundamental study are transferred to mobile-robot
+and manipulator systems, then retuned under sensor noise, latency, actuator
+dynamics, saturation, model mismatch, payload variation, and physical disturbance.
+</p>
+
+<div class="status build">
+<span class="dot"></span>
+Planned / In Development
+</div>
+
+<div class="tags">
+<span class="tag">Mobile Robot</span>
+<span class="tag">Manipulator</span>
+<span class="tag">PI / PID</span>
+<span class="tag">LQR</span>
+<span class="tag">MPC</span>
+</div>
+
+<div class="btns">
+<a class="btn" href="05-robot-control/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
+
+<!-- CONTROL PROJECT 04 -->
+
+<article class="card">
+
+<div class="project-index">
+CONTROL PROJECT 04 · ENGINEERING SYNTHESIS
+</div>
+
+<h3>Comparative Control Engineering Study</h3>
+
+<p>
+Experimental results from mobile-robot and manipulator control are consolidated
+to determine when PI/PID, LQR, or MPC provides the most appropriate balance
+of tracking performance, robustness, computational cost, tuning effort,
+and implementation complexity.
+</p>
+
+<div class="status build">
+<span class="dot"></span>
+Planned
+</div>
+
+<div class="tags">
+<span class="tag">Benchmarking</span>
+<span class="tag">Robustness</span>
+<span class="tag">Performance</span>
+<span class="tag">Computation</span>
+<span class="tag">Trade-offs</span>
+</div>
+
+<div class="btns">
+<a class="btn" href="06-control-study/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
+</div>
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     REINFORCEMENT LEARNING
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+<div class="eyebrow">
+03 · REINFORCEMENT LEARNING
+</div>
+
+<h2>Reinforcement Learning</h2>
+
+<p>
+Learning-based robotics projects progressing from policy and reward-design
+fundamentals to physical robotic systems, followed by direct comparison with
+well-tuned model-based control and hybrid control-learning approaches.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+
+<!-- RL PROJECT 01 -->
+
+<article class="card">
+
+<div class="project-index">
+RL PROJECT 01 · LEARNING FUNDAMENTALS
+</div>
+
+<h3>Reinforcement Learning Fundamentals</h3>
+
+<p>
+Controlled study of state and action representation, reward design,
+exploration, discounting, hyperparameter tuning, training convergence,
+and learned-policy behavior in dynamic systems.
+</p>
+
+<div class="status build">
+<span class="dot"></span>
+Planned
+</div>
+
+<div class="tags">
+<span class="tag">Reinforcement Learning</span>
+<span class="tag">Reward Design</span>
+<span class="tag">Policy</span>
+<span class="tag">Training</span>
+<span class="tag">Python</span>
+</div>
+
+<div class="btns">
+<a class="btn" href="07-rl-fundamentals/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
+
+<!-- RL PROJECT 02 -->
+
+<article class="card">
+
+<div class="project-index">
+RL PROJECT 02 · PHYSICAL ROBOTICS
+</div>
+
+<h3>Reinforcement Learning for Robotic Systems</h3>
+
+<p>
+Reinforcement-learning policies are applied to mobile robots and manipulators
+under realistic dynamics, sensing uncertainty, actuator limitations,
+disturbances, environmental variation, and physical interaction.
+Conventional controllers are incorporated where they improve system behavior.
+</p>
+
+<div class="status build">
+<span class="dot"></span>
+Planned
+</div>
+
+<div class="tags">
+<span class="tag">Mobile Robot</span>
+<span class="tag">Manipulator</span>
+<span class="tag">RL</span>
+<span class="tag">Physical Interaction</span>
+<span class="tag">Adaptation</span>
+</div>
+
+<div class="btns">
+<a class="btn" href="08-robot-rl/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
+
+<!-- RL PROJECT 03 -->
+
+<article class="card">
+
+<div class="project-index">
+RL PROJECT 03 · ENGINEERING SYNTHESIS
+</div>
+
+<h3>Classical, Learning-Based & Hybrid Control</h3>
+
+<p>
+A comparative study evaluating conventional control, reinforcement learning,
+and hybrid approaches to determine when learning provides measurable benefits
+in performance, adaptation, or robustness—and when the additional training
+and implementation complexity is not justified.
+</p>
+
+<div class="status build">
+<span class="dot"></span>
+Planned
+</div>
+
+<div class="tags">
+<span class="tag">RL</span>
+<span class="tag">MPC</span>
+<span class="tag">Residual RL</span>
+<span class="tag">Hybrid Control</span>
+<span class="tag">Benchmarking</span>
+</div>
+
+<div class="btns">
+<a class="btn" href="09-learning-study/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
+</div>
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+<div class="container footer-inner">
+
+<div>
+Sooyong Kim · Robotics & Autonomous Systems
+</div>
+
+<div>
+© <span data-year></span> sooyongtech.dev
+</div>
+
+</div>
+
 </footer>
+
 
 <script src="../assets/js/site.js"></script>
 
