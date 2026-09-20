@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="UR5e Model Setup & Cross-Validation — Sooyong Kim">
+<title>UR5e Model Setup &amp; Cross-Validation — Sooyong Kim</title>
+
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+main{max-width:1040px;margin:auto;padding:48px 24px 72px}
+h1{font-size:52px;line-height:1.05;margin:10px 0 16px;letter-spacing:-.025em}
+h2{margin-top:52px;font-size:29px}
+h3{margin-top:30px;font-size:21px}
+p,li{color:#ced9ef}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.tag{
+  display:inline-block;border:1px solid #2d3e63;border-radius:999px;
+  padding:6px 10px;margin:4px;font-size:13px;color:#b9c9e6;
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.metric strong{display:block;font-size:28px;margin-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+pre{
+  background:#08101d;border:1px solid var(--line);border-radius:12px;
+  padding:16px;overflow:auto;color:#d8e8ff;line-height:1.45;
+}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;background:var(--panel);margin:18px 0;border:1px solid var(--line)}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#121d33;color:#dce8fb}
+.compact td,.compact th{font-size:14px}
+.callout{
+  border-left:4px solid var(--accent);background:#0d1729;
+  padding:18px 20px;border-radius:10px;margin:18px 0;
+}
+.note{
+  border-left:4px solid var(--accent2);background:#0d1729;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#cbd8ef;
+}
+.small{font-size:14px;color:var(--muted)}
+.project-figure{
+  margin:22px auto 32px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;
+}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{display:block;width:100%;height:auto;background:#fff}
+.project-figure figcaption{padding:14px 16px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.project-figure figcaption strong{display:block;color:#eef5ff;margin-bottom:4px;font-size:15px}
+.action-btn{
+  display:inline-block;border:1px solid #35527d;border-radius:10px;
+  padding:10px 14px;color:#eaf1ff;background:#101b31;font-weight:700;
+}
+.action-btn.primary{background:#17335a;border-color:#4b7fbd}
+.action-btn:hover{text-decoration:none;transform:translateY(-1px)}
+.equation{
+  margin:18px 0;padding:14px 18px;text-align:center;background:#08101d;
+  border:1px solid var(--line);border-radius:12px;color:#eaf1ff;
+  font-family:"Times New Roman",serif;font-size:18px;overflow-x:auto;
+}
+@media(max-width:760px){
+  .grid,.two{grid-template-columns:1fr}
+  h1{font-size:38px}
+  table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="../../index.html">SOOYONG KIM</a>
+    <div class="nav-links">
+      <a href="../../bio.html">Bio</a>
+      <a href="../../research/index.html">Research &amp; Work</a>
+      <a class="active" href="../../projects/index.html">Projects</a>
+      <a href="../../resume/index.html">Resume</a>
+      <a href="../../contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<p style="color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase">
+  Control Systems · Pre-Part 1
+</p>
+
+<h1>UR5e Model Setup &amp; Cross-Validation</h1>
+
+<p style="font-size:20px">
+Before designing a controller, I established that the analytical Python model and
+NVIDIA Isaac Sim represented the same nominal UR5e rigid-body system. The work reconciles
+kinematic and physical-link frames, validates the simulation boundary conditions, and
+cross-checks link poses, Jacobians, the joint-space mass matrix, and gravity generalized forces.
+</p>
+
+<div>
+  <span class="tag">UR5e</span>
+  <span class="tag">ROS 2 Humble</span>
+  <span class="tag">URDF</span>
+  <span class="tag">Isaac Sim 6.1</span>
+  <span class="tag">Python</span>
+  <span class="tag">Rigid-Body Dynamics</span>
+  <span class="tag">Jacobian</span>
+  <span class="tag">Model Validation</span>
+</div>
+
+<div class="grid">
+  <div class="metric">
+    <strong>6 DOF</strong>
+    Final fixed-base articulation
+  </div>
+  <div class="metric">
+    <strong>≈ 0.008%</strong>
+    Largest reported relative gravity-torque difference at J2
+  </div>
+  <div class="metric">
+    <strong>≈ 0.185 mm</strong>
+    Wrist-3 frame-origin position difference at the validation pose
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Engineering principle:</strong>
+  a disagreement between an analytical model and a simulator does not identify which
+  model is wrong. I therefore validated the simulator assumptions and boundary conditions
+  before modifying an analytical model that had already passed independent kinematic checks.
+</div>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre01_validation_workflow.png"
+    alt="UR5e analytical and simulation model validation workflow"
+    loading="eager">
+  <figcaption>
+    <strong>Figure 1 — Model Validation Workflow</strong>
+    Manufacturer and ROS model data are propagated independently into the analytical and
+    simulation models, followed by simulation-environment validation and progressively
+    stronger comparisons from pose and Jacobian to M(q) and g(q).
+  </figcaption>
+</figure>
+
+<h2>1. Why Validate the Model Before Control Design?</h2>
+
+<p>
+The purpose of this phase was not simply to import a UR5e into a simulator. Controller
+performance is meaningful only when the plant model is sufficiently well defined.
+Two implementations can describe the same robot while using different intermediate
+frames, inertia representations, base conditions, or actuator assumptions. If those
+differences are ignored, a controller can appear to perform well while compensating for
+a modeling inconsistency rather than the intended robot dynamics.
+</p>
+
+<p>
+I assumed that the nominal manufacturer and official ROS 2 descriptions were the most
+appropriate reproducible starting point, but I did not assume that a Python DH model and
+an imported URDF would automatically share the same intermediate coordinate conventions.
+I expected frame definitions, importer behavior, gravity, base constraints, and joint-drive
+settings to be the highest-risk sources of disagreement.
+</p>
+
+<p>
+For that reason, the validation order was deliberate: source parameters → physical-link
+transforms → joint origins and axes → Jacobian → mass matrix → gravity generalized forces.
+Each step validates dependencies required by the next one and reduces the diagnostic
+search space before higher-level dynamics are judged.
+</p>
+
+<h2>2. Nominal UR5e Reference Model</h2>
+
+<p>
+The project uses the nominal UR5e model rather than calibration parameters from a specific
+physical robot. Standard DH parameters are used for analytical kinematics, while the
+physical parameters from the official ROS 2 robot description are used for rigid-body dynamics.
+</p>
+
+<table class="compact">
+<thead>
+<tr><th>Joint</th><th>a [m]</th><th>d [m]</th><th>α [rad]</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>0</td><td>0.1625</td><td>+π/2</td></tr>
+<tr><td>2</td><td>-0.4250</td><td>0</td><td>0</td></tr>
+<tr><td>3</td><td>-0.3922</td><td>0</td><td>0</td></tr>
+<tr><td>4</td><td>0</td><td>0.1333</td><td>+π/2</td></tr>
+<tr><td>5</td><td>0</td><td>0.0997</td><td>-π/2</td></tr>
+<tr><td>6</td><td>0</td><td>0.0996</td><td>0</td></tr>
+</tbody>
+</table>
+
+<table class="compact">
+<thead>
+<tr><th>Moving Link</th><th>Mass [kg]</th><th>URDF-Aligned CoM [m]</th></tr>
+</thead>
+<tbody>
+<tr><td>Shoulder</td><td>3.761</td><td>[0, -0.00193, -0.02561]</td></tr>
+<tr><td>Upper arm</td><td>8.058</td><td>[-0.2125, 0, 0.11336]</td></tr>
+<tr><td>Forearm</td><td>2.846</td><td>[-0.2422, 0, 0.02650]</td></tr>
+<tr><td>Wrist 1</td><td>1.370</td><td>[0, -0.01634, -0.00180]</td></tr>
+<tr><td>Wrist 2</td><td>1.300</td><td>[0, 0.01634, -0.00180]</td></tr>
+<tr><td>Wrist 3</td><td>0.365</td><td>[0, 0, -0.001159]</td></tr>
+</tbody>
+</table>
+
+<p>
+The six moving-link masses sum to 17.7 kg, which is intentionally not forced to equal the
+20.6 kg product-level arm weight reported in the technical specification. Those values
+have different accounting boundaries. I considered arbitrary redistribution of the
+difference across the moving links less defensible than preserving the traceable physical
+parameters supplied with the robot description.
+</p>
+
+<h2>3. DH Frames and Physical-Link Frames</h2>
+
+<p>
+A central modeling decision was to keep two compatible representations rather than forcing
+one frame convention to serve every purpose. Standard DH frames are used for analytical
+forward/inverse kinematics and geometric reasoning. URDF-aligned physical-link frames are
+used for CoM and inertia propagation in rigid-body dynamics.
+</p>
+
+<p>
+I initially expected the manufacturer dynamics table and ROS physical-parameter file to
+contain numerically identical CoM coordinates. The apparent disagreement was diagnosed as
+a frame-convention issue. Inspection of the generated description also exposed a fixed
+base-frame relation equivalent to a 180° rotation about Z between
+<code>base_link</code> and <code>base_link_inertia</code>. Once the physical-link chain
+was expressed in the URDF convention, the link transforms agreed with Isaac Sim.
+</p>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre02_dh_vs_urdf_frames.png"
+    alt="Comparison of UR5e DH frames and URDF physical-link frames"
+    loading="lazy">
+  <figcaption>
+    <strong>Figure 2 — DH Frames vs. URDF Physical-Link Frames</strong>
+    The analytical kinematic chain and the physical inertia frames describe the same robot
+    but serve different purposes. The dynamics implementation follows the URDF physical-link
+    convention rather than treating DH frames as inertia frames.
+  </figcaption>
+</figure>
+
+<h2>4. Isaac Sim Setup: The Simulation Is Also a Model</h2>
+
+<h3>4.1 Fixed-Base Diagnosis</h3>
+
+<p>
+The first major warning appeared in the simulator mass matrix. A fixed six-joint industrial
+manipulator should produce a 6×6 joint-space mass matrix, but the imported model initially
+returned 12×12. I diagnosed this as evidence that the simulator was treating the robot as
+a floating-base system.
+</p>
+
+<p>
+A manually created world-to-base fixed joint physically stopped the base, but it produced
+robot-schema errors in the Gain Tuner. I did not consider visual immobility sufficient:
+the articulation also needed to be represented consistently inside Isaac Sim. The temporary
+joint was removed, and the original asset structure was converted to a proper fixed-base
+articulation. The result was a clean six-DOF articulation and a 6×6 mass matrix.
+</p>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre03_fixed_base_stage.png"
+    alt="Final fixed-base UR5e articulation hierarchy in Isaac Sim"
+    loading="lazy">
+  <figcaption>
+    <strong>Figure 3 — Final Fixed-Base Articulation</strong>
+    Final Isaac Sim Stage hierarchy after removing the temporary manual base joint and
+    applying the fixed-base articulation setup.
+  </figcaption>
+</figure>
+
+<h3>4.2 Gravity and Joint Drives</h3>
+
+<table class="compact">
+<thead>
+<tr><th>Physics Setting</th><th>Initial Observation</th><th>Validated Setting</th></tr>
+</thead>
+<tbody>
+<tr><td>Stage up axis</td><td>Z</td><td>Z</td></tr>
+<tr><td>Meters per unit</td><td>1.0</td><td>1.0</td></tr>
+<tr><td>Gravity direction</td><td>(0, 0, 0)</td><td>(0, 0, -1)</td></tr>
+<tr><td>Gravity magnitude</td><td>-inf</td><td>9.81 m/s²</td></tr>
+</tbody>
+</table>
+
+<p>
+The coordinate system and metric scale were already appropriate, but gravity was not
+represented by a normal finite vector. I therefore set the simulator and analytical model
+to the same world gravity vector, [0, 0, -9.81] m/s².
+</p>
+
+<p>
+The imported joint drives initially had zero stiffness and zero damping. Under gravity,
+the robot therefore moved away from the requested configuration. This was a critical
+comparison error: Python could be evaluated at q_target while Isaac was physically at a
+different q_actual. For cross-validation only, the Gain Tuner was used with a 300 Hz
+natural-frequency starting point and damping ratio ζ = 1.0. These gains are validation
+infrastructure, not identified physical UR5e servo parameters.
+</p>
+
+<table class="compact">
+<thead>
+<tr><th>Joint</th><th>Kp</th><th>Kd</th><th>Max Force</th></tr>
+</thead>
+<tbody>
+<tr><td>shoulder_pan</td><td>445.41058</td><td>0.47260</td><td>150</td></tr>
+<tr><td>shoulder_lift</td><td>7106.18213</td><td>7.53989</td><td>150</td></tr>
+<tr><td>elbow</td><td>39952.72266</td><td>42.39116</td><td>150</td></tr>
+<tr><td>wrist_1</td><td>1209.48828</td><td>1.28331</td><td>28</td></tr>
+<tr><td>wrist_2</td><td>341.18130</td><td>0.36200</td><td>28</td></tr>
+<tr><td>wrist_3</td><td>11.75560</td><td>0.01247</td><td>28</td></tr>
+</tbody>
+</table>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre04_gain_tuner.png"
+    alt="Isaac Sim Gain Tuner configuration for the six UR5e joints"
+    loading="lazy">
+  <figcaption>
+    <strong>Figure 4 — Validation Drive Configuration</strong>
+    Gain Tuner settings used to hold commanded configurations during model cross-validation.
+    The 300 Hz setting is not interpreted as the physical UR5e controller bandwidth.
+  </figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre05_step_response.png"
+    alt="Shoulder lift joint step-response validation"
+    loading="lazy">
+  <figcaption>
+    <strong>Figure 5 — Shoulder-Lift Step Validation</strong>
+    A ±10° step test produced 0.036° peak position error and 0.015° RMS error, confirming
+    stable position holding for the subsequent model comparisons.
+  </figcaption>
+</figure>
+
+<h2>5. Common Validation Configuration</h2>
+
+<p>
+All final cross-comparisons were performed at the same nonzero configuration:
+<strong>q = [10, -40, 60, -30, 45, 20]°</strong>. A nonzero pose was intentionally used
+because agreement only at q=0 could conceal sign, axis, or transform errors that disappear
+in a special configuration.
+</p>
+
+<p>
+After the drive setup, Isaac Sim held the target at
+[9.999999, -39.999996, 60, -30, 45, 19.999998]°, making the analytical and simulation
+evaluations configuration-consistent.
+</p>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre06_common_validation_pose.png"
+    alt="Python and Isaac Sim UR5e models at the common nonzero validation configuration"
+    loading="lazy">
+  <figcaption>
+    <strong>Figure 6 — Common Validation Pose</strong>
+    Side-by-side analytical and Isaac Sim configurations at q = [10, -40, 60, -30, 45, 20]°.
+  </figcaption>
+</figure>
+
+<h2>6. Pose and Jacobian Cross-Validation</h2>
+
+<p>
+Physical-link positions and orientations were compared first. At the wrist-3 frame origin,
+Python produced [0.733548, 0.336215, 0.215589] m and Isaac Sim produced
+[0.733552, 0.336198, 0.215773] m, a Euclidean position difference of approximately
+0.185 mm. Intermediate link positions showed similarly close agreement.
+</p>
+
+<p>
+The geometric Jacobian was then compared. This is a stronger check than pose alone because
+it validates the propagated joint axes and differential kinematics. Representative angular
+columns agreed closely; for example, the J2 axis was
+[-0.173648, 0.984808, 0] in Python and [-0.173630, 0.984811, 0] in Isaac Sim.
+</p>
+
+<div class="equation">
+J<sub>v,i</sub> = z<sub>i</sub> × (p<sub>e</sub> − p<sub>i</sub>),
+&nbsp;&nbsp;
+J<sub>ω,i</sub> = z<sub>i</sub>
+</div>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre07_jacobian_comparison.png"
+    alt="Python and Isaac Sim UR5e Jacobian comparison"
+    loading="lazy">
+  <figcaption>
+    <strong>Figure 7 — Jacobian Cross-Validation</strong>
+    Python and Isaac Sim wrist-3 geometric Jacobians with an element-wise error view.
+  </figcaption>
+</figure>
+
+<h2>7. Mass-Matrix Cross-Validation</h2>
+
+<p>
+The analytical mass matrix was assembled from the translational and rotational kinetic
+energy of all six moving links:
+</p>
+
+<div class="equation">
+M(q) = Σ [m<sub>i</sub> J<sub>v,i</sub><sup>T</sup>J<sub>v,i</sub>
++ J<sub>ω,i</sub><sup>T</sup>(R<sub>i</sub>I<sub>i</sub>R<sub>i</sub><sup>T</sup>)J<sub>ω,i</sub>]
+</div>
+
+<p>
+The first comparison produced an apparent relative discrepancy of approximately
+<strong>64.7%</strong>. I initially suspected an inertia-frame or transformation error in
+the analytical dynamics because those are common failure modes. However, the analytical
+kinematics and Jacobian had already passed independent checks. I therefore considered
+modifying the mathematical model before validating the simulator to be the riskier decision.
+</p>
+
+<p>
+After correcting the fixed-base representation, gravity, joint drives, and static pose,
+the mass matrices agreed closely. Selected entries are shown below.
+</p>
+
+<table class="compact">
+<thead>
+<tr><th>Element</th><th>Python</th><th>Isaac Sim</th><th>|Difference|</th></tr>
+</thead>
+<tbody>
+<tr><td>M11</td><td>3.103413</td><td>3.103188</td><td>0.000225</td></tr>
+<tr><td>M22</td><td>3.342034</td><td>3.342024</td><td>0.000010</td></tr>
+<tr><td>M23</td><td>1.208672</td><td>1.208643</td><td>0.000029</td></tr>
+<tr><td>M33</td><td>0.833906</td><td>0.833856</td><td>0.000050</td></tr>
+<tr><td>M44</td><td>0.021196</td><td>0.021143</td><td>0.000053</td></tr>
+<tr><td>M66</td><td>0.000258</td><td>0.000258</td><td>≈ 0</td></tr>
+</tbody>
+</table>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre08_mass_matrix_comparison.png"
+    alt="Python and Isaac Sim UR5e mass matrix comparison"
+    loading="lazy">
+  <figcaption>
+    <strong>Figure 8 — Mass-Matrix Cross-Validation</strong>
+    Python M(q), Isaac Sim M(q), and the element-wise absolute-error matrix after the
+    simulation configuration was corrected.
+  </figcaption>
+</figure>
+
+<h2>8. Gravity Generalized-Force Cross-Validation</h2>
+
+<p>
+The analytical gravity term was computed independently from the potential energy of the
+six moving-link centers of mass:
+</p>
+
+<div class="equation">
+U(q) = −Σ m<sub>i</sub> g<sup>T</sup>p<sub>c,i</sub>(q),
+&nbsp;&nbsp;
+g(q) = ∂U/∂q
+</div>
+
+<p>
+The convention is consistent with
+M(q)q̈ + C(q,q̇)q̇ + g(q) = τ. The simulator and Python values agreed in both magnitude
+and sign.
+</p>
+
+<table class="compact">
+<thead>
+<tr><th>Joint</th><th>Python [Nm]</th><th>Isaac Sim [Nm]</th><th>|Difference| [Nm]</th></tr>
+</thead>
+<tbody>
+<tr><td>J1</td><td>0.000000</td><td>0.000008</td><td>0.000008</td></tr>
+<tr><td>J2</td><td>-49.685494</td><td>-49.681679</td><td>0.003815</td></tr>
+<tr><td>J3</td><td>-18.034631</td><td>-18.036629</td><td>0.001998</td></tr>
+<tr><td>J4</td><td>-0.707495</td><td>-0.707961</td><td>0.000466</td></tr>
+<tr><td>J5</td><td>+0.068868</td><td>+0.068971</td><td>0.000103</td></tr>
+<tr><td>J6</td><td>0.000000</td><td>0.000000</td><td>0.000000</td></tr>
+</tbody>
+</table>
+
+<p>
+The largest absolute difference was 0.003815 Nm at J2, approximately 0.0077% of the
+Python magnitude. J1 is approximately zero because its rotation axis is aligned with
+gravity; the shoulder and elbow carry the dominant gravitational loading.
+</p>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre09_gravity_torque_comparison.png"
+    alt="Python and Isaac Sim gravity generalized-force comparison"
+    loading="lazy">
+  <figcaption>
+    <strong>Figure 9 — Gravity Generalized-Force Comparison</strong>
+    Joint-by-joint comparison of the independently calculated Python gravity vector and
+    Isaac Sim generalized gravity forces at the common validation configuration.
+  </figcaption>
+</figure>
+
+<h2>9. Diagnostic Lesson: Why the First Comparison Failed</h2>
+
+<p>
+The most useful result of this phase was the failed first comparison. The initial 64.7%
+mass-matrix discrepancy did not identify the analytical model as wrong; it identified
+that at least one assumption in the comparison was false.
+</p>
+
+<p>
+I diagnosed the problem in layers. The 12×12 matrix exposed a floating-base interpretation.
+The temporary manual fixed joint exposed a schema inconsistency. The PhysicsScene exposed
+an invalid gravity definition. The zero-stiffness and zero-damping drives exposed a final
+problem: the simulator was not guaranteed to remain at the configuration used by the
+analytical calculation.
+</p>
+
+<p>
+Several shortcuts could have produced faster numerical agreement. I could have changed
+the analytical inertia treatment, retained the manual base constraint because the robot
+looked stationary, or simply increased arbitrary gains. I considered those approaches
+less defensible than validating the physical assumptions first. Once the simulator
+represented the intended fixed manipulator and held the intended state, pose, Jacobian,
+M(q), and g(q) converged to close agreement without forcing the analytical model toward
+the original simulator output.
+</p>
+
+<figure class="project-figure half-width">
+  <img
+    src="../../assets/images/projects/ur5e-control/pre10_diagnostic_decision_flow.png"
+    alt="Diagnostic decision flow from initial mass matrix discrepancy to validated model"
+    loading="lazy">
+  <figcaption>
+    <strong>Figure 10 — Diagnostic Decision Path</strong>
+    The initial dynamics discrepancy was treated as a model-definition problem to diagnose,
+    not as evidence that the analytical implementation should immediately be rewritten.
+  </figcaption>
+</figure>
+
+<h2>10. Model Boundaries</h2>
+
+<table class="compact">
+<thead>
+<tr><th>Assumption / Boundary</th><th>Interpretation</th></tr>
+</thead>
+<tbody>
+<tr><td>Nominal UR5e geometry</td><td>Robot-specific factory calibration parameters are not included.</td></tr>
+<tr><td>No payload or gripper</td><td>The validated M(q) and g(q) apply to the bare modeled manipulator.</td></tr>
+<tr><td>Rigid links / ideal joints</td><td>Flexibility, backlash, gearbox compliance, detailed friction, and actuator dynamics are outside this phase.</td></tr>
+<tr><td>Validation-only joint drives</td><td>The tuned Isaac gains are not physical UR5e servo identification and must not mask later controller comparisons.</td></tr>
+<tr><td>Primary nonzero validation pose</td><td>The result provides strong consistency evidence but is not a proof over the complete workspace.</td></tr>
+<tr><td>No contact dynamics</td><td>Grasping, collision, table contact, and object interaction are outside Pre-Part 1.</td></tr>
+</tbody>
+</table>
+
+<h2>11. Validation Result</h2>
+
+<div class="grid">
+  <div class="metric"><strong>Pose ✓</strong>Physical-link transforms reconciled</div>
+  <div class="metric"><strong>Jacobian ✓</strong>Joint axes and differential kinematics</div>
+  <div class="metric"><strong>M(q) ✓</strong>Inertial dynamics cross-validated</div>
+</div>
+
+<div class="callout">
+  <strong>Pre-Part 1 conclusion:</strong>
+  the analytical Python implementation and Isaac Sim now provide a consistent nominal
+  UR5e rigid-body baseline. This model can be used as the foundation for Part 1A
+  kinematics/dynamics characterization and Part 1B controller design without treating
+  an unvalidated simulator as ground truth.
+</div>
+
+<h2>12. Next: Part 1A and Part 1B</h2>
+
+<div class="two">
+  <div class="card">
+    <h3 style="margin-top:0">Part 1A — Kinematics &amp; Dynamics Characterization</h3>
+    <p>
+      Forward/inverse kinematics, Jacobian and singularity analysis, completion of
+      nonlinear joint-space dynamics, configuration-dependent behavior, linearization,
+      eigenstructure, and transient response.
+    </p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">Part 1B — Controller Design &amp; Tuning</h3>
+    <p>
+      PID, computed-torque control, LQR, and MPC with quantitative comparison of
+      convergence, overshoot, settling time, RMSE, control effort, computation cost,
+      constraint handling, and tuning sensitivity.
+    </p>
+  </div>
+</div>
+
+<h2>13. Technical Report</h2>
+
+<div class="card">
+  <h3 style="margin-top:0">Pre-Part 1 Technical Report</h3>
+  <p>
+    The full report documents the parameter sources, modeling assumptions, frame
+    reconciliation, simulation diagnostics, numerical cross-validation, engineering
+    reasoning, and model boundaries in greater detail.
+  </p>
+  <p>
+    <a
+      class="action-btn"
+      href="ur5e-model-setup-cross-validation.pdf"
+      target="_blank"
+      rel="noopener"
+    >
+      View Technical Report
+    </a>
+  </p>
+</div>
+
+<div style="
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  margin-top:42px;
+  padding-top:20px;
+  border-top:1px solid #293957;
+">
+  <a href="../01-ekf/index.html"
+     style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">
+    ← Previous Control Project
+  </a>
+  <a href="../index.html"
+     style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">
+    Back to Projects →
+  </a>
+</div>
+
+<p style="margin-top:50px;color:#8ea1c0">
+Project by Sooyong Kim · Robotics Control Portfolio
+</p>
+
+</main>
+</body>
+</html>

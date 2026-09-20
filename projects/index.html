@@ -283,17 +283,85 @@ View Project
 </article>
 
 
-<!-- CONTROL PROJECT 02 -->
+<!-- CONTROL PROJECT 02 — PRE-PART 1 -->
 
 <article class="card">
 
-
-<h3>Control System Design & Tuning</h3>
+<h3>Pre-Part 1 — UR5e Model Setup &amp; Cross-Validation</h3>
 
 <p>
-Python-based controller design and analysis using dynamic and state-space models.
-PI/PID, LQR, and MPC are developed and tuned through transient response,
-stability, disturbance rejection, control effort, and constraint analysis.
+A nominal UR5e analytical model is reconciled with the official ROS 2 robot
+description and NVIDIA Isaac Sim before controller design begins. DH and physical-link
+frames, fixed-base articulation, gravity, joint drives, link poses, Jacobians,
+the mass matrix, and gravity generalized forces are independently verified.
+</p>
+
+<div class="status live">
+<span class="dot"></span>
+Completed
+</div>
+
+<div class="tags">
+<span class="tag">UR5e</span>
+<span class="tag">ROS 2</span>
+<span class="tag">URDF</span>
+<span class="tag">Isaac Sim</span>
+<span class="tag">Rigid-Body Dynamics</span>
+</div>
+
+<div class="btns">
+<a class="btn primary" href="04-control-model-validation/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
+<!-- CONTROL PROJECT 03 — PART 1A -->
+
+<article class="card">
+
+<h3>Part 1A — Kinematics &amp; Dynamics Characterization</h3>
+
+<p>
+Analytical characterization of the validated UR5e model through forward and inverse
+kinematics, geometric Jacobians, singularity analysis, nonlinear joint-space dynamics,
+configuration-dependent behavior, linearization, eigenstructure, and transient response.
+</p>
+
+<div class="status build">
+<span class="dot"></span>
+In Development
+</div>
+
+<div class="tags">
+<span class="tag">Kinematics</span>
+<span class="tag">Jacobian</span>
+<span class="tag">Dynamics</span>
+<span class="tag">Singularity</span>
+<span class="tag">Linearization</span>
+</div>
+
+<div class="btns">
+<a class="btn" href="05-control-dynamics/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+
+<!-- CONTROL PROJECT 04 — PART 1B -->
+
+<article class="card">
+
+<h3>Part 1B — Controller Design &amp; Tuning</h3>
+
+<p>
+PI/PID, computed-torque control, LQR, and MPC are designed on the validated manipulator
+model and compared through convergence, overshoot, settling time, tracking RMSE,
+control effort, computation cost, constraint handling, and tuning sensitivity.
 </p>
 
 <div class="status build">
@@ -302,15 +370,15 @@ Planned / In Development
 </div>
 
 <div class="tags">
-<span class="tag">PI / PID</span>
+<span class="tag">PID</span>
+<span class="tag">Computed Torque</span>
 <span class="tag">LQR</span>
 <span class="tag">MPC</span>
-<span class="tag">State-Space</span>
-<span class="tag">Python</span>
+<span class="tag">Tuning</span>
 </div>
 
 <div class="btns">
-<a class="btn" href="04-control-fundamentals/index.html">
+<a class="btn" href="06-controller-design/index.html">
 View Project
 </a>
 </div>
@@ -318,15 +386,14 @@ View Project
 </article>
 
 
-<!-- CONTROL PROJECT 03 -->
+<!-- CONTROL PROJECT 05 -->
 
 <article class="card">
-
 
 <h3>Robotic Control Implementation</h3>
 
 <p>
-Controllers developed in the fundamental study are transferred to mobile-robot
+Controllers developed in the analytical study are transferred to mobile-robot
 and manipulator systems, then retuned under sensor noise, latency, actuator
 dynamics, saturation, model mismatch, payload variation, and physical disturbance.
 </p>
@@ -339,13 +406,13 @@ Planned / In Development
 <div class="tags">
 <span class="tag">Mobile Robot</span>
 <span class="tag">Manipulator</span>
-<span class="tag">PI / PID</span>
+<span class="tag">PID</span>
 <span class="tag">LQR</span>
 <span class="tag">MPC</span>
 </div>
 
 <div class="btns">
-<a class="btn" href="05-robot-control/index.html">
+<a class="btn" href="07-robot-control/index.html">
 View Project
 </a>
 </div>
@@ -353,18 +420,16 @@ View Project
 </article>
 
 
-<!-- CONTROL PROJECT 04 -->
+<!-- CONTROL PROJECT 06 -->
 
 <article class="card">
-
 
 <h3>Comparative Control Engineering Study</h3>
 
 <p>
-Experimental results from mobile-robot and manipulator control are consolidated
-to determine when PI/PID, LQR, or MPC provides the most appropriate balance
-of tracking performance, robustness, computational cost, tuning effort,
-and implementation complexity.
+Experimental and simulation results are consolidated to determine the operating
+conditions, assumptions, and trade-offs associated with classical, optimal, and
+predictive control in practical robotic systems.
 </p>
 
 <div class="status build">
@@ -381,13 +446,12 @@ Planned
 </div>
 
 <div class="btns">
-<a class="btn" href="06-control-study/index.html">
+<a class="btn" href="08-control-study/index.html">
 View Project
 </a>
 </div>
 
 </article>
-
 
 </div>
 </div>
