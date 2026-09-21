@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="UR5e Kinematic & Dynamic Characterization — Sooyong Kim">
+<title>UR5e Kinematic &amp; Dynamic Characterization — Sooyong Kim</title>
+
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+main{max-width:1040px;margin:auto;padding:48px 24px 72px}
+h1{font-size:52px;line-height:1.05;margin:10px 0 16px;letter-spacing:-.025em}
+h2{margin-top:52px;font-size:29px}
+h3{margin-top:30px;font-size:21px}
+p,li{color:#ced9ef}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.tag{
+  display:inline-block;border:1px solid #2d3e63;border-radius:999px;
+  padding:6px 10px;margin:4px;font-size:13px;color:#b9c9e6;
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.metric strong{display:block;font-size:28px;margin-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+pre{
+  background:#08101d;border:1px solid var(--line);border-radius:12px;
+  padding:16px;overflow:auto;color:#d8e8ff;line-height:1.45;
+}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;background:var(--panel);margin:18px 0;border:1px solid var(--line)}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#121d33;color:#dce8fb}
+.compact td,.compact th{font-size:14px}
+.callout{
+  border-left:4px solid var(--accent);background:#0d1729;
+  padding:18px 20px;border-radius:10px;margin:18px 0;
+}
+.note{
+  border-left:4px solid var(--accent2);background:#0d1729;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#cbd8ef;
+}
+.small{font-size:14px;color:var(--muted)}
+.project-figure{
+  margin:22px auto 32px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;
+}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{display:block;width:100%;height:auto;background:#fff}
+.project-figure figcaption{padding:14px 16px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.project-figure figcaption strong{display:block;color:#eef5ff;margin-bottom:4px;font-size:15px}
+.action-btn{
+  display:inline-block;border:1px solid #35527d;border-radius:10px;
+  padding:10px 14px;color:#eaf1ff;background:#101b31;font-weight:700;
+}
+.action-btn.primary{background:#17335a;border-color:#4b7fbd}
+.action-btn:hover{text-decoration:none;transform:translateY(-1px)}
+.equation{
+  margin:18px 0;padding:14px 18px;text-align:center;background:#08101d;
+  border:1px solid var(--line);border-radius:12px;color:#eaf1ff;
+  font-family:"Times New Roman",serif;font-size:18px;overflow-x:auto;
+}
+@media(max-width:760px){
+  .grid,.two{grid-template-columns:1fr}
+  h1{font-size:38px}
+  table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="../../index.html">SOOYONG KIM</a>
+    <div class="nav-links">
+      <a href="../../bio.html">Bio</a>
+      <a href="../../research/index.html">Research &amp; Work</a>
+      <a class="active" href="../../projects/index.html">Projects</a>
+      <a href="../../resume/index.html">Resume</a>
+      <a href="../../contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<p style="color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase">
+  Control Systems · Part 1A
+</p>
+
+<h1>UR5e Kinematic &amp; Dynamic Characterization</h1>
+
+<p style="font-size:20px">
+Starting from the UR5e model established in Pre-Part 1, I characterized the nonlinear
+plant before controller design. The study examines Jacobian conditioning and singularity
+approach, pseudoinverse versus damped least-squares behavior, configuration-dependent
+rigid-body dynamics, equilibrium and local linearization, benchmark feasibility, and
+Python–C++ numerical consistency.
+</p>
+
+<div>
+  <span class="tag">UR5e</span>
+  <span class="tag">Kinematics</span>
+  <span class="tag">Jacobian</span>
+  <span class="tag">Singularity</span>
+  <span class="tag">Rigid-Body Dynamics</span>
+  <span class="tag">Linearization</span>
+  <span class="tag">C++ / Eigen</span>
+  <span class="tag">Control Benchmark</span>
+</div>
+
+<div class="grid">
+  <div class="metric">
+    <strong>12 / 12</strong>
+    Controllability rank at all three investigated equilibria
+  </div>
+  <div class="metric">
+    <strong>1.44 × 10⁻⁹</strong>
+    Maximum skew-symmetry residual in the Coriolis structural test
+  </div>
+  <div class="metric">
+    <strong>27.2%</strong>
+    Maximum benchmark torque utilization at Joint 2
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Engineering objective:</strong>
+  characterize the validated plant before controller tuning so that Part 1B compares
+  PID, computed-torque, LQR, and MPC on a common model, trajectory, sampling rate,
+  and actuator constraints.
+</div>
+
+<h2>1. From Model Validation to Plant Characterization</h2>
+
+<p>
+Pre-Part 1 established agreement between the analytical model and Isaac Sim for the
+physical-link transforms, Jacobian, mass matrix, and gravity generalized forces.
+Part 1A therefore does not rebuild the model. Instead, it asks which properties of the
+validated plant matter for controller design: numerical sensitivity near singularity,
+configuration-dependent inertia and gravity loading, local linear-model validity,
+controllability, and whether the selected benchmark excites meaningful dynamics without
+being dominated by saturation.
+</p>
+
+<p>
+I retained two compatible representations. Standard DH geometry is used for forward
+kinematics and the geometric Jacobian, while rigid-body dynamics use the validated URDF
+physical-link frame chain. CoM locations and inertia tensors remain attached to their
+physical local link frames rather than being reassigned to DH frames.
+</p>
+
+<h2>2. Kinematic Characterization</h2>
+
+<p>
+Three configurations were used repeatedly throughout the analysis: the validated test pose
+<strong>[10, -40, 60, -30, 45, 20]°</strong>, the nominal working pose
+<strong>[0, -90, 90, -90, -90, 0]°</strong>, and the zero configuration.
+The nominal pose remained well conditioned, whereas the zero configuration lost one
+instantaneous rotational degree of freedom and reduced the full geometric Jacobian rank to five.
+</p>
+
+<table class="compact">
+<thead>
+<tr><th>Configuration</th><th>σmin(J)</th><th>κ(J)</th><th>Rank</th></tr>
+</thead>
+<tbody>
+<tr><td>Validated test pose</td><td>0.15682</td><td>12.95</td><td>6</td></tr>
+<tr><td>Nominal working pose</td><td>0.22236</td><td>8.31</td><td>6</td></tr>
+<tr><td>Zero configuration</td><td>≈ 0</td><td>∞</td><td>5</td></tr>
+</tbody>
+</table>
+
+<h2>3. Singularity Approach: Conditioning Before Rank Loss</h2>
+
+<p>
+I interpolated from the nominal working pose to the zero configuration. The minimum
+singular value decreased continuously toward zero while the condition number increased
+sharply before exact rank loss. This is important for control and inverse kinematics:
+a matrix can remain formally full rank while already becoming numerically aggressive.
+</p>
+
+<figure class="project-figure half-width">
+  <img src="../../assets/images/projects/Ur5e_Part_1A/singularity_sigma_min.png"
+       alt="Minimum singular value along the UR5e nominal-to-singular sweep" loading="eager">
+  <figcaption>
+    <strong>Figure 1 — Minimum Singular Value Near Singularity</strong>
+    The minimum singular value decreases continuously as the trajectory approaches the
+    zero configuration, exposing the loss of numerical robustness before exact rank loss.
+  </figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+  <img src="../../assets/images/projects/Ur5e_Part_1A/singularity_condition_number.png"
+       alt="UR5e Jacobian condition number near singularity" loading="lazy">
+  <figcaption>
+    <strong>Figure 2 — Jacobian Condition Number</strong>
+    The condition number rises rapidly on the approach to the singular configuration,
+    demonstrating why a binary rank test alone is insufficient for numerical robustness.
+  </figcaption>
+</figure>
+
+<h2>4. Pseudoinverse vs. Damped Least Squares</h2>
+
+<p>
+To expose the weakest instantaneous task direction, I commanded a unit task-space velocity
+along the weakest left-singular vector. The Moore–Penrose pseudoinverse preserved the command
+but produced rapidly increasing joint-rate demand. Damped least squares (DLS), with
+<strong>λ = 0.05</strong>, bounded the amplification by deliberately accepting task-space error.
+</p>
+
+<div class="equation">
+G<sub>DLS</sub>(σ) = σ / (σ² + λ²),
+&nbsp;&nbsp;
+G<sub>DLS,max</sub> = 1 / (2λ) = 10
+</div>
+
+<p>
+Because the commanded task velocity is a unit vector in the weakest singular direction,
+the plotted DLS joint-rate norm directly follows this scalar gain. The sweep is discrete,
+so it need not sample exactly σ = λ; an observed peak slightly below the theoretical
+maximum of 10 is therefore expected.
+</p>
+
+<figure class="project-figure half-width">
+  <img src="../../assets/images/projects/Ur5e_Part_1A/pseudoinverse_vs_dls_joint_rate.png"
+       alt="Pseudoinverse and damped least squares joint rate comparison" loading="lazy">
+  <figcaption>
+    <strong>Figure 3 — Joint-Rate Amplification</strong>
+    The pseudoinverse becomes increasingly aggressive near singularity, while DLS bounds
+    the amplification and then suppresses the weakest direction.
+  </figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+  <img src="../../assets/images/projects/Ur5e_Part_1A/pseudoinverse_vs_dls_task_error.png"
+       alt="Damped least squares task-space error near singularity" loading="lazy">
+  <figcaption>
+    <strong>Figure 4 — DLS Robustness–Accuracy Trade-Off</strong>
+    Bounded joint-rate amplification is obtained by accepting increasing task-space error
+    as the singular direction becomes poorly controllable.
+  </figcaption>
+</figure>
+
+<h2>5. Configuration-Dependent Rigid-Body Dynamics</h2>
+
+<p>
+The mass matrix remained symmetric positive definite at all three investigated poses, but
+its eigenvalue spread, gravity loading, and Coriolis/centrifugal contribution changed
+substantially with configuration. The large mass-matrix condition numbers are not interpreted
+as dynamic instability; they reflect anisotropic generalized inertia and motivate solving
+the dynamics as a linear system rather than explicitly forming M(q)<sup>−1</sup>.
+</p>
+
+<table class="compact">
+<thead>
+<tr><th>Configuration</th><th>κ(M)</th><th>||g|| [Nm]</th><th>||c|| [Nm]</th></tr>
+</thead>
+<tbody>
+<tr><td>Validated test pose</td><td>15101</td><td>52.862</td><td>0.5303</td></tr>
+<tr><td>Nominal working pose</td><td>11713</td><td>28.716</td><td>0.4021</td></tr>
+<tr><td>Zero configuration</td><td>18587</td><td>62.537</td><td>0.1581</td></tr>
+</tbody>
+</table>
+
+<figure class="project-figure half-width">
+  <img src="../../assets/images/projects/Ur5e_Part_1A/dynamics_configuration_dependence.png"
+       alt="Configuration dependent gravity and Coriolis torque norms" loading="lazy">
+  <figcaption>
+    <strong>Figure 5 — Configuration-Dependent Dynamics</strong>
+    Gravity and Coriolis/centrifugal generalized-torque norms at the three representative
+    configurations for the specified test velocity.
+  </figcaption>
+</figure>
+
+<h2>6. Coriolis Structural Consistency</h2>
+
+<p>
+The Coriolis/centrifugal implementation was first checked using c(q,0) = 0 and the expected
+quadratic velocity dependence c(q,2q̇) = 4c(q,q̇). I then explicitly constructed the
+Christoffel-based matrix C(q,q̇) and tested both its agreement with the existing vector
+implementation and the standard rigid-body structural identity.
+</p>
+
+<div class="equation">
+c(q,q̇) = C(q,q̇)q̇
+</div>
+
+<div class="equation">
+R = (Ṁ − 2C) + (Ṁ − 2C)<sup>T</sup>
+</div>
+
+<table class="compact">
+<thead>
+<tr><th>Validation Quantity</th><th>Maximum Residual</th></tr>
+</thead>
+<tbody>
+<tr><td>max |Cq̇ − c|</td><td>8.33 × 10⁻¹⁷</td></tr>
+<tr><td>max |(Ṁ − 2C) + (Ṁ − 2C)<sup>T</sup>|</td><td>1.44 × 10⁻⁹</td></tr>
+</tbody>
+</table>
+
+<p>
+These results provide strong internal structural-consistency evidence for the numerical
+Christoffel implementation. They are intentionally described as internal model checks,
+not as an independent physics-engine validation.
+</p>
+
+<h2>7. Nonlinear Plant, Equilibria, and Linearization</h2>
+
+<p>
+The controller plant is a 12-state nonlinear torque-driven system. Static equilibria were
+defined with zero joint velocity and gravity-compensation input. Numerical linearization
+about the validated, nominal, and zero configurations produced full controllability rank
+<strong>12/12</strong> in all three cases.
+</p>
+
+<div class="equation">
+ẋ = [ q̇ ; M(q)<sup>−1</sup>(τ − c(q,q̇) − g(q)) ]
+</div>
+
+<p>
+To quantify how local the nominal linear model actually is, I perturbed Joint 2 while
+holding the equilibrium torque fixed. Relative linearization error increased from
+0.0188% at 0.01° to 1.91% at 1°, 9.97% at 5°, and 20.79% at 10°.
+This gives a measured basis for interpreting the later LQR results rather than assuming
+one linearization represents the entire motion.
+</p>
+
+<figure class="project-figure half-width">
+  <img src="../../assets/images/projects/Ur5e_Part_1A/linearization_validity.png"
+       alt="UR5e local linearization validity error" loading="lazy">
+  <figcaption>
+    <strong>Figure 6 — Local Linearization Validity</strong>
+    Relative error grows systematically with Joint-2 perturbation magnitude around the
+    nominal equilibrium, demonstrating the local nature of the linear plant model.
+  </figcaption>
+</figure>
+
+<h2>8. Common Controller Benchmark</h2>
+
+<p>
+Before tuning any controller, I fixed one common trajectory and one set of simulation
+constraints. The benchmark moves from
+<strong>[0, -90, 90, -90, -90, 0]°</strong> to
+<strong>[20, -60, 60, -70, -70, 20]°</strong> in 4.0 s using quintic time scaling,
+sampled at 2 ms.
+</p>
+
+<div class="equation">
+h(s) = 10s³ − 15s⁴ + 6s⁵
+</div>
+
+<figure class="project-figure half-width">
+  <img src="../../assets/images/projects/Ur5e_Part_1A/benchmark_joint_trajectory.png"
+       alt="Common UR5e quintic controller benchmark trajectory" loading="lazy">
+  <figcaption>
+    <strong>Figure 7 — Common Joint-Space Benchmark</strong>
+    The 4 s quintic trajectory provides identical reference position, velocity, and
+    acceleration profiles for every Part 1B controller.
+  </figcaption>
+</figure>
+
+<p>
+The maximum reference velocity is only <strong>7.81%</strong> of the 180°/s joint-speed
+specification. Nominal inverse dynamics also remain comfortably inside the adopted
+simulation torque constraints, so the benchmark is dynamically meaningful without being
+primarily a saturation test.
+</p>
+
+<figure class="project-figure half-width">
+  <img src="../../assets/images/projects/Ur5e_Part_1A/benchmark_inverse_dynamics.png"
+       alt="UR5e inverse dynamics feedforward torque over the benchmark trajectory" loading="lazy">
+  <figcaption>
+    <strong>Figure 8 — Nominal Inverse-Dynamics Torque</strong>
+    Feedforward torque along the common benchmark, including inertial, Coriolis/centrifugal,
+    and gravity contributions.
+  </figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+  <img src="../../assets/images/projects/Ur5e_Part_1A/benchmark_torque_utilization.png"
+       alt="UR5e benchmark torque utilization by joint" loading="lazy">
+  <figcaption>
+    <strong>Figure 9 — Benchmark Torque Utilization</strong>
+    Joint 2 is the most demanding axis at 27.2% of the adopted simulation torque constraint;
+    all six joints remain within the common limits.
+  </figcaption>
+</figure>
+
+<h2>9. Python–C++ Cross-Validation</h2>
+
+<p>
+Python remains the numerical reference environment for analysis, plotting, parameter studies,
+and controller tuning. I reproduced the core plant in fixed-size C++/Eigen for later runtime
+controller work. The C++ dynamics intentionally use the same validated physical-link
+formulation rather than attaching inertia data directly to the DH chain.
+</p>
+
+<table class="compact">
+<thead>
+<tr><th>Quantity</th><th>Maximum Error</th><th>Result</th></tr>
+</thead>
+<tbody>
+<tr><td>TCP position</td><td>3.80 × 10⁻⁹</td><td>PASS</td></tr>
+<tr><td>Jacobian singular values</td><td>2.51 × 10⁻⁹</td><td>PASS</td></tr>
+<tr><td>Mass matrix M(q)</td><td>4.93 × 10⁻¹⁰</td><td>PASS</td></tr>
+<tr><td>Gravity vector g(q)</td><td>2.63 × 10⁻⁸</td><td>PASS</td></tr>
+<tr><td>Coriolis vector c(q,q̇)</td><td>5.60 × 10⁻¹⁰</td><td>PASS</td></tr>
+<tr><td>Trajectory midpoint / endpoints</td><td>0 at reported precision</td><td>PASS</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+  Python–C++ agreement is an implementation-consistency check, not an independent
+  physics-engine validation. The independent analytical–Isaac comparison was completed
+  in Pre-Part 1.
+</div>
+
+<h2>10. Engineering Conclusions</h2>
+
+<div class="two">
+  <div class="card">
+    <h3 style="margin-top:0">What Part 1A Established</h3>
+    <p>
+      Singularity sensitivity appears before rank loss, rigid-body dynamics change
+      materially with configuration, the nominal linear model is demonstrably local,
+      and the selected benchmark is feasible without being saturation dominated.
+    </p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">What Part 1B Must Test</h3>
+    <p>
+      PID, computed-torque, LQR, and MPC can now be compared on identical plant,
+      trajectory, sampling, and constraint assumptions, with explicit attention to
+      configuration dependence, model mismatch, control effort, and computation.
+    </p>
+  </div>
+</div>
+
+<h2>11. Technical Report</h2>
+
+<div class="card">
+  <h3 style="margin-top:0">Part 1A Technical Report</h3>
+  <p>
+    The full report documents the mathematical formulation, numerical characterization,
+    structural consistency tests, local linearization study, benchmark definition,
+    Python–C++ cross-validation, limitations, and reproducibility map in greater detail.
+  </p>
+  <p>
+    <a class="action-btn"
+       href="UR5e_Part_1A_Report.pdf"
+       target="_blank"
+       rel="noopener">
+      View Technical Report
+    </a>
+  </p>
+</div>
+
+<div style="
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  margin-top:42px;
+  padding-top:20px;
+  border-top:1px solid #293957;
+">
+  <a href="../04-control-model-validation/index.html"
+     style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">
+    ← Previous: Model Validation
+  </a>
+  <a href="../index.html"
+     style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">
+    Back to Projects →
+  </a>
+</div>
+
+<p style="margin-top:50px;color:#8ea1c0">
+Project by Sooyong Kim · Robotics Control Portfolio
+</p>
+
+</main>
+</body>
+</html>
