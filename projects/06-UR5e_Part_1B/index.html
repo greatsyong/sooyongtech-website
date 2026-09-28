@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="UR5e Controller Design, Benchmarking & Robustness — Sooyong Kim">
+<title>UR5e Controller Design &amp; Robustness — Sooyong Kim</title>
+
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+main{max-width:1040px;margin:auto;padding:48px 24px 72px}
+h1{font-size:52px;line-height:1.05;margin:10px 0 16px;letter-spacing:-.025em}
+h2{margin-top:52px;font-size:29px}
+h3{margin-top:30px;font-size:21px}
+p,li{color:#ced9ef}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.tag{
+  display:inline-block;border:1px solid #2d3e63;border-radius:999px;
+  padding:6px 10px;margin:4px;font-size:13px;color:#b9c9e6;
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.metric strong{display:block;font-size:28px;margin-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+pre{
+  background:#08101d;border:1px solid var(--line);border-radius:12px;
+  padding:16px;overflow:auto;color:#d8e8ff;line-height:1.45;
+}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;background:var(--panel);margin:18px 0;border:1px solid var(--line)}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#121d33;color:#dce8fb}
+.compact td,.compact th{font-size:14px}
+.callout{
+  border-left:4px solid var(--accent);background:#0d1729;
+  padding:18px 20px;border-radius:10px;margin:18px 0;
+}
+.note{
+  border-left:4px solid var(--accent2);background:#0d1729;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#cbd8ef;
+}
+.small{font-size:14px;color:var(--muted)}
+.project-figure{
+  margin:22px auto 32px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;
+}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{display:block;width:100%;height:auto;background:#fff}
+.project-figure figcaption{padding:14px 16px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.project-figure figcaption strong{display:block;color:#eef5ff;margin-bottom:4px;font-size:15px}
+.action-btn{
+  display:inline-block;border:1px solid #35527d;border-radius:10px;
+  padding:10px 14px;color:#eaf1ff;background:#101b31;font-weight:700;
+}
+.action-btn.primary{background:#17335a;border-color:#4b7fbd}
+.action-btn:hover{text-decoration:none;transform:translateY(-1px)}
+.equation{
+  margin:18px 0;padding:14px 18px;text-align:center;background:#08101d;
+  border:1px solid var(--line);border-radius:12px;color:#eaf1ff;
+  font-family:"Times New Roman",serif;font-size:18px;overflow-x:auto;
+}
+@media(max-width:760px){
+  .grid,.two{grid-template-columns:1fr}
+  h1{font-size:38px}
+  table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+
+<body>
+<nav class="nav"><div class="container nav-inner">
+<a class="brand" href="../../index.html">SOOYONG KIM</a>
+<div class="nav-links"><a href="../../bio.html">Bio</a><a href="../../research/index.html">Research &amp; Work</a><a class="active" href="../../projects/index.html">Projects</a><a href="../../resume/index.html">Resume</a><a href="../../contact.html">Contact</a></div>
+</div></nav>
+<main>
+<p style="color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase">Control Systems · Part 1B</p>
+<h1>UR5e Controller Design, Benchmarking &amp; Robustness</h1>
+<p style="font-size:20px">Building on the validated and characterized UR5e plant from Part 1A, I designed and evaluated PID, computed-torque, discrete LQR, and constrained MPC controllers on one common nonlinear benchmark. The study progresses beyond nominal tracking to diagnose controller-specific behavior, validate Python–C++ implementations, measure computation, and test robustness under persistent payload mismatch and a transient external disturbance.</p>
+<div><span class="tag">UR5e</span><span class="tag">PID</span><span class="tag">Computed Torque</span><span class="tag">LQR</span><span class="tag">MPC</span><span class="tag">Robustness</span><span class="tag">OSQP</span><span class="tag">C++</span></div>
+<p><a href="https://github.com/greatsyong/ur5e-control-analysis" target="_blank" rel="noopener">View source on GitHub →</a></p>
+<div class="grid">
+<div class="metric"><strong>4</strong>Controller architectures on one common nonlinear benchmark</div>
+<div class="metric"><strong>0.00124°</strong>Computed-torque nominal overall joint RMSE</div>
+<div class="metric"><strong>2</strong>Robustness cases separating model mismatch and external disturbance</div>
+</div>
+<div class="callout"><strong>Engineering objective:</strong> compare controller assumptions and trade-offs rather than select a universal “best” controller. Nominal accuracy, robustness, computation, model dependence, and implementation behavior are evaluated separately.</div>
+
+<h2>1. Common Benchmark</h2>
+<p>All controllers use the same validated nonlinear rigid-body plant, initial condition, reference trajectory, 2 ms sampling period, and modeled torque limits. The 4 s quintic trajectory moves from <strong>[0, -90, 90, -90, -90, 0]°</strong> to <strong>[20, -60, 60, -70, -70, 20]°</strong>. Part 1A established that this trajectory is dynamically meaningful without being saturation dominated.</p>
+<table class="compact"><thead><tr><th>Controller</th><th>Joint RMSE</th><th>TCP Position RMSE</th><th>TCP Orientation RMSE</th></tr></thead><tbody>
+<tr><td>PID</td><td>0.469844°</td><td>5.835795 mm</td><td>1.527910°</td></tr>
+<tr><td>Computed Torque</td><td>0.001244°</td><td>0.004139 mm</td><td>0.002883°</td></tr>
+<tr><td>LQR</td><td>0.015502°</td><td>0.418511 mm</td><td>0.037763°</td></tr>
+<tr><td>MPC</td><td>0.048474°</td><td>0.378424 mm</td><td>0.129772°</td></tr>
+</tbody></table>
+
+<h2>2. PID — Feedback Baseline and Dynamic Diagnosis</h2>
+<p>The joint-space PID was tuned through effective-inertia-based bandwidth, damping, and integral-gain studies. The final design uses <strong>ωn = 20 rad/s</strong>, <strong>ζ = 3</strong>, and <strong>αi = 18</strong>. Instead of treating the remaining J4 error as a generic gain problem, I decomposed the dynamics and found that the behavior was primarily gravity dominated rather than saturation or coupling dominated.</p>
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/pid_bandwidth_sweep.png" alt="PID Bandwidth Sweep" loading="lazy">
+<figcaption><strong>Figure 1 — PID Bandwidth Sweep</strong>Systematic bandwidth study before final damping and integral-action selection.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/pid_damping_final_comparison.png" alt="PID Damping Selection" loading="lazy">
+<figcaption><strong>Figure 2 — PID Damping Selection</strong>Final damping comparison used to control transient behavior.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/pid_integral_final_sweep.png" alt="PID Integral-Gain Selection" loading="lazy">
+<figcaption><strong>Figure 3 — PID Integral-Gain Selection</strong>Integral action was introduced after the PD structure was established.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/pid_joint_tracking.png" alt="Final PID Joint Tracking" loading="lazy">
+<figcaption><strong>Figure 4 — Final PID Joint Tracking</strong>Common 4 s benchmark tracking with the final PID design.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/pid_joint_error.png" alt="PID Joint Error" loading="lazy">
+<figcaption><strong>Figure 5 — PID Joint Error</strong>Nominal overall joint RMSE: 0.469844°.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/pid_joint_torque.png" alt="PID Commanded Torque" loading="lazy">
+<figcaption><strong>Figure 6 — PID Commanded Torque</strong>The nominal response remains well inside the adopted torque limits.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/pid_j4_dynamics_decomposition.png" alt="J4 Dynamic Decomposition" loading="lazy">
+<figcaption><strong>Figure 7 — J4 Dynamic Decomposition</strong>The largest PID tracking issue was diagnosed as gravity dominated rather than saturation dominated.</figcaption>
+</figure>
+
+<h2>3. Computed Torque — Nominal Accuracy and Model Dependence</h2>
+<p>Computed-torque control uses the nominal rigid-body model to cancel the modeled dynamics and impose second-order error behavior. With the controller model and plant exactly matched, it achieved <strong>0.001244°</strong> overall joint RMSE and <strong>0.004139 mm</strong> TCP position RMSE.</p>
+<div class="equation">τ = M(q)[q̈<sub>d</sub> + K<sub>d</sub>ė + K<sub>p</sub>e] + c(q,q̇) + g(q)</div>
+<p>The commanded torque closely reproduces the Part 1A inverse-dynamics benchmark. I therefore treated the exceptional nominal result as a reason to test model sensitivity rather than as proof of universal superiority. The 2 kg payload case later exposes that dependence directly.</p>
+<div class="note">The measured Python computation time is dominated by the current numerical Coriolis implementation and is not interpreted as an intrinsic timing limit of computed-torque control.</div>
+
+<h2>4. Discrete LQR — Diagnosing the Feedforward Structure</h2>
+<p>The first local LQR implementation performed poorly on the nonlinear trajectory. The result was retained as a diagnostic step. A fixed equilibrium gravity term did not follow the changing reference configuration. The final design uses exact ZOH discretization, a DARE solution, Bryson-style normalization, <strong>ρu = 100</strong>, and reference-dependent gravity feedforward.</p>
+<div class="equation">τ = g(q<sub>ref</sub>) − K [ q − q<sub>ref</sub> ; q̇ − q̇<sub>ref</sub> ]</div>
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/lqr_gravity_feedforward_tcp.png" alt="LQR Gravity Feedforward — TCP" loading="lazy">
+<figcaption><strong>Figure 8 — LQR Gravity Feedforward — TCP</strong>Reference-dependent gravity feedforward substantially improved nonlinear trajectory tracking.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/lqr_gravity_feedforward_angular.png" alt="LQR Gravity Feedforward — Orientation" loading="lazy">
+<figcaption><strong>Figure 9 — LQR Gravity Feedforward — Orientation</strong>The result showed that feedforward structure mattered more than repeatedly retuning the same fixed-gravity formulation.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/lqr_rho_pole_gain_sweep.png" alt="LQR Input-Weight Sweep" loading="lazy">
+<figcaption><strong>Figure 10 — LQR Input-Weight Sweep</strong>Gain and closed-loop pole behavior were examined before nonlinear selection.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/lqr_rho_nonlinear_tcp.png" alt="LQR Nonlinear Sweep — TCP" loading="lazy">
+<figcaption><strong>Figure 11 — LQR Nonlinear Sweep — TCP</strong>Candidate input penalties were evaluated on the nonlinear plant.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/lqr_rho_nonlinear_angular.png" alt="LQR Nonlinear Sweep — Orientation" loading="lazy">
+<figcaption><strong>Figure 12 — LQR Nonlinear Sweep — Orientation</strong>Nonlinear evaluation connected the local design to full-trajectory behavior.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/lqr_joint_tracking.png" alt="Final LQR Joint Tracking" loading="lazy">
+<figcaption><strong>Figure 13 — Final LQR Joint Tracking</strong>Final overall joint RMSE: 0.015502°.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/lqr_joint_error.png" alt="Final LQR Joint Error" loading="lazy">
+<figcaption><strong>Figure 14 — Final LQR Joint Error</strong>Low error was achieved with one fixed nominal linearization plus reference-dependent gravity feedforward.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/lqr_joint_torque.png" alt="Final LQR Commanded Torque" loading="lazy">
+<figcaption><strong>Figure 15 — Final LQR Commanded Torque</strong>The common benchmark remains within the modeled torque limits.</figcaption>
+</figure>
+
+<h2>5. Constrained MPC — Prediction and Runtime Architecture</h2>
+<p>The final linear MPC uses <strong>Np = 160</strong> (320 ms), <strong>Nc = 40</strong> (80 ms), <strong>ρu = 10</strong>, and explicit joint-torque constraints in an OSQP quadratic program. Profiling showed that known reference-dependent QP terms were being rebuilt online. I separated the gradient into state-dependent and known reference-dependent components and moved the latter offline, preserving the controller mathematics while reducing online computation.</p>
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/mpc_prediction_horizon_sweep.png" alt="MPC Prediction-Horizon Sweep" loading="lazy">
+<figcaption><strong>Figure 16 — MPC Prediction-Horizon Sweep</strong>Prediction length was selected from measured tracking and computation behavior.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/mpc_control_horizon_sweep.png" alt="MPC Control-Horizon Sweep" loading="lazy">
+<figcaption><strong>Figure 17 — MPC Control-Horizon Sweep</strong>A shorter independent control horizon reduces optimization dimension while retaining a longer prediction window.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/mpc_tolerance_sweep.png" alt="MPC Solver-Tolerance Study" loading="lazy">
+<figcaption><strong>Figure 18 — MPC Solver-Tolerance Study</strong>Solver accuracy and computation were evaluated together.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/mpc_joint_error_metrics.png" alt="MPC Joint Error Metrics" loading="lazy">
+<figcaption><strong>Figure 19 — MPC Joint Error Metrics</strong>Final overall joint RMSE: 0.048474°.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/mpc_tcp_metrics.png" alt="MPC TCP Metrics" loading="lazy">
+<figcaption><strong>Figure 20 — MPC TCP Metrics</strong>Nominal TCP position/orientation RMSE: 0.378424 mm / 0.129772°.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/mpc_torque_utilization.png" alt="MPC Torque Utilization" loading="lazy">
+<figcaption><strong>Figure 21 — MPC Torque Utilization</strong>Constraints are included in the QP, but the nominal benchmark does not activate them.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/mpc_computation_optimization.png" alt="MPC Computation Optimization" loading="lazy">
+<figcaption><strong>Figure 22 — MPC Computation Optimization</strong>Profiling motivated an offline/online algebraic decomposition without changing the controller objective.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/mpc_python_cpp_timing.png" alt="MPC Python–C++ Timing" loading="lazy">
+<figcaption><strong>Figure 23 — MPC Python–C++ Timing</strong>C++ mean online time ≈ 0.96 ms with Python–C++ torque agreement ≈ 2 × 10⁻¹⁰ Nm.</figcaption>
+</figure>
+
+<h2>6. Robustness Methodology</h2>
+<p>Nominal accuracy and robustness were intentionally separated. Final controller parameters were frozen and two different perturbation mechanisms were applied to the actual plant.</p>
+<div class="two">
+<div class="card"><h3 style="margin-top:0">R1 — Persistent Model Mismatch</h3><p>A 2.0 kg point payload is placed 0.10 m along tool-frame +Z. The actual plant changes inertia and gravity while every controller continues to use its nominal bare-arm design model.</p></div>
+<div class="card"><h3 style="margin-top:0">R2 — External Disturbance</h3><p>A +20 Nm generalized torque is applied to Joint 2 for 200 ms from t = 2.0 s. The nominal plant itself is unchanged and the controller is not informed of the disturbance.</p></div>
+</div>
+
+<h2>7. Robustness Results</h2>
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/robustness_joint_rmse.png" alt="Joint Tracking Robustness" loading="lazy">
+<figcaption><strong>Figure 24 — Joint Tracking Robustness</strong>Nominal, 2 kg payload mismatch, and J2 disturbance results.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/robustness_tcp_position_rmse.png" alt="TCP Position Robustness" loading="lazy">
+<figcaption><strong>Figure 25 — TCP Position Robustness</strong>Cartesian position tracking reveals sensitivity not visible from nominal joint RMSE alone.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/robustness_tcp_orientation_rmse.png" alt="TCP Orientation Robustness" loading="lazy">
+<figcaption><strong>Figure 26 — TCP Orientation Robustness</strong>Persistent model mismatch affects all four controller architectures.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/robustness_degradation_ratio.png" alt="Tracking Degradation Relative to Nominal" loading="lazy">
+<figcaption><strong>Figure 27 — Tracking Degradation Relative to Nominal</strong>Relative degradation is interpreted together with absolute error, especially when the nominal denominator is near zero.</figcaption>
+</figure><figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_1B/robustness_torque_utilization.png" alt="Control Effort Under Robustness Tests" loading="lazy">
+<figcaption><strong>Figure 28 — Control Effort Under Robustness Tests</strong>None of the robustness cases is saturation dominated.</figcaption>
+</figure>
+<table class="compact"><thead><tr><th>Controller</th><th>Case</th><th>Joint RMSE [deg]</th><th>TCP Position [mm]</th><th>TCP Orientation [deg]</th></tr></thead><tbody>
+<tr><td>PID</td><td>Nominal</td><td>0.469844</td><td>5.835795</td><td>1.527910</td></tr>
+<tr><td>PID</td><td>Payload</td><td>1.205309</td><td>11.963438</td><td>3.585649</td></tr>
+<tr><td>PID</td><td>Disturbance</td><td>0.472416</td><td>6.032206</td><td>1.531076</td></tr>
+<tr><td>Computed Torque</td><td>Nominal</td><td>0.001244</td><td>0.004139</td><td>0.002883</td></tr>
+<tr><td>Computed Torque</td><td>Payload</td><td>3.684475</td><td>20.562134</td><td>9.174375</td></tr>
+<tr><td>Computed Torque</td><td>Disturbance</td><td>0.504513</td><td>0.900220</td><td>0.907051</td></tr>
+<tr><td>LQR</td><td>Nominal</td><td>0.015502</td><td>0.418511</td><td>0.037763</td></tr>
+<tr><td>LQR</td><td>Payload</td><td>1.564289</td><td>28.293832</td><td>4.533704</td></tr>
+<tr><td>LQR</td><td>Disturbance</td><td>0.163066</td><td>4.246570</td><td>0.406142</td></tr>
+<tr><td>MPC</td><td>Nominal</td><td>0.048474</td><td>0.378424</td><td>0.129772</td></tr>
+<tr><td>MPC</td><td>Payload</td><td>1.412378</td><td>12.380191</td><td>3.659589</td></tr>
+<tr><td>MPC</td><td>Disturbance</td><td>0.085670</td><td>1.503611</td><td>0.209132</td></tr>
+</tbody></table>
+
+<h2>8. Engineering Conclusions</h2>
+<div class="two">
+<div class="card"><h3 style="margin-top:0">Nominal Precision ≠ Robustness</h3><p>Computed torque is exceptionally accurate under exact model match, while persistent payload mismatch exposes the sensitivity of model cancellation. The two tests measure different properties.</p></div>
+<div class="card"><h3 style="margin-top:0">Transient ≠ Persistent Uncertainty</h3><p>The J2 pulse disappears after 200 ms while the payload mismatch persists. Separating the cases prevents disturbance rejection and model robustness from being treated as the same engineering problem.</p></div>
+</div>
+<div class="two">
+<div class="card"><h3 style="margin-top:0">Constraints Were Not the Story Here</h3><p>MPC includes explicit torque constraints, but none of the current tests activates them. The present results therefore support conclusions about tracking, computation, and robustness—not a demonstrated constraint-handling advantage.</p></div>
+<div class="card"><h3 style="margin-top:0">Implementation Matters</h3><p>PID exposed update-order details, LQR exposed feedforward structure, and MPC exposed the distinction between controller mathematics and online software architecture. Python–C++ cross-validation ensured implementation changes preserved the intended controller.</p></div>
+</div>
+<div class="callout"><strong>Part 1B conclusion:</strong> the useful comparison is not a single controller ranking. PID, computed torque, LQR, and MPC make different assumptions about feedback, model fidelity, prediction, constraints, and computation. Those assumptions become visible only when nominal tracking, model mismatch, disturbance rejection, and implementation behavior are examined together.</div>
+
+<h2>9. Technical Reports</h2>
+<div class="card"><h3 style="margin-top:0">Integrated Part 1B Report</h3><p>Full controller-design, nominal-benchmark, computation, Python–C++ validation, and robustness assessment.</p><p><a class="action-btn primary" href="UR5e_Part_1B_Controller_Design_and_Robustness_Assessment.pdf" target="_blank" rel="noopener">View Full Part 1B Report</a></p></div>
+<div class="two">
+<div class="card"><h3 style="margin-top:0">PID Controller Report</h3><p>Detailed tuning, final benchmark, J4 dynamic diagnosis, and implementation analysis.</p><p><a class="action-btn" href="PID_UR5e_Control_Analysis.pdf" target="_blank" rel="noopener">View PID Report</a></p></div>
+<div class="card"><h3 style="margin-top:0">LQR Controller Report</h3><p>Discrete design, gravity-feedforward diagnosis, nonlinear tuning, and Python–C++ validation.</p><p><a class="action-btn" href="LQR_UR5e_Control_Analysis.pdf" target="_blank" rel="noopener">View LQR Report</a></p></div>
+</div>
+<div class="card"><h3 style="margin-top:0">MPC Controller Report</h3><p>QP formulation, horizon/tolerance studies, computation profiling, offline/online restructuring, and C++ runtime validation.</p><p><a class="action-btn" href="MPC_UR5e_Control_Analysis.pdf" target="_blank" rel="noopener">View MPC Report</a></p></div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:42px;padding-top:20px;border-top:1px solid #293957;">
+<a href="../05-UR5e_Part_1A/index.html" style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">← Previous: Part 1A</a>
+<a href="../index.html" style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">Back to Projects →</a>
+</div>
+<p style="margin-top:50px;color:#8ea1c0">Project by Sooyong Kim · Robotics Control Portfolio</p>
+</main></body></html>
