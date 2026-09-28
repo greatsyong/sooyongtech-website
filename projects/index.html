@@ -208,11 +208,20 @@ Planned / In Development
 </div>
 
 <div class="btns">
-<a class="btn" href="05-planning/index.html">
+<a class="btn" href="09-path-planning/index.html">
 View Project
 </a>
 </div>
 
+</article>
+
+<!-- AUTONOMOUS MOBILE ROBOT MISSION SYSTEM -->
+<article class="card">
+<h3>Autonomous Mobile Robot Mission System</h3>
+<p>An integrated autonomous mobile-robot system in NVIDIA Isaac Sim that receives mission goals, localizes and navigates through the environment, verifies task completion, monitors battery state, returns for autonomous charging and docking when required, and resumes mission execution.</p>
+<div class="status build"><span class="dot"></span>Planned</div>
+<div class="tags"><span class="tag">Isaac Sim</span><span class="tag">AMR</span><span class="tag">Nav2</span><span class="tag">Docking</span><span class="tag">Mission Planning</span></div>
+<div class="btns"><a class="btn" href="10-amr-isaac-demo/index.html">View Project</a></div>
 </article>
 
 
@@ -370,71 +379,23 @@ Python–C++ validation, persistent payload mismatch, and transient external-dis
 </article>
 
 
-<!-- CONTROL PROJECT 05 -->
-
+<!-- CONTROL PROJECT 05 — PART 2 -->
 <article class="card">
-
-<h3>Robotic Control Implementation</h3>
-
-<p>
-Controllers developed in the analytical study are transferred to mobile-robot
-and manipulator systems, then retuned under sensor noise, latency, actuator
-dynamics, saturation, model mismatch, payload variation, and physical disturbance.
-</p>
-
-<div class="status build">
-<span class="dot"></span>
-Planned / In Development
-</div>
-
-<div class="tags">
-<span class="tag">Mobile Robot</span>
-<span class="tag">Manipulator</span>
-<span class="tag">PID</span>
-<span class="tag">LQR</span>
-<span class="tag">MPC</span>
-</div>
-
-<div class="btns">
-<a class="btn" href="07-robot-control/index.html">
-View Project
-</a>
-</div>
-
+<h3>Part 2 — Isaac Sim Control Validation</h3>
+<p>PID, computed-torque, LQR, and MPC controllers developed in Part 1B are transferred to the UR5e in NVIDIA Isaac Sim. Analytical predictions are independently evaluated under physics simulation, with attention to tracking performance, actuator behavior, model discrepancy, and implementation effects.</p>
+<div class="status build"><span class="dot"></span>Planned / In Development</div>
+<div class="tags"><span class="tag">UR5e</span><span class="tag">Isaac Sim</span><span class="tag">PID</span><span class="tag">LQR</span><span class="tag">MPC</span></div>
+<div class="btns"><a class="btn" href="07-UR5e_Part_2/index.html">View Project</a></div>
 </article>
 
 
-<!-- CONTROL PROJECT 06 -->
-
+<!-- CONTROL PROJECT 06 — PART 3 -->
 <article class="card">
-
-<h3>Comparative Control Engineering Study</h3>
-
-<p>
-Experimental and simulation results are consolidated to determine the operating
-conditions, assumptions, and trade-offs associated with classical, optimal, and
-predictive control in practical robotic systems.
-</p>
-
-<div class="status build">
-<span class="dot"></span>
-Planned
-</div>
-
-<div class="tags">
-<span class="tag">Benchmarking</span>
-<span class="tag">Robustness</span>
-<span class="tag">Performance</span>
-<span class="tag">Computation</span>
-<span class="tag">Trade-offs</span>
-</div>
-
-<div class="btns">
-<a class="btn" href="08-control-study/index.html">
-View Project
-</a>
-</div>
-
+<h3>Part 3 — Autonomous Manipulation System</h3>
+<p>An integrated UR5e manipulation system that receives a task and combines perception, motion planning, grasping, model-based control, payload-aware adaptation, transport, placement, and task-completion verification. This establishes the complete model-based robotic task benchmark before reinforcement learning is introduced.</p>
+<div class="status build"><span class="dot"></span>Planned</div>
+<div class="tags"><span class="tag">UR5e</span><span class="tag">Manipulation</span><span class="tag">Perception</span><span class="tag">Motion Planning</span><span class="tag">Adaptive Control</span></div>
+<div class="btns"><a class="btn" href="08-UR5e_Part_3/index.html">View Project</a></div>
 </article>
 
 </div>
@@ -495,7 +456,7 @@ Planned
 </div>
 
 <div class="btns">
-<a class="btn" href="07-rl-fundamentals/index.html">
+<a class="btn" href="11-rl-fundamentals/index.html">
 View Project
 </a>
 </div>
@@ -508,13 +469,12 @@ View Project
 <article class="card">
 
 
-<h3>Reinforcement Learning for Robotic Systems</h3>
+<h3>Reinforcement Learning for UR5e in Isaac Sim</h3>
 
 <p>
-Reinforcement-learning policies are applied to mobile robots and manipulators
-under realistic dynamics, sensing uncertainty, actuator limitations,
-disturbances, environmental variation, and physical interaction.
-Conventional controllers are incorporated where they improve system behavior.
+Pure reinforcement-learning policies are trained and evaluated on the UR5e in NVIDIA
+Isaac Sim, examining reward design, training convergence, payload and disturbance
+variation, generalization, and task performance without relying on classical controllers.
 </p>
 
 <div class="status build">
@@ -531,7 +491,7 @@ Planned
 </div>
 
 <div class="btns">
-<a class="btn" href="08-robot-rl/index.html">
+<a class="btn" href="12-rl-isaac-ur5e/index.html">
 View Project
 </a>
 </div>
@@ -544,13 +504,12 @@ View Project
 <article class="card">
 
 
-<h3>Classical, Learning-Based & Hybrid Control</h3>
+<h3>Classical, Reinforcement Learning &amp; Hybrid Control for UR5e</h3>
 
 <p>
-A comparative study evaluating conventional control, reinforcement learning,
-and hybrid approaches to determine when learning provides measurable benefits
-in performance, adaptation, or robustness—and when the additional training
-and implementation complexity is not justified.
+A common UR5e task compares model-based MPC, pure reinforcement learning, and hybrid
+MPC + residual RL. Tracking, task performance, robustness, adaptation, generalization,
+computation, and training cost are evaluated on the same robotic task.
 </p>
 
 <div class="status build">
@@ -567,7 +526,7 @@ Planned
 </div>
 
 <div class="btns">
-<a class="btn" href="09-learning-study/index.html">
+<a class="btn" href="13-hybrid-control-ur5e/index.html">
 View Project
 </a>
 </div>
