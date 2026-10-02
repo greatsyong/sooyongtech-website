@@ -76,14 +76,183 @@ Projects
 
 <p class="lead">
 My robotics projects are organized into three technical areas:
-Perception & Autonomy, Control Systems, and Reinforcement Learning.
-The work progresses from sensing and perception to model-based control,
-physical robotic implementation, learning-based adaptation, and engineering evaluation.
+Control Systems, Perception & Autonomy, and Reinforcement Learning.
+The work progresses from model-based control and physical robotic implementation
+through perception and autonomy to learning-based adaptation and engineering evaluation.
 </p>
 
 </div>
 
 </header>
+
+
+<!-- =========================================================
+     CONTROL SYSTEMS
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+
+<h2>Control Systems</h2>
+
+<p>
+Control projects progressing from state estimation and mathematical controller
+design to implementation on mobile robots and manipulators, followed by
+comparative evaluation of performance, robustness, computational cost,
+and practical suitability.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+<!-- CONTROL PROJECT 05 — PART 2 -->
+<article class="card">
+<h3>Part 2 — Independent Simulation, ROS2 Integration &amp; Runtime Validation</h3>
+<p>UR5e controllers are transferred from the analytical model to direct-effort NVIDIA Isaac Sim validation and then to a ROS 2/C++ runtime. The study isolates physics-step and actuation-timing effects, validates PID/LQR/MPC runtime execution, and diagnoses MPC closed-loop failure before identifying a practical executable configuration.</p>
+<div class="status live"><span class="dot"></span>Completed</div>
+<div class="tags"><span class="tag">UR5e</span><span class="tag">ROS 2</span><span class="tag">Isaac Sim</span><span class="tag">PID</span><span class="tag">LQR</span><span class="tag">MPC</span></div>
+<div class="btns"><a class="btn primary" href="07-UR5e_Part_2/index.html">View Project</a></div>
+</article>
+
+<!-- CONTROL PROJECT 04 — PART 1B -->
+<article class="card">
+<h3>Part 1B — Controller Design, Benchmarking &amp; Robustness</h3>
+<p>
+PID, computed-torque, discrete LQR, and constrained MPC are evaluated on the validated nonlinear
+UR5e plant using a common benchmark. The study extends nominal tracking into computation,
+Python–C++ validation, persistent payload mismatch, and transient external-disturbance robustness.
+</p>
+<div class="status live"><span class="dot"></span>Completed</div>
+<div class="tags">
+<span class="tag">PID</span><span class="tag">Computed Torque</span><span class="tag">LQR</span>
+<span class="tag">MPC</span><span class="tag">Robustness</span>
+</div>
+<div class="btns"><a class="btn primary" href="06-UR5e_Part_1B/index.html">View Project</a></div>
+</article>
+
+<!-- CONTROL PROJECT 03 — PART 1A -->
+
+<article class="card">
+
+<h3>Part 1A — Kinematics &amp; Dynamics Characterization</h3>
+
+<p>
+Characterization of the validated UR5e plant through Jacobian conditioning and singularity
+analysis, pseudoinverse versus damped least squares, configuration-dependent rigid-body
+dynamics, equilibrium and linearization studies, benchmark feasibility, and Python–C++
+cross-validation before controller design.
+</p>
+
+<div class="status live">
+<span class="dot"></span>
+Completed
+</div>
+
+<div class="tags">
+<span class="tag">Kinematics</span>
+<span class="tag">Dynamics</span>
+<span class="tag">Singularity</span>
+<span class="tag">Linearization</span>
+<span class="tag">C++ / Eigen</span>
+</div>
+
+<div class="btns">
+<a class="btn primary" href="05-UR5e_Part_1A/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+<!-- CONTROL PROJECT 02 — PRE-PART 1 -->
+
+<article class="card">
+
+<h3>Pre-Part 1 — UR5e Model Setup &amp; Cross-Validation</h3>
+
+<p>
+A nominal UR5e analytical model is reconciled with the official ROS 2 robot
+description and NVIDIA Isaac Sim before controller design begins. DH and physical-link
+frames, fixed-base articulation, gravity, joint drives, link poses, Jacobians,
+the mass matrix, and gravity generalized forces are independently verified.
+</p>
+
+<div class="status live">
+<span class="dot"></span>
+Completed
+</div>
+
+<div class="tags">
+<span class="tag">UR5e</span>
+<span class="tag">ROS 2</span>
+<span class="tag">URDF</span>
+<span class="tag">Isaac Sim</span>
+<span class="tag">Rigid-Body Dynamics</span>
+</div>
+
+<div class="btns">
+<a class="btn primary" href="04-control-model-validation/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+<!-- CONTROL PROJECT 01 -->
+
+<article class="card">
+
+
+<h3>EKF Sensor Fusion</h3>
+
+<p>
+Wheel odometry and IMU fusion using an Extended Kalman Filter in ROS 2 and Gazebo,
+providing the state-estimation foundation for subsequent closed-loop robotic
+control experiments.
+</p>
+
+<div class="status live">
+<span class="dot"></span>
+Completed
+</div>
+
+<div class="tags">
+<span class="tag">ROS 2</span>
+<span class="tag">EKF</span>
+<span class="tag">IMU</span>
+<span class="tag">Odometry</span>
+<span class="tag">Python</span>
+</div>
+
+<div class="btns">
+<a class="btn primary" href="01-ekf/index.html">
+View Project
+</a>
+</div>
+
+</article>
+
+<!-- CONTROL PROJECT 06 — PART 3 -->
+<article class="card">
+<h3>Part 3 — Autonomous Manipulation System</h3>
+<p>An integrated UR5e manipulation system that receives a task and combines perception, motion planning, grasping, model-based control, payload-aware adaptation, transport, placement, and task-completion verification. This establishes the complete model-based robotic task benchmark before reinforcement learning is introduced.</p>
+<div class="status build"><span class="dot"></span>Planned</div>
+<div class="tags"><span class="tag">UR5e</span><span class="tag">Manipulation</span><span class="tag">Perception</span><span class="tag">Motion Planning</span><span class="tag">Adaptive Control</span></div>
+<div class="btns"><a class="btn" href="08-UR5e_Part_3/index.html">View Project</a></div>
+</article>
+
+</div>
+</div>
+
+</section>
+
+
 
 
 <!-- =========================================================
@@ -109,42 +278,6 @@ for navigation through complex environments.
 
 
 <div class="grid">
-
-
-<!-- VISION PROJECT 01 -->
-
-<article class="card">
-
-
-<h3>Vision Perception</h3>
-
-<p>
-Real-time object detection, persistent tracking, and instance segmentation
-using GPU-accelerated deep-learning models, with quantitative evaluation
-of inference latency, processing speed, and perception performance.
-</p>
-
-<div class="status live">
-<span class="dot"></span>
-Completed
-</div>
-
-<div class="tags">
-<span class="tag">ROS 2</span>
-<span class="tag">YOLO</span>
-<span class="tag">Tracking</span>
-<span class="tag">Segmentation</span>
-<span class="tag">PyTorch</span>
-</div>
-
-<div class="btns">
-<a class="btn primary" href="02-vision/index.html">
-View Project
-</a>
-</div>
-
-</article>
-
 
 <!-- VISION PROJECT 02 -->
 
@@ -180,6 +313,39 @@ View Project
 
 </article>
 
+<!-- VISION PROJECT 01 -->
+
+<article class="card">
+
+
+<h3>Vision Perception</h3>
+
+<p>
+Real-time object detection, persistent tracking, and instance segmentation
+using GPU-accelerated deep-learning models, with quantitative evaluation
+of inference latency, processing speed, and perception performance.
+</p>
+
+<div class="status live">
+<span class="dot"></span>
+Completed
+</div>
+
+<div class="tags">
+<span class="tag">ROS 2</span>
+<span class="tag">YOLO</span>
+<span class="tag">Tracking</span>
+<span class="tag">Segmentation</span>
+<span class="tag">PyTorch</span>
+</div>
+
+<div class="btns">
+<a class="btn primary" href="02-vision/index.html">
+View Project
+</a>
+</div>
+
+</article>
 
 <!-- PATH PLANNING & NAVIGATION -->
 
@@ -231,177 +397,6 @@ View Project
 </section>
 
 
-<!-- =========================================================
-     CONTROL SYSTEMS
-========================================================= -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-
-<h2>Control Systems</h2>
-
-<p>
-Control projects progressing from state estimation and mathematical controller
-design to implementation on mobile robots and manipulators, followed by
-comparative evaluation of performance, robustness, computational cost,
-and practical suitability.
-</p>
-
-</div>
-
-
-<div class="grid">
-
-
-<!-- CONTROL PROJECT 01 -->
-
-<article class="card">
-
-
-<h3>EKF Sensor Fusion</h3>
-
-<p>
-Wheel odometry and IMU fusion using an Extended Kalman Filter in ROS 2 and Gazebo,
-providing the state-estimation foundation for subsequent closed-loop robotic
-control experiments.
-</p>
-
-<div class="status live">
-<span class="dot"></span>
-Completed
-</div>
-
-<div class="tags">
-<span class="tag">ROS 2</span>
-<span class="tag">EKF</span>
-<span class="tag">IMU</span>
-<span class="tag">Odometry</span>
-<span class="tag">Python</span>
-</div>
-
-<div class="btns">
-<a class="btn primary" href="01-ekf/index.html">
-View Project
-</a>
-</div>
-
-</article>
-
-
-<!-- CONTROL PROJECT 02 — PRE-PART 1 -->
-
-<article class="card">
-
-<h3>Pre-Part 1 — UR5e Model Setup &amp; Cross-Validation</h3>
-
-<p>
-A nominal UR5e analytical model is reconciled with the official ROS 2 robot
-description and NVIDIA Isaac Sim before controller design begins. DH and physical-link
-frames, fixed-base articulation, gravity, joint drives, link poses, Jacobians,
-the mass matrix, and gravity generalized forces are independently verified.
-</p>
-
-<div class="status live">
-<span class="dot"></span>
-Completed
-</div>
-
-<div class="tags">
-<span class="tag">UR5e</span>
-<span class="tag">ROS 2</span>
-<span class="tag">URDF</span>
-<span class="tag">Isaac Sim</span>
-<span class="tag">Rigid-Body Dynamics</span>
-</div>
-
-<div class="btns">
-<a class="btn primary" href="04-control-model-validation/index.html">
-View Project
-</a>
-</div>
-
-</article>
-
-
-<!-- CONTROL PROJECT 03 — PART 1A -->
-
-<article class="card">
-
-<h3>Part 1A — Kinematics &amp; Dynamics Characterization</h3>
-
-<p>
-Characterization of the validated UR5e plant through Jacobian conditioning and singularity
-analysis, pseudoinverse versus damped least squares, configuration-dependent rigid-body
-dynamics, equilibrium and linearization studies, benchmark feasibility, and Python–C++
-cross-validation before controller design.
-</p>
-
-<div class="status live">
-<span class="dot"></span>
-Completed
-</div>
-
-<div class="tags">
-<span class="tag">Kinematics</span>
-<span class="tag">Dynamics</span>
-<span class="tag">Singularity</span>
-<span class="tag">Linearization</span>
-<span class="tag">C++ / Eigen</span>
-</div>
-
-<div class="btns">
-<a class="btn primary" href="05-UR5e_Part_1A/index.html">
-View Project
-</a>
-</div>
-
-</article>
-
-
-<!-- CONTROL PROJECT 04 — PART 1B -->
-<article class="card">
-<h3>Part 1B — Controller Design, Benchmarking &amp; Robustness</h3>
-<p>
-PID, computed-torque, discrete LQR, and constrained MPC are evaluated on the validated nonlinear
-UR5e plant using a common benchmark. The study extends nominal tracking into computation,
-Python–C++ validation, persistent payload mismatch, and transient external-disturbance robustness.
-</p>
-<div class="status live"><span class="dot"></span>Completed</div>
-<div class="tags">
-<span class="tag">PID</span><span class="tag">Computed Torque</span><span class="tag">LQR</span>
-<span class="tag">MPC</span><span class="tag">Robustness</span>
-</div>
-<div class="btns"><a class="btn primary" href="06-UR5e_Part_1B/index.html">View Project</a></div>
-</article>
-
-
-<!-- CONTROL PROJECT 05 — PART 2 -->
-<article class="card">
-<h3>Part 2 — Isaac Sim Control Validation</h3>
-<p>PID, computed-torque, LQR, and MPC controllers developed in Part 1B are transferred to the UR5e in NVIDIA Isaac Sim. Analytical predictions are independently evaluated under physics simulation, with attention to tracking performance, actuator behavior, model discrepancy, and implementation effects.</p>
-<div class="status build"><span class="dot"></span>Planned / In Development</div>
-<div class="tags"><span class="tag">UR5e</span><span class="tag">Isaac Sim</span><span class="tag">PID</span><span class="tag">LQR</span><span class="tag">MPC</span></div>
-<div class="btns"><a class="btn" href="07-UR5e_Part_2/index.html">View Project</a></div>
-</article>
-
-
-<!-- CONTROL PROJECT 06 — PART 3 -->
-<article class="card">
-<h3>Part 3 — Autonomous Manipulation System</h3>
-<p>An integrated UR5e manipulation system that receives a task and combines perception, motion planning, grasping, model-based control, payload-aware adaptation, transport, placement, and task-completion verification. This establishes the complete model-based robotic task benchmark before reinforcement learning is introduced.</p>
-<div class="status build"><span class="dot"></span>Planned</div>
-<div class="tags"><span class="tag">UR5e</span><span class="tag">Manipulation</span><span class="tag">Perception</span><span class="tag">Motion Planning</span><span class="tag">Adaptive Control</span></div>
-<div class="btns"><a class="btn" href="08-UR5e_Part_3/index.html">View Project</a></div>
-</article>
-
-</div>
-</div>
-
-</section>
 
 
 <!-- =========================================================
