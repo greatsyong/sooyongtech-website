@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Robot-Aware Path Planning Benchmark — Dijkstra, A*, RRT and RRT* with robot-specific configuration spaces, safety-aware execution and mission-level evaluation — Sooyong Kim">
+<title>Robot-Aware Path Planning Benchmark — Sooyong Kim</title>
+
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+main{max-width:1040px;margin:auto;padding:48px 24px 72px}
+h1{font-size:52px;line-height:1.05;margin:10px 0 16px;letter-spacing:-.025em}
+h2{margin-top:52px;font-size:29px}
+h3{margin-top:30px;font-size:21px}
+p,li{color:#ced9ef}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.tag{
+  display:inline-block;border:1px solid #2d3e63;border-radius:999px;
+  padding:6px 10px;margin:4px;font-size:13px;color:#b9c9e6;
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.metric strong{display:block;font-size:28px;margin-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+pre{
+  background:#08101d;border:1px solid var(--line);border-radius:12px;
+  padding:16px;overflow:auto;color:#d8e8ff;line-height:1.45;
+}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;background:var(--panel);margin:18px 0;border:1px solid var(--line)}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#121d33;color:#dce8fb}
+.compact td,.compact th{font-size:14px}
+.callout{
+  border-left:4px solid var(--accent);background:#0d1729;
+  padding:18px 20px;border-radius:10px;margin:18px 0;
+}
+.note{
+  border-left:4px solid var(--accent2);background:#0d1729;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#cbd8ef;
+}
+.warning{
+  border-left:4px solid #f59e0b;background:#171426;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#dbe5f6;
+}
+.small{font-size:14px;color:var(--muted)}
+.project-figure{
+  margin:22px auto 32px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;
+}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{display:block;width:100%;height:auto;background:#fff}
+.project-figure figcaption{padding:14px 16px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.project-figure figcaption strong{display:block;color:#eef5ff;margin-bottom:4px;font-size:15px}
+.action-btn{
+  display:inline-block;border:1px solid #35527d;border-radius:10px;
+  padding:10px 14px;color:#eaf1ff;background:#101b31;font-weight:700;
+  margin:5px 8px 5px 0;
+}
+.action-btn.primary{background:#17335a;border-color:#4b7fbd}
+.action-btn:hover{text-decoration:none;transform:translateY(-1px)}
+.equation{
+  margin:18px 0;padding:14px 18px;text-align:center;background:#08101d;
+  border:1px solid var(--line);border-radius:12px;color:#eaf1ff;
+  font-family:"Times New Roman",serif;font-size:18px;overflow-x:auto;
+}
+.video-wrap{
+  width:min(100%,720px);margin:24px auto 34px;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#08101d;
+}
+.video-frame{position:relative;width:100%;padding-top:56.25%}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-caption{padding:14px 16px 16px;color:var(--muted);font-size:14px}
+.pipeline{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0;
+}
+.pipeline .step{
+  position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:16px;text-align:center;color:#dce8fb;font-weight:700;
+}
+.pipeline .step span{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:5px}
+@media(max-width:760px){
+  .grid,.two,.pipeline{grid-template-columns:1fr}
+  h1{font-size:38px}
+  table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+
+<body>
+<nav class="nav"><div class="container nav-inner">
+<a class="brand" href="../../index.html">SOOYONG KIM</a>
+<div class="nav-links"><a href="../../bio.html">Bio</a><a href="../../research/index.html">Research &amp; Work</a><a class="active" href="../../projects/index.html">Projects</a><a href="../../resume/index.html">Resume</a><a href="../../contact.html">Contact</a></div>
+</div></nav>
+
+<main>
+<p style="color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase">Perception &amp; Autonomy · Path Planning</p>
+<h1>Robot-Aware Path Planning Benchmark</h1>
+<p style="font-size:20px">
+This project evaluates whether paths produced by established planners remain physically feasible and operationally useful once actual robot geometry, indoor clutter, common path refinement, continuous clearance, motion limits, and safety-aware operating policies are introduced. The study progresses from algorithm validation to robot-specific route feasibility and finally to a mission-level engineering trade study.
+</p>
+
+<div>
+  <span class="tag">Dijkstra</span>
+  <span class="tag">A*</span>
+  <span class="tag">RRT</span>
+  <span class="tag">RRT*</span>
+  <span class="tag">TurtleBot3 Waffle Pi</span>
+  <span class="tag">Clearpath Ridgeback</span>
+  <span class="tag">Configuration Space</span>
+  <span class="tag">Continuous Clearance</span>
+  <span class="tag">Mission Benchmarking</span>
+</div>
+
+<p>
+<a href="https://github.com/greatsyong/SK/tree/main/04_robot_aware_path_planning" target="_blank" rel="noopener">View source on GitHub →</a>
+</p>
+
+<div class="grid">
+  <div class="metric"><strong>3</strong>Progressive scenarios from footprint feasibility to safety-aware planner evaluation</div>
+  <div class="metric"><strong>10 seeds</strong>Controlled stochastic trials for RRT and RRT*</div>
+  <div class="metric"><strong>50k</strong>Final iteration budget used to expose RRT* convergence cost and diminishing returns</div>
+</div>
+
+<div class="callout">
+<strong>Engineering objective:</strong> this is not a new path-planning algorithm and not a shortest-path leaderboard. The central question is whether a real robot can use the path after footprint, configuration-space, clutter, refinement, continuous-clearance, motion, and operating-policy constraints are applied.
+</div>
+
+<h2>1. Benchmark Strategy</h2>
+<p>
+The benchmark separates algorithm correctness from robot-level feasibility. Dijkstra and A* were first checked against reference grid-search costs, while RRT and RRT* were validated with controlled seeds and full-edge collision checking. The same planners are then placed inside a metric indoor environment where the robot footprint, rather than a point-mass assumption, determines free configuration space.
+</p>
+
+<div class="pipeline">
+  <div class="step">Algorithm Validation<span>Known grid costs and controlled stochastic behavior</span></div>
+  <div class="step">Robot Geometry<span>Footprint and robot-specific C-space</span></div>
+  <div class="step">Execution Validation<span>Refinement and continuous clearance</span></div>
+  <div class="step">Mission Evaluation<span>Motion limits, caution policy, mission time</span></div>
+</div>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/robot_cspace_comparison.png" alt="Robot-specific configuration-space comparison" loading="lazy">
+<figcaption><strong>Figure 1 — Robot-Specific Configuration Spaces</strong>The same physical map becomes a different planning problem after each robot footprint is applied.</figcaption>
+</figure>
+
+<h2>2. Metric Indoor Environment</h2>
+<p>
+The robot-aware benchmark uses a synthetic metric office / laboratory / warehouse-like environment rather than an exact reconstruction of a specific facility. Corridors, rooms, bottlenecks, fixed structures, open regions, and multiple route alternatives provide controlled geometry for studying how robot dimensions and local clutter change traversability. The map resolution is <strong>0.05 m/cell</strong>.
+</p>
+
+<div class="two">
+<div class="card">
+<h3 style="margin-top:0">TurtleBot3 Waffle Pi</h3>
+<p>Compact differential-drive platform. The benchmark uses its physical dimensions, circumscribed footprint, translational and angular limits, and curvature-dependent execution constraint.</p>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Clearpath Ridgeback</h3>
+<p>Larger holonomic mecanum platform. Its larger footprint erodes significantly more free space and changes both route access and stochastic search difficulty.</p>
+</div>
+</div>
+
+<h2>3. Scenario 01 — Footprint-Driven Route Divergence</h2>
+<p>
+Scenario 01 holds the environment, start, and goal fixed while changing only the robot-specific configuration space. The objective is to determine whether both robots can use the same route before comparing planner choice or operating speed.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario01_footprint_validation.png" alt="Scenario 01 rectangular-footprint validation" loading="lazy">
+<figcaption><strong>Figure 2 — Footprint Validation</strong>Orientation-aware rectangular checks verify that the observed route difference is not merely an artifact of the conservative circular planning footprint.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario01_los_refinement.png" alt="Scenario 01 line-of-sight refinement" loading="lazy">
+<figcaption><strong>Figure 3 — Line-of-Sight Refinement</strong>Raw grid paths are simplified under a common collision-aware line-of-sight rule.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario01_smoothed_paths.png" alt="Scenario 01 smoothed robot paths" loading="lazy">
+<figcaption><strong>Figure 4 — Final Scenario 01 Paths</strong>The smaller Waffle Pi retains the shorter route while Ridgeback follows a longer alternative corridor.</figcaption>
+</figure>
+
+<table class="compact">
+<thead><tr><th>Robot</th><th>Final path</th><th>Mission time</th></tr></thead>
+<tbody>
+<tr><td>TurtleBot3 Waffle Pi</td><td><strong>42.29 m</strong></td><td><strong>192.86 s</strong></td></tr>
+<tr><td>Clearpath Ridgeback</td><td><strong>48.57 m</strong></td><td><strong>48.97 s</strong></td></tr>
+</tbody>
+</table>
+
+<div class="note"><strong>Scenario 01 finding:</strong> the larger Ridgeback travels farther but finishes much faster because the available platform speed dominates the additional path length. Shortest path and shortest mission time are not equivalent.</div>
+
+<div class="video-wrap">
+  <div class="video-frame">
+    <iframe src="https://www.youtube.com/embed/_JqzPtMJXDU" title="Scenario 01 Robot-Aware Path Planning" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+  <div class="video-caption"><strong>Scenario 01 video</strong><br>Footprint-driven route divergence between TurtleBot3 Waffle Pi and Clearpath Ridgeback.</div>
+</div>
+
+<h2>4. Scenario 02 — Dense Temporary Clutter</h2>
+<p>
+Scenario 02 introduces <strong>132 temporary obstacles</strong>—72 circular and 60 polygonal objects—to represent temporary or movable occupancy such as people, carts, staged materials, equipment, or other local clutter. These are not predicted dynamic trajectories; they provide a controlled way to study route availability and robot-dependent clearance under denser occupancy.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario02_astar_robot_comparison.png" alt="Scenario 02 robot comparison in dense clutter" loading="lazy">
+<figcaption><strong>Figure 5 — Dense-Clutter Route Comparison</strong>The Waffle Pi remains close to its Scenario 01 route, while the larger Ridgeback experiences substantial configuration-space erosion and is pushed onto a much longer route.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario02_smoothed_paths.png" alt="Scenario 02 smoothed paths" loading="lazy">
+<figcaption><strong>Figure 6 — Scenario 02 Refined Paths</strong>Common refinement preserves the strong robot-dependent route divergence created by dense clutter.</figcaption>
+</figure>
+
+<table class="compact">
+<thead><tr><th>Robot</th><th>Final path</th><th>Mission time</th></tr></thead>
+<tbody>
+<tr><td>TurtleBot3 Waffle Pi</td><td><strong>42.34 m</strong></td><td><strong>193.09 s</strong></td></tr>
+<tr><td>Clearpath Ridgeback</td><td><strong>79.47 m</strong></td><td><strong>79.03 s</strong></td></tr>
+</tbody>
+</table>
+
+<div class="note"><strong>Scenario 02 finding:</strong> temporary clutter does more than increase obstacle count. It amplifies the navigation consequences of robot footprint by narrowing or eliminating corridors that remain usable to the smaller platform.</div>
+
+<div class="video-wrap">
+  <div class="video-frame">
+    <iframe src="https://www.youtube.com/embed/mfaHRvUFsS4" title="Scenario 02 Path Planning in Dense Temporary Clutter" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+  <div class="video-caption"><strong>Scenario 02 video</strong><br>Robot-dependent route planning and mission performance in dense temporary occupancy.</div>
+</div>
+
+<h2>5. Scenario 03 — Safety-Aware Multi-Planner Evaluation</h2>
+<p>
+Scenario 03 fixes the robot and environment assumptions and evaluates Dijkstra, A*, RRT, and RRT* under the same downstream path-to-execution pipeline. A common <strong>0.025 m</strong> additional safety allowance is applied beyond the physical footprint. This value is resolution-consistent with the 0.05 m/cell map and is not presented as a universal safety standard.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario03_temporary_objects_on_map.png" alt="Scenario 03 extracted temporary and caution objects" loading="lazy">
+<figcaption><strong>Figure 7 — Temporary / Caution Object Layer</strong>The Scenario 02 clutter field is retained as a separate operational layer for Scenario 03.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario02_safety_margin_cspaces.png" alt="Robot footprint and safety-inflation screening" loading="lazy">
+<figcaption><strong>Figure 8 — Safety-Margin Screening</strong>Additional inflation is tested under both robot footprints before fixing the common Scenario 03 safety allowance.</figcaption>
+</figure>
+
+<h3>Common Path-to-Execution Pipeline</h3>
+<pre><code>Planner
+  → Raw path
+  → LOS simplification
+  → Collision-aware smoothing
+  → Uniform resampling
+  → Continuous clearance validation
+  → Curvature / acceleration constraints
+  → Caution-zone operating-speed policy
+  → Mission time</code></pre>
+
+<p>
+The benchmark explicitly distinguishes <strong>planner success</strong>, <strong>raw continuous feasibility</strong>, and <strong>final trajectory feasibility</strong>. A route may therefore be valid under the planner's discrete collision model yet fail a stricter continuous clearance check, or a valid raw route may acquire a small local violation after refinement.
+</p>
+
+<h2>6. Clearance Is Quantified, Not Hidden</h2>
+<p>
+For each resampled path location, the distance to the nearest occupied region is compared with the effective robot envelope. Infeasibility is not treated as a vague binary label: maximum violation depth, affected samples, and violation-affected path length are recorded.
+</p>
+
+<div class="equation">clearance margin = obstacle distance − effective robot radius</div>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario03_ridgeback_clearance_explanation.png" alt="Ridgeback path violations with inflated forbidden-region explanation" loading="lazy">
+<figcaption><strong>Figure 9 — Why the Ridgeback Violations Occur</strong>The violation markers represent robot-center positions, not obstacle pixels. The inflated forbidden-region overlay shows why apparently open centerline points can violate the footprint-plus-safety envelope.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario03_temporary_clearance_profiles.png" alt="Temporary-object clearance along the Waffle and Ridgeback paths" loading="lazy">
+<figcaption><strong>Figure 10 — Temporary-Object Clearance Along the Path</strong>Clearance outside the effective robot envelope varies strongly with robot size and local route geometry.</figcaption>
+</figure>
+
+<h2>7. Human-Environment Operating-Speed Policy</h2>
+<p>
+Open-space cruise is set to <strong>80% of the platform maximum speed</strong>. Within the defined caution region around temporary objects, commanded speed is capped at <strong>0.30 m/s</strong>. This policy is applied downstream of the planner so every planner is evaluated under the same operational rule.
+</p>
+
+<table class="compact">
+<thead><tr><th>Robot</th><th>Open-space cruise</th><th>Caution-zone cap</th></tr></thead>
+<tbody>
+<tr><td>TurtleBot3 Waffle Pi</td><td>0.176 m/s</td><td>0.176 m/s</td></tr>
+<tr><td>Clearpath Ridgeback</td><td>0.880 m/s</td><td>0.300 m/s</td></tr>
+</tbody>
+</table>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario03_proximity_velocity_profiles.png" alt="Scenario 03 safety-aware operating-speed profiles" loading="lazy">
+<figcaption><strong>Figure 11 — Operating-Speed Policy</strong>The Waffle Pi is already below the caution cap, while Ridgeback is repeatedly reduced to 0.30 m/s near caution objects.</figcaption>
+</figure>
+
+<h2>8. Final Planner Benchmark</h2>
+<p>
+Dijkstra and A* are deterministic baselines. RRT and RRT* are evaluated across <strong>10 controlled seeds</strong> with a final budget of <strong>50,000 iterations</strong>. RRT* convergence is additionally examined at 5k, 10k, 20k, and 50k iterations.
+</p>
+
+<h3>TurtleBot3 Waffle Pi</h3>
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario03_waffle_planner_overlay.png" alt="Waffle representative planner paths" loading="lazy">
+<figcaption><strong>Figure 12 — Waffle Representative Final Paths</strong>A*, Dijkstra, and converged RRT* reach similar final route structures, while first-feasible RRT is substantially more variable.</figcaption>
+</figure>
+
+<table class="compact">
+<thead><tr><th>Planner</th><th>Success</th><th>Planning time</th><th>Final path</th><th>Mission time</th><th>Final feasible</th></tr></thead>
+<tbody>
+<tr><td>Dijkstra</td><td>Yes</td><td>7.55 s</td><td>42.13 m</td><td>240.08 s</td><td>Yes</td></tr>
+<tr><td>A*</td><td>Yes</td><td>1.10 s</td><td>42.14 m</td><td>240.16 s</td><td>Yes</td></tr>
+<tr><td>RRT</td><td>10/10</td><td>~1.0 s median</td><td>~53.10 m median</td><td>~302.15 s median</td><td>7/10</td></tr>
+<tr><td>RRT*</td><td>10/10</td><td>~402 s median</td><td>~41.66 m median</td><td>~237.16 s median</td><td>9/10</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<strong>Computation vs. mission benefit:</strong> A* reaches approximately 240.16 s mission time after about 1.1 s of planning. RRT* reduces the mission to about 237.16 s but requires roughly 402 s median planning time. The extra computation buys only about three seconds of mission improvement.
+</div>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario03_waffle_rrt_variability.png" alt="Waffle RRT seed-to-seed path variability" loading="lazy">
+<figcaption><strong>Figure 13 — RRT Seed Variability</strong>All ten Waffle seeds find planner-level solutions, but the route geometry varies substantially.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario03_waffle_rrtstar_convergence.png" alt="Waffle RRT-star convergence paths" loading="lazy">
+<figcaption><strong>Figure 14 — RRT* Path Convergence</strong>The representative run has no solution at 5k, improves substantially by 20k, and gains little additional mission value between 20k and 50k.</figcaption>
+</figure>
+
+<h3>Clearpath Ridgeback</h3>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario03_ridgeback_planner_overlay.png" alt="Ridgeback representative planner paths" loading="lazy">
+<figcaption><strong>Figure 15 — Ridgeback Representative Final Paths</strong>The larger configuration-space footprint narrows the available route set and makes stochastic search more difficult.</figcaption>
+</figure>
+
+<table class="compact">
+<thead><tr><th>Planner</th><th>Success</th><th>Planning time</th><th>Final path</th><th>Mission time</th><th>Final feasible</th></tr></thead>
+<tbody>
+<tr><td>Dijkstra</td><td>Yes</td><td>3.63 s</td><td>79.41 m</td><td>203.59 s</td><td>No</td></tr>
+<tr><td>A*</td><td>Yes</td><td>2.98 s</td><td>79.81 m</td><td>205.33 s</td><td>No</td></tr>
+<tr><td>RRT</td><td>7/10</td><td>Variable</td><td>~86.64 m median</td><td>~222.10 s median</td><td>0/7 successful trials</td></tr>
+<tr><td>RRT*</td><td>7/10</td><td>~170 s median</td><td>~79.37 m median</td><td>~203.55 s median</td><td>0/7 successful trials</td></tr>
+</tbody>
+</table>
+
+<p>
+The deterministic Ridgeback raw paths pass continuous clearance, but common refinement introduces small local safety-margin violations: <strong>14.2 mm</strong> for Dijkstra and <strong>8.2 mm</strong> for A*. Those violations are reported rather than tuned away.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/path_planning/scenario03_ridgeback_violation_overlay.png" alt="Ridgeback final paths and clearance violations" loading="lazy">
+<figcaption><strong>Figure 16 — Ridgeback Clearance Violations</strong>Localized post-refinement margin violations are visible at specific bottlenecks and corner regions rather than as global route failure.</figcaption>
+</figure>
+
+<h2>9. Engineering Findings</h2>
+<div class="two">
+<div class="card"><h3 style="margin-top:0">Geometry Changes Feasibility</h3><p>The same physical map becomes a different planning problem once the robot footprint is applied.</p></div>
+<div class="card"><h3 style="margin-top:0">Clutter Amplifies Footprint Effects</h3><p>Local temporary occupancy can remove or narrow routes that remain usable to a smaller platform.</p></div>
+<div class="card"><h3 style="margin-top:0">Planner Success ≠ Execution Feasibility</h3><p>Discrete planner success, raw continuous feasibility, and final post-processed feasibility are separate engineering outcomes.</p></div>
+<div class="card"><h3 style="margin-top:0">Shortest Path ≠ Best Engineering Choice</h3><p>RRT* can improve path length while providing negligible mission benefit relative to its computation cost.</p></div>
+</div>
+
+<div class="callout">
+<strong>Overall result:</strong> within the tested benchmark and assumptions, A* provides the strongest overall balance of reliability, computational cost, path quality, and mission performance. This is a benchmark-specific engineering conclusion, not a claim of universal planner superiority.
+</div>
+
+<h2>10. Limitations</h2>
+<ul>
+<li>Orientation-independent circumscribed-circle planning footprint rather than full SE(2) state.</li>
+<li>Temporary objects are static snapshots rather than predicted moving agents.</li>
+<li>No local planner, online replanning, or closed-loop tracking-error benchmark.</li>
+<li>Simplified Ridgeback translational dynamics; no wheel-level mecanum model.</li>
+<li>No localization uncertainty, sensor delay, or actuator-delay model.</li>
+<li>The 0.025 m safety allowance is resolution-consistent, not a certified physical safety margin.</li>
+<li>RRT/RRT* nearest-neighbor search uses a simple linear scan.</li>
+<li>Ten stochastic seeds support an engineering comparison, not a large-sample statistical claim.</li>
+</ul>
+
+<h2>11. Project Resources</h2>
+<div class="two">
+<div class="card">
+<h3 style="margin-top:0">Source &amp; Results</h3>
+<p>Planner implementations, robot models, metric maps, Scenario 01–03 benchmark code, final CSV data, logs, and visualizations.</p>
+<p><a class="action-btn" href="https://github.com/greatsyong/SK/tree/main/04_robot_aware_path_planning" target="_blank" rel="noopener">Open GitHub Project</a></p>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">Final Technical Report</h3>
+<p>Full report covering algorithm validation, metric environment design, robot-specific configuration spaces, Scenario 01–03 methodology, safety-aware execution, stochastic benchmarking, convergence, limitations, appendices, and reproducibility.</p>
+<p>
+<a class="action-btn primary" href="Robot_Aware_Path_Planning_Benchmark_Final.pdf" target="_blank" rel="noopener">View Final Report</a>
+<a class="action-btn" href="Robot_Aware_Path_Planning_Benchmark_Final.pdf" download>Download PDF</a>
+</p>
+</div>
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:42px;padding-top:20px;border-top:1px solid #293957;">
+<a href="../03-lidar-camera/index.html" style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">← Previous: LiDAR-Camera Fusion</a>
+<a href="../index.html" style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">Back to Projects →</a>
+</div>
+
+<p style="margin-top:50px;color:#8ea1c0">Project by Sooyong Kim · Robotics &amp; Autonomous Systems Portfolio</p>
+</main>
+</body>
+</html>

@@ -1,23 +1,402 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Sooyong Kim robotics and engineering portfolio">
-<title>PX4 Drone Autonomy — Sooyong Kim</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="UR5e Part 2 — Independent Simulation, ROS2 Integration & Runtime Validation — Sooyong Kim">
+<title>UR5e Part 2 — ROS2 &amp; Isaac Sim Runtime Validation — Sooyong Kim</title>
+
 <link rel="stylesheet" href="../../assets/css/site.css">
+
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+main{max-width:1040px;margin:auto;padding:48px 24px 72px}
+h1{font-size:52px;line-height:1.05;margin:10px 0 16px;letter-spacing:-.025em}
+h2{margin-top:52px;font-size:29px}
+h3{margin-top:30px;font-size:21px}
+p,li{color:#ced9ef}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.tag{
+  display:inline-block;border:1px solid #2d3e63;border-radius:999px;
+  padding:6px 10px;margin:4px;font-size:13px;color:#b9c9e6;
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.metric strong{display:block;font-size:28px;margin-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+pre{
+  background:#08101d;border:1px solid var(--line);border-radius:12px;
+  padding:16px;overflow:auto;color:#d8e8ff;line-height:1.45;
+}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;background:var(--panel);margin:18px 0;border:1px solid var(--line)}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#121d33;color:#dce8fb}
+.compact td,.compact th{font-size:14px}
+.callout{
+  border-left:4px solid var(--accent);background:#0d1729;
+  padding:18px 20px;border-radius:10px;margin:18px 0;
+}
+.note{
+  border-left:4px solid var(--accent2);background:#0d1729;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#cbd8ef;
+}
+.warning{
+  border-left:4px solid #f59e0b;background:#171426;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#dbe5f6;
+}
+.small{font-size:14px;color:var(--muted)}
+.project-figure{
+  margin:22px auto 32px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;
+}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{display:block;width:100%;height:auto;background:#fff}
+.project-figure figcaption{padding:14px 16px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.project-figure figcaption strong{display:block;color:#eef5ff;margin-bottom:4px;font-size:15px}
+.action-btn{
+  display:inline-block;border:1px solid #35527d;border-radius:10px;
+  padding:10px 14px;color:#eaf1ff;background:#101b31;font-weight:700;
+  margin:5px 8px 5px 0;
+}
+.action-btn.primary{background:#17335a;border-color:#4b7fbd}
+.action-btn:hover{text-decoration:none;transform:translateY(-1px)}
+.equation{
+  margin:18px 0;padding:14px 18px;text-align:center;background:#08101d;
+  border:1px solid var(--line);border-radius:12px;color:#eaf1ff;
+  font-family:"Times New Roman",serif;font-size:18px;overflow-x:auto;
+}
+.video-wrap{
+  width:min(100%,720px);margin:24px auto 34px;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#08101d;
+}
+.video-frame{position:relative;width:100%;padding-top:56.25%}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-caption{padding:14px 16px 16px;color:var(--muted);font-size:14px}
+.pipeline{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0;
+}
+.pipeline .step{
+  position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:16px;text-align:center;color:#dce8fb;font-weight:700;
+}
+.pipeline .step span{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:5px}
+@media(max-width:760px){
+  .grid,.two,.pipeline{grid-template-columns:1fr}
+  h1{font-size:38px}
+  table{display:block;overflow-x:auto}
+}
+</style>
 </head>
+
 <body>
 <nav class="nav"><div class="container nav-inner">
 <a class="brand" href="../../index.html">SOOYONG KIM</a>
-<div class="nav-links"><a class="" href="../../bio.html">Bio</a><a class="" href="../../research/index.html">Research & Work</a><a class="active" href="../../projects/index.html">Projects</a><a class="" href="../../resume/index.html">Resume</a><a class="" href="../../contact.html">Contact</a></div></div></nav>
+<div class="nav-links"><a href="../../bio.html">Bio</a><a href="../../research/index.html">Research &amp; Work</a><a class="active" href="../../projects/index.html">Projects</a><a href="../../resume/index.html">Resume</a><a href="../../contact.html">Contact</a></div>
+</div></nav>
 
-<header class="hero compact"><div class="container"><div class="project-index">PROJECT 08 · AERIAL ROBOTICS</div><h1>PX4 Drone Autonomy</h1>
-<p class="lead">PX4 state estimation, control, and vision integration.</p><div class="tags"><span class="tag">PX4</span><span class="tag">UAV</span><span class="tag">Control</span><span class="tag">Vision</span></div></div></header>
-<section class="section"><div class="container"><div class="media-placeholder"><div><div class="section-kicker">Project workspace</div><h2>In development</h2><p>This page is already reserved in the final site structure. Demo, measured results, HTML report, and GitHub link will be added when the project is completed.</p></div></div></div></section>
+<main>
+<p style="color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase">Control Systems · Part 2</p>
+<h1>UR5e Independent Simulation, ROS2 Integration &amp; Runtime Validation</h1>
+<p style="font-size:20px">
+Part 2 transfers the controller designs established in Part 1B outside the analytical plant and into increasingly independent execution layers. PID, computed torque, LQR, and MPC are first cross-validated through direct effort control in NVIDIA Isaac Sim; PID, LQR, and MPC are then deployed through a ROS2/C++ runtime architecture to expose timing, synchronization, actuation-phase, solver, and middleware effects that are invisible in the analytical model.
+</p>
 
-<footer class="footer"><div class="container footer-inner">
-<div>Sooyong Kim · Robotics & Autonomous Systems</div>
-<div>© <span data-year></span> sooyongtech.dev</div>
-</div></footer>
-<script src="../../assets/js/site.js"></script>
-</body></html>
+<div>
+  <span class="tag">UR5e</span>
+  <span class="tag">ROS 2 Humble</span>
+  <span class="tag">Isaac Sim 6.1</span>
+  <span class="tag">PID</span>
+  <span class="tag">LQR</span>
+  <span class="tag">MPC</span>
+  <span class="tag">OSQP</span>
+  <span class="tag">C++ / Eigen</span>
+  <span class="tag">Runtime Validation</span>
+</div>
+
+<p><a href="https://github.com/greatsyong/ur5e-control-analysis" target="_blank" rel="noopener">View source on GitHub →</a></p>
+
+<div class="grid">
+  <div class="metric"><strong>500 Hz</strong>Common 2 ms controller period across the validation chain</div>
+  <div class="metric"><strong>847×</strong>Computed-torque RMSE improvement after correcting actuation phase</div>
+  <div class="metric"><strong>100%</strong>Logged-update completion for the practical MPC runtime configuration</div>
+</div>
+
+<div class="callout">
+<strong>Engineering objective:</strong> this is not a controller leaderboard or a new global MPC optimization study. The goal is to determine what survives transfer from the analytical model to independent physics and then to a ROS2 runtime, identify why execution can fail, and distinguish controller behavior from implementation-layer effects.
+</div>
+
+<div class="video-wrap">
+  <div class="video-frame">
+    <iframe src="https://www.youtube.com/embed/YJDnGRhVgGY" title="UR5e Control Validation in ROS2 and Isaac Sim" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+  <div class="video-caption"><strong>Controller validation video</strong><br>Recorded Isaac Sim performance for PID, LQR, and MPC, including the MPC runtime-failure and stabilized practical-configuration sequence.</div>
+</div>
+
+<h2>1. Validation Strategy</h2>
+<p>
+Part 1B established the analytical controller baselines. Part 2 deliberately changes one validation layer at a time so that model, simulator, and runtime effects can be separated rather than mixed into one benchmark number.
+</p>
+
+<div class="pipeline">
+  <div class="step">Part 1A<span>Model validation &amp; plant characterization</span></div>
+  <div class="step">Part 1B<span>Controller design, robustness &amp; C++ cross-validation</span></div>
+  <div class="step">Part 2A<span>Direct Isaac effort-control validation</span></div>
+  <div class="step">Part 2B<span>ROS2/C++ runtime validation</span></div>
+</div>
+
+<table class="compact">
+<thead><tr><th>Benchmark Item</th><th>Definition</th></tr></thead>
+<tbody>
+<tr><td>Reference</td><td>4 s quintic joint-space trajectory</td></tr>
+<tr><td>Start pose</td><td>[0, -90, 90, -90, -90, 0]°</td></tr>
+<tr><td>Goal pose</td><td>[20, -60, 60, -70, -70, 20]°</td></tr>
+<tr><td>Controller period</td><td>2 ms (500 Hz)</td></tr>
+<tr><td>Nominal logged updates</td><td>2000</td></tr>
+<tr><td>Adopted torque limits</td><td>[150, 150, 150, 28, 28, 28] Nm</td></tr>
+</tbody>
+</table>
+
+<h2>2. Part 2A — Direct Isaac Validation</h2>
+<p>
+The first layer removes the analytical plant from state propagation without introducing ROS2. The same controller definitions drive an independently implemented UR5e articulation through direct joint effort commands. This provides a clean controller/physics baseline before middleware, callbacks, logging, and runtime scheduling are added.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/isaac_setup_overview.png" alt="UR5e direct-effort validation setup in Isaac Sim" loading="lazy">
+<figcaption><strong>Figure 1 — Direct Isaac Validation Environment</strong>Isaac Sim 6.1 UR5e setup used to isolate controller/physics behavior before ROS2 integration.</figcaption>
+</figure>
+
+<h3>Physics-Step Synchronization</h3>
+<p>
+An early PID transfer advanced the reference every 2 ms while the physics scene was running near 60 Hz. Overall joint RMSE increased to approximately 3.75° and the adopted limits on the first three joints were reached. This was treated as an invalid reproduction of the analytical benchmark—not as evidence that the controller mathematics had failed. Correcting the physics timestep to 2 ms restored the expected regime.
+</p>
+
+<h3>Actuation Phase</h3>
+<p>
+Computed torque exposed a second synchronization error. Applying unchanged effort commands after the physics step produced approximately 0.700694° RMSE. Moving the same command to <code>PRE_PHYSICS_STEP</code> reduced RMSE to approximately <strong>0.00082685°</strong>—about <strong>847×</strong> lower—without changing the controller equations, gains, trajectory, or limits.
+</p>
+
+<div class="note"><strong>Key lesson:</strong> an implementation-phase error can masquerade as a dynamics-model error. Timing is part of the closed-loop system.</div>
+
+<table class="compact">
+<thead><tr><th>Controller</th><th>Part 1B RMSE</th><th>Direct Isaac RMSE</th></tr></thead>
+<tbody>
+<tr><td>PID</td><td>0.469844°</td><td>0.464275°</td></tr>
+<tr><td>Computed Torque</td><td>0.001244°</td><td>0.000827°</td></tr>
+<tr><td>LQR</td><td>0.015502°</td><td>0.014925°</td></tr>
+<tr><td>MPC</td><td>0.048474°</td><td>0.048790°</td></tr>
+</tbody>
+</table>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/part1b_vs_isaac_rmse.png" alt="Part 1B versus direct Isaac RMSE comparison" loading="lazy">
+<figcaption><strong>Figure 2 — Analytical vs. Direct Isaac Cross-Validation</strong>The four Part 1B controller regimes remain closely reproduced once physics timing and actuation phase are configured correctly.</figcaption>
+</figure>
+
+<h2>3. Part 2B — ROS2 Runtime Architecture</h2>
+<p>
+The ROS2 stage preserves the tested controller cores but changes the execution architecture. Controller execution, initialization, experiment lifecycle, and logging are separated so that failures can be localized rather than hidden inside one monolithic script.
+</p>
+
+<div class="two">
+  <div class="card"><h3 style="margin-top:0">controller_node</h3><p>Subscribes to joint state, executes PID/LQR/MPC, publishes effort commands, and emits validation telemetry.</p></div>
+  <div class="card"><h3 style="margin-top:0">validation_manager</h3><p>Controls WAITING → INITIALIZING → RUNNING → COMPLETE/FREE_FALL → SHUTDOWN sequencing.</p></div>
+  <div class="card"><h3 style="margin-top:0">logger_node</h3><p>Records simulation time, measured/reference states, commanded torque, and controller computation time.</p></div>
+  <div class="card"><h3 style="margin-top:0">isaac_initializer.py</h3><p>Holds the benchmark initial joint configuration before each run and releases the system when validation begins.</p></div>
+</div>
+
+<p>
+MPC is indexed using Isaac simulation time rather than assuming every wall-clock callback arrives exactly every 2 ms. Duplicate/old indices are skipped, and missed discrete indices are not replayed. A sparse retained sequence is therefore a runtime diagnostic: the controller did not service every nominal 2 ms opportunity.
+</p>
+
+<div class="warning"><strong>ROS2 experiment scope:</strong> PID, LQR, and MPC were tested in the ROS2 stage. Computed torque was validated in the direct-Isaac layer but was not included in the ROS2 runtime experiment.</div>
+
+<h2>4. PID and LQR Runtime Validation</h2>
+
+<div class="two">
+<div class="card">
+<h3 style="margin-top:0">PID</h3>
+<p><strong>2000 / 2000</strong> updates completed. Overall joint RMSE ≈ <strong>1.006°</strong>. Mean / P99 computation ≈ <strong>0.00164 / 0.00416 ms</strong>.</p>
+</div>
+<div class="card">
+<h3 style="margin-top:0">LQR</h3>
+<p><strong>2000 / 2000</strong> updates completed. Overall joint RMSE ≈ <strong>2.344°</strong>. Mean / P99 computation ≈ <strong>0.00728 / 0.01510 ms</strong>.</p>
+</div>
+</div>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/ros2_pid_tracking.png" alt="ROS2 PID tracking" loading="lazy">
+<figcaption><strong>Figure 3 — ROS2 PID Tracking</strong>Full 4 s trajectory completed through the ROS2 runtime architecture.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/ros2_lqr_tracking.png" alt="ROS2 LQR tracking" loading="lazy">
+<figcaption><strong>Figure 4 — ROS2 LQR Tracking</strong>Full 4 s trajectory completed with negligible controller computation relative to the 2 ms period.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/validation_layer_rmse_pid_lqr.png" alt="PID and LQR RMSE across analytical, direct Isaac, and ROS2 layers" loading="lazy">
+<figcaption><strong>Figure 5 — Validation-Layer Comparison</strong>PID and LQR results across analytical, direct-Isaac, and ROS2 execution layers. The ROS2 values are descriptive outcomes, not a controller ranking.</figcaption>
+</figure>
+
+<h2>5. MPC Runtime Failure Mechanism</h2>
+<p>
+The model-selected MPC from Part 1B uses <strong>Np = 160</strong> (320 ms prediction), <strong>Nc = 40</strong> (80 ms independently optimized control window), and <strong>ρu = 10</strong>. It worked in the analytical benchmark and direct Isaac validation. In ROS2, however, the initial low-millisecond solve regime did not persist.
+</p>
+
+<div class="callout">
+<strong>Observed closed-loop degradation:</strong><br>
+aggressive corrective torque → position/velocity error accumulation → torque constraints become active → QP workload/tail latency increases → 2 ms control opportunities are missed → state mismatch grows further.
+</div>
+
+<p>
+The important point is that the solver did not simply begin “too slow.” The runtime collapse emerged through the coupled controller–plant–solver interaction. The failing <strong>ρu = 10, Nc = 40</strong> run retained only <strong>159 / 2000 updates (7.95%)</strong>. Its large RMSE and latency numbers characterize the failure regime; they are not interpreted as the intrinsic performance or computational cost of MPC.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/mpc_failure_rho10_nc40.png" alt="MPC runtime failure mechanism" loading="lazy">
+<figcaption><strong>Figure 6 — MPC Runtime Breakdown</strong>Tracking and velocity error grow, torque limits become active, computation time rises sharply, and the retained simulation-time record becomes sparse as nominal updates are missed.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/mpc_j3_early_torque_comparison.png" alt="MPC early J3 torque comparison" loading="lazy">
+<figcaption><strong>Figure 7 — Early Corrective Torque</strong>Increasing the MPC input penalty reduces the aggressive early corrective action seen in the model-selected configuration.</figcaption>
+</figure>
+
+<h2>6. MPC Runtime Sensitivity Study</h2>
+<p>
+The prediction horizon was kept fixed at <strong>Np = 160 = 320 ms</strong>. The study varied only the input penalty and control horizon. Increasing <strong>ρu</strong> makes corrective effort more expensive; reducing <strong>Nc</strong> shortens the independently optimized control window while leaving the prediction window unchanged.
+</p>
+
+<table class="compact">
+<thead>
+<tr><th>ρu / Nc</th><th>Samples</th><th>Completion</th><th>RMSE</th><th>Mean</th><th>P99</th><th>Max</th></tr>
+</thead>
+<tbody>
+<tr><td>10 / 40</td><td>159</td><td>7.95%</td><td>10.694°*</td><td>69.755 ms</td><td>166.800 ms</td><td>179.316 ms</td></tr>
+<tr><td>10 / 20</td><td>186</td><td>9.30%</td><td>14.181°*</td><td>62.155 ms</td><td>160.036 ms</td><td>163.850 ms</td></tr>
+<tr><td>120 / 40</td><td>1730</td><td>86.50%</td><td>3.389°*</td><td>3.206 ms</td><td>36.941 ms</td><td>70.423 ms</td></tr>
+<tr><td><strong>120 / 20</strong></td><td><strong>2000</strong></td><td><strong>100%</strong></td><td><strong>2.486°</strong></td><td><strong>0.751 ms</strong></td><td><strong>1.636 ms</strong></td><td><strong>2.901 ms</strong></td></tr>
+</tbody>
+</table>
+<p class="small">* RMSE for incomplete runs describes the retained failure trajectory and is not used as a valid MPC performance benchmark.</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/mpc_completion_ratio.png" alt="MPC completion ratio" loading="lazy">
+<figcaption><strong>Figure 8 — MPC Update Completion</strong>The practical ρu = 120, Nc = 20 case retained all nominal updates.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/mpc_runtime_compute.png" alt="MPC runtime computation summary" loading="lazy">
+<figcaption><strong>Figure 9 — MPC Runtime Computation</strong>Mean, P99, and maximum computation time show why tail latency matters more than mean runtime alone.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/mpc_runtime_rmse.png" alt="MPC runtime RMSE sensitivity" loading="lazy">
+<figcaption><strong>Figure 10 — Recorded MPC RMSE</strong>Incomplete-run RMSE values characterize degraded trajectories, not controller-performance rankings or an optimization surface.</figcaption>
+</figure>
+
+<h3>Practical Runtime Configuration</h3>
+<div class="equation">Np = 160 (320 ms), &nbsp; Nc = 20 (40 ms), &nbsp; ρu = 120</div>
+<p>
+This configuration completed the full trajectory and is reported only as a <strong>practical runtime configuration identified within the tested cases</strong>. It is not claimed as a globally optimized MPC design. A complete re-optimization would require repeating the Part 1B analytical sweeps, nonlinear benchmarks, robustness studies, and implementation cross-validation under a new task objective.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/mpc_practical_rho120_nc20.png" alt="Practical MPC runtime configuration" loading="lazy">
+<figcaption><strong>Figure 11 — Practical MPC Runtime</strong>Full trajectory completion with predominantly sub-2 ms computation and torque utilization below the adopted limits.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/ros2_mpc_tracking.png" alt="ROS2 MPC tracking using the practical configuration" loading="lazy">
+<figcaption><strong>Figure 12 — ROS2 MPC Tracking</strong>Tracking behavior for the completed ρu = 120, Nc = 20 runtime case.</figcaption>
+</figure>
+
+<h2>7. ROS2 Runtime Outcome Summary</h2>
+<p>
+The table below documents the three controllers that completed the final ROS2 experiment set. It is intentionally descriptive. Part 2 did not retune each controller to a common ROS2 optimum, so the numerical ordering of the RMSE values is <strong>not</strong> interpreted as a controller ranking.
+</p>
+
+<table class="compact">
+<thead><tr><th>Controller</th><th>Samples</th><th>RMSE</th><th>Max Error</th><th>Mean Compute</th><th>P99</th></tr></thead>
+<tbody>
+<tr><td>PID</td><td>2000</td><td>1.006°</td><td>5.164°</td><td>0.00164 ms</td><td>0.00416 ms</td></tr>
+<tr><td>LQR</td><td>2000</td><td>2.344°</td><td>6.223°</td><td>0.00728 ms</td><td>0.01510 ms</td></tr>
+<tr><td>MPC practical</td><td>2000</td><td>2.486°</td><td>6.685°</td><td>0.75066 ms</td><td>1.63587 ms</td></tr>
+</tbody>
+</table>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/ros2_controller_rmse.png" alt="ROS2 completed controller RMSE" loading="lazy">
+<figcaption><strong>Figure 13 — Completed ROS2 Cases</strong>Recorded RMSE for the specific completed runs. This figure is not used to infer a controller ranking.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/Ur5e_Part_2/ros2_compute_summary.png" alt="ROS2 computation time summary" loading="lazy">
+<figcaption><strong>Figure 14 — ROS2 Computation Summary</strong>PID and LQR are computationally negligible relative to the 2 ms period; practical MPC is heavier but retained a sub-2 ms P99 in the recorded run.</figcaption>
+</figure>
+
+<h2>8. Engineering Conclusions</h2>
+<div class="two">
+<div class="card"><h3 style="margin-top:0">Timing Is Part of the Plant</h3><p>A controller designed at 2 ms is not being tested under the same closed-loop system if simulator physics or command application uses a different temporal definition.</p></div>
+<div class="card"><h3 style="margin-top:0">Runtime Failure ≠ Controller Ranking</h3><p>Once an MPC run stops servicing the intended 2 ms control sequence, its retained RMSE is failure evidence—not a valid measure of optimized tracking capability.</p></div>
+<div class="card"><h3 style="margin-top:0">Prediction and Control Horizons Are Different</h3><p>The practical MPC retained a 320 ms prediction window while shortening the independently optimized control window from 80 ms to 40 ms.</p></div>
+<div class="card"><h3 style="margin-top:0">Mean Runtime Is Not Enough</h3><p>Tail latency, update completion, state error, and constraint activity must be examined together when assessing runtime feasibility.</p></div>
+</div>
+
+<div class="callout">
+<strong>Part 2 conclusion:</strong> analytical validation, independent physics validation, and runtime validation answer different engineering questions. Part 2 establishes what survives controller transfer, what fails during that transfer, and why. It does not determine a universally optimal controller.
+</div>
+
+<h2>9. Next Stage — Task-Oriented Optimization</h2>
+<p>
+The runtime-adjusted MPC was intentionally not promoted to a new Part 1B optimum. The next stage will introduce an explicit manipulation task, such as pick-and-place, so that controller and planning decisions can be evaluated under a meaningful shared objective involving tracking, execution time, path quality, torque and torque-rate constraints, robustness, and task success.
+</p>
+
+<h2>10. Project Resources</h2>
+<div class="two">
+<div class="card">
+<h3 style="margin-top:0">Source &amp; Experiment Repository</h3>
+<p>Analytical modeling, controller implementations, ROS2 runtime package, validation artifacts, and project history.</p>
+<p><a class="action-btn" href="https://github.com/greatsyong/ur5e-control-analysis" target="_blank" rel="noopener">Open GitHub Repository</a></p>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">Final Technical Report</h3>
+<p>Full Part 2 report covering direct-Isaac cross-validation, ROS2 integration, runtime architecture, MPC failure mechanism, sensitivity study, limitations, and reproducibility boundaries.</p>
+<p>
+<a class="action-btn primary" href="UR5e_Part_2_Final_Report.pdf" target="_blank" rel="noopener">View Final Report</a>
+<a class="action-btn" href="UR5e_Part_2_Final_Report.pdf" download>Download PDF</a>
+</p>
+</div>
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:42px;padding-top:20px;border-top:1px solid #293957;">
+<a href="../06-UR5e_Part_1B/index.html" style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">← Previous: Part 1B</a>
+<a href="../index.html" style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">Back to Projects →</a>
+</div>
+
+<p style="margin-top:50px;color:#8ea1c0">Project by Sooyong Kim · Robotics Control Portfolio</p>
+</main>
+</body>
+</html>
