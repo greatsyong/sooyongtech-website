@@ -1,11 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Sooyong Kim robotics engineering projects in modeling, control, perception, sensor fusion, and autonomous path planning.">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Sooyong Kim robotics engineering projects in modeling, control, perception, sensor fusion, and autonomous path planning." name="description"/>
 <title>Projects — Sooyong Kim</title>
-<link rel="stylesheet" href="../assets/css/site.css">
+<link href="../assets/css/site.css" rel="stylesheet"/>
 <style>
 /* Projects index — compact visual hierarchy, aligned with site.css */
 .project-dashboard-section{padding-top:58px}
@@ -33,9 +34,14 @@
   border:1px solid var(--line);
   border-radius:13px;
   background:#050b12;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1px;
 }
 .project-card.large .project-thumb-compact{height:112px;margin:20px 20px 0}
-.project-thumb-compact img{width:100%;height:100%;object-fit:cover;object-position:center}
+.project-thumb-compact .thumb-panel{min-width:0;min-height:0;background:#07101a;overflow:hidden}
+.project-thumb-compact .thumb-panel + .thumb-panel{border-left:1px solid var(--line)}
+.project-thumb-compact img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
 .project-topline{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:12px}
 .project-domain{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:10px;font-weight:800}
 .project-card h2{font-size:27px;margin:0 0 12px;line-height:1.15}
@@ -80,229 +86,200 @@
 </head>
 <body>
 <nav class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="../index.html">SOOYONG KIM</a>
-    <div class="nav-links">
-      <a href="../bio.html">Bio</a>
-      <a href="../research/index.html">Research &amp; Work</a>
-      <a class="active" href="../projects/index.html">Projects</a>
-      <a href="../resume/index.html">Resume</a>
-      <a href="../contact.html">Contact</a>
-    </div>
-  </div>
+<div class="container nav-inner">
+<a class="brand" href="../index.html">SOOYONG KIM</a>
+<div class="nav-links">
+<a href="../bio.html">Bio</a>
+<a href="../research/index.html">Research &amp; Work</a>
+<a class="active" href="../projects/index.html">Projects</a>
+<a href="../resume/index.html">Resume</a>
+<a href="../contact.html">Contact</a>
+</div>
+</div>
 </nav>
-
 <header class="hero compact">
-  <div class="container">
-    <div class="eyebrow">Engineering Portfolio</div>
-    <h1>Projects</h1>
-    <p class="lead">
+<div class="container">
+<div class="eyebrow">Engineering Portfolio</div>
+<h1>Projects</h1>
+<p class="lead">
       Completed robotics studies developed as engineering investigations rather than software demonstrations:
       models and assumptions are made explicit, competing methods are evaluated under controlled conditions,
       and conclusions are tied to quantitative evidence, implementation behavior, and physical constraints.
     </p>
-  </div>
+</div>
 </header>
-
 <section class="section project-dashboard-section">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="section-kicker">Autonomy</div>
-        <h2>Robot-Aware Path Planning</h2>
-      </div>
-      <p class="project-section-intro">Algorithmic planning behavior is separated from robot geometry, configuration-space feasibility, continuous clearance, and execution-level safety.</p>
-    </div>
-
-    <div class="project-grid">
-      <article class="project-card large">
-        <div class="project-thumb-compact">
-          <img src="../assets/images/projects/path_planning/scenario03_waffle_planner_overlay.png" alt="Planner trajectories for robot-aware path planning benchmark" loading="eager">
-        </div>
-        <div class="project-card-body">
-          <div class="project-topline"><span class="project-domain">Planning · Navigation</span><span class="status live"><span class="dot"></span>Completed</span></div>
-          <h2>Robot-Aware Path Planning Benchmark</h2>
-          <p>
+<div class="container">
+<div class="section-head">
+<div>
+<div class="section-kicker">Autonomy</div>
+<h2>Robot-Aware Path Planning</h2>
+</div>
+<p class="project-section-intro">Algorithmic planning behavior is separated from robot geometry, configuration-space feasibility, continuous clearance, and execution-level safety.</p>
+</div>
+<div class="project-grid">
+<article class="project-card large">
+<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Waffle planner overlay" loading="eager" src="../assets/images/projects/path_planning/scenario03_waffle_planner_overlay.png"/></div><div class="thumb-panel"><img alt="Ridgeback planner overlay" loading="eager" src="../assets/images/projects/path_planning/scenario03_ridgeback_planner_overlay.png"/></div><div class="thumb-panel"><img alt="Proximity-aware velocity profiles" loading="eager" src="../assets/images/projects/path_planning/scenario03_proximity_velocity_profiles.png"/></div></div>
+<div class="project-card-body">
+<div class="project-topline"><span class="project-domain">Planning · Navigation</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<h2>Robot-Aware Path Planning Benchmark</h2>
+<p>
             A controlled benchmark that distinguishes search-algorithm behavior from robot-specific feasibility. Dijkstra, A*, RRT, and RRT* are evaluated across discrete and metric environments, then connected to footprint inflation, continuous clearance, stochastic convergence, trajectory refinement, proximity-aware velocity regulation, and mission-level execution.
           </p>
-          <div class="project-facts"><span>4 planners</span><span>2 robot platforms</span><span>3 scenarios</span><span>10 stochastic seeds</span></div>
-        </div>
-        <div class="project-actions">
-          <a href="09-path-planning/index.html">Project</a>
-          <a href="https://github.com/greatsyong/SK/tree/main/04_robot_aware_path_planning" target="_blank" rel="noopener">GitHub</a>
-          <a href="09-path-planning/Robot_Aware_Path_Planning_Benchmark_Final.pdf" target="_blank" rel="noopener">Report View</a>
-        </div>
-      </article>
-    </div>
-  </div>
+<div class="project-facts"><span>4 planners</span><span>2 robot platforms</span><span>3 scenarios</span><span>10 stochastic seeds</span></div>
+</div>
+<div class="project-actions">
+<a href="09-path-planning/index.html">Project</a>
+<a href="https://github.com/greatsyong/SK/tree/main/04_robot_aware_path_planning" rel="noopener" target="_blank">GitHub</a>
+<a href="09-path-planning/Robot_Aware_Path_Planning_Benchmark_Final.pdf" rel="noopener" target="_blank">Report View</a>
+</div>
+</article>
+</div>
+</div>
 </section>
-
 <section class="section">
-  <div class="container">
-    <div class="program-head">
-      <div>
-        <div class="section-kicker">Modeling &amp; Control</div>
-        <h2>UR5e Modeling &amp; Control Program</h2>
-      </div>
-      <p>Four linked studies progressing from model reconciliation to nonlinear plant characterization, controller design, robustness analysis, independent simulation, and ROS 2 runtime validation.</p>
-    </div>
-
-    <div class="project-grid-ur5e">
-      <article class="project-card large">
-        <div class="project-thumb-compact">
-          <img src="../assets/images/projects/ur5e-control/pre08_mass_matrix_comparison.png" alt="UR5e mass-matrix cross-validation" loading="lazy">
-        </div>
-        <div class="project-card-body">
-          <div class="project-topline"><span class="project-domain">Stage 01 · Model Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
-          <h3>Model Setup &amp; Cross-Validation</h3>
-          <p>
+<div class="container">
+<div class="program-head">
+<div>
+<div class="section-kicker">Modeling &amp; Control</div>
+<h2>UR5e Modeling &amp; Control Program</h2>
+</div>
+<p>Four linked studies progressing from model reconciliation to nonlinear plant characterization, controller design, robustness analysis, independent simulation, and ROS 2 runtime validation.</p>
+</div>
+<div class="project-grid-ur5e">
+<article class="project-card large">
+<div class="project-thumb-compact"><div class="thumb-panel"><img alt="DH and URDF frame reconciliation" loading="lazy" src="../assets/images/projects/ur5e-control/pre02_dh_vs_urdf_frames.png"/></div><div class="thumb-panel"><img alt="Mass-matrix cross-validation" loading="lazy" src="../assets/images/projects/ur5e-control/pre08_mass_matrix_comparison.png"/></div><div class="thumb-panel"><img alt="Gravity torque cross-validation" loading="lazy" src="../assets/images/projects/ur5e-control/pre09_gravity_torque_comparison.png"/></div></div>
+<div class="project-card-body">
+<div class="project-topline"><span class="project-domain">Stage 01 · Model Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<h3>Model Setup &amp; Cross-Validation</h3>
+<p>
             Establishes a defensible plant model before controller design by reconciling nominal DH geometry, URDF frames, inertial parameters, fixed-base articulation, and Isaac Sim configuration. Forward kinematics, Jacobians, mass matrices, and gravity generalized forces are independently cross-checked to expose frame, parameter, and simulator inconsistencies rather than absorbing them into later tuning.
           </p>
-          <div class="project-facts"><span>DH ↔ URDF</span><span>Jacobian</span><span>M(q)</span><span>g(q)</span></div>
-        </div>
-        <div class="project-actions">
-          <a href="04-control-model-validation/index.html">Project</a>
-          <a href="https://github.com/greatsyong/ur5e-control-analysis" target="_blank" rel="noopener">GitHub</a>
-          <a href="04-control-model-validation/ur5e-model-setup-cross-validation.pdf" target="_blank" rel="noopener">Report View</a>
-        </div>
-      </article>
-
-      <article class="project-card large">
-        <div class="project-thumb-compact">
-          <img src="../assets/images/projects/Ur5e_Part_1A/singularity_condition_number.png" alt="UR5e singularity conditioning study" loading="lazy">
-        </div>
-        <div class="project-card-body">
-          <div class="project-topline"><span class="project-domain">Stage 02 · Plant Characterization</span><span class="status live"><span class="dot"></span>Completed</span></div>
-          <h3>Kinematics &amp; Dynamics Characterization</h3>
-          <p>
+<div class="project-facts"><span>DH ↔ URDF</span><span>Jacobian</span><span>M(q)</span><span>g(q)</span></div>
+</div>
+<div class="project-actions">
+<a href="04-control-model-validation/index.html">Project</a>
+<a href="https://github.com/greatsyong/ur5e-control-analysis" rel="noopener" target="_blank">GitHub</a>
+<a href="04-control-model-validation/ur5e-model-setup-cross-validation.pdf" rel="noopener" target="_blank">Report View</a>
+</div>
+</article>
+<article class="project-card large">
+<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Jacobian condition number" loading="lazy" src="../assets/images/projects/Ur5e_Part_1A/singularity_condition_number.png"/></div><div class="thumb-panel"><img alt="Configuration-dependent dynamics" loading="lazy" src="../assets/images/projects/Ur5e_Part_1A/dynamics_configuration_dependence.png"/></div><div class="thumb-panel"><img alt="Trajectory-level dynamics benchmark" loading="lazy" src="../assets/images/projects/Ur5e_Part_1A/benchmark_joint_trajectory.png"/></div></div>
+<div class="project-card-body">
+<div class="project-topline"><span class="project-domain">Stage 02 · Plant Characterization</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<h3>Kinematics &amp; Dynamics Characterization</h3>
+<p>
             Quantifies the nonlinear structure that governs achievable motion and control authority. The study examines Jacobian conditioning and singularity behavior, pseudoinverse versus damped least-squares inversion, configuration-dependent inertia and gravity loading, inverse dynamics, torque demand, local linearization validity, and trajectory-level numerical consistency across Python and C++ implementations.
           </p>
-          <div class="project-facts"><span>Singularity</span><span>DLS</span><span>Rigid-body dynamics</span><span>Python ↔ C++</span></div>
-        </div>
-        <div class="project-actions">
-          <a href="05-UR5e_Part_1A/index.html">Project</a>
-          <a href="https://github.com/greatsyong/ur5e-control-analysis" target="_blank" rel="noopener">GitHub</a>
-          <a href="05-UR5e_Part_1A/UR5e_Part_1A_Report.pdf" target="_blank" rel="noopener">Report View</a>
-        </div>
-      </article>
-
-      <article class="project-card large">
-        <div class="project-thumb-compact">
-          <img src="../assets/images/projects/Ur5e_Part_1B/robustness_joint_rmse.png" alt="UR5e controller robustness comparison" loading="lazy">
-        </div>
-        <div class="project-card-body">
-          <div class="project-topline"><span class="project-domain">Stage 03 · Controller Design</span><span class="status live"><span class="dot"></span>Completed</span></div>
-          <h3>Controller Design &amp; Robustness Assessment</h3>
-          <p>
+<div class="project-facts"><span>Singularity</span><span>DLS</span><span>Rigid-body dynamics</span><span>Python ↔ C++</span></div>
+</div>
+<div class="project-actions">
+<a href="05-UR5e_Part_1A/index.html">Project</a>
+<a href="https://github.com/greatsyong/ur5e-control-analysis" rel="noopener" target="_blank">GitHub</a>
+<a href="05-UR5e_Part_1A/UR5e_Part_1A_Report.pdf" rel="noopener" target="_blank">Report View</a>
+</div>
+</article>
+<article class="project-card large">
+<div class="project-thumb-compact"><div class="thumb-panel"><img alt="PID joint tracking" loading="lazy" src="../assets/images/projects/Ur5e_Part_1B/pid_joint_tracking.png"/></div><div class="thumb-panel"><img alt="Controller robustness comparison" loading="lazy" src="../assets/images/projects/Ur5e_Part_1B/robustness_joint_rmse.png"/></div><div class="thumb-panel"><img alt="MPC TCP performance metrics" loading="lazy" src="../assets/images/projects/Ur5e_Part_1B/mpc_tcp_metrics.png"/></div></div>
+<div class="project-card-body">
+<div class="project-topline"><span class="project-domain">Stage 03 · Controller Design</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<h3>Controller Design &amp; Robustness Assessment</h3>
+<p>
             Compares PID, computed-torque, LQR, and MPC as different control architectures rather than as a single ranking exercise. Nominal tracking is coupled with model mismatch, disturbance rejection, gravity-feedforward structure, constraint handling, horizon and tolerance sensitivity, computational cost, and Python–C++ cross-validation to identify where each method's assumptions become operationally significant.
           </p>
-          <div class="project-facts"><span>PID</span><span>Computed torque</span><span>LQR</span><span>MPC</span></div>
-        </div>
-        <div class="project-actions">
-          <a href="06-UR5e_Part_1B/index.html">Project</a>
-          <a href="https://github.com/greatsyong/ur5e-control-analysis" target="_blank" rel="noopener">GitHub</a>
-          <a href="06-UR5e_Part_1B/UR5e_Part_1B_Controller_Design_and_Robustness_Assessment.pdf" target="_blank" rel="noopener">Report View</a>
-        </div>
-      </article>
-
-      <article class="project-card large">
-        <div class="project-thumb-compact">
-          <img src="../assets/images/projects/Ur5e_Part_2/isaac_setup_overview.png" alt="UR5e controller validation in NVIDIA Isaac Sim" loading="lazy">
-        </div>
-        <div class="project-card-body">
-          <div class="project-topline"><span class="project-domain">Stage 04 · Runtime Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
-          <h3>Independent Simulation &amp; Runtime Validation</h3>
-          <p>
+<div class="project-facts"><span>PID</span><span>Computed torque</span><span>LQR</span><span>MPC</span></div>
+</div>
+<div class="project-actions">
+<a href="06-UR5e_Part_1B/index.html">Project</a>
+<a href="https://github.com/greatsyong/ur5e-control-analysis" rel="noopener" target="_blank">GitHub</a>
+<a href="06-UR5e_Part_1B/UR5e_Part_1B_Controller_Design_and_Robustness_Assessment.pdf" rel="noopener" target="_blank">Report View</a>
+</div>
+</article>
+<article class="project-card large">
+<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Isaac Sim validation setup" loading="lazy" src="../assets/images/projects/Ur5e_Part_2/isaac_setup_overview.png"/></div><div class="thumb-panel"><img alt="Cross-layer RMSE validation" loading="lazy" src="../assets/images/projects/Ur5e_Part_2/validation_layer_rmse_pid_lqr.png"/></div><div class="thumb-panel"><img alt="MPC runtime completion ratio" loading="lazy" src="../assets/images/projects/Ur5e_Part_2/mpc_completion_ratio.png"/></div></div>
+<div class="project-card-body">
+<div class="project-topline"><span class="project-domain">Stage 04 · Runtime Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<h3>Independent Simulation &amp; Runtime Validation</h3>
+<p>
             Tests whether analytically validated controllers retain their behavior after crossing the simulation and software boundary. Independent Isaac Sim validation and ROS 2/C++ execution are used to examine model-fidelity gaps, control-loop timing, computation latency, actuator interaction, MPC deadline and completion failures, and the distinction between a mathematically valid design and a practically executable controller.
           </p>
-          <div class="project-facts"><span>Isaac Sim</span><span>ROS 2/C++</span><span>Runtime timing</span><span>MPC execution</span></div>
-        </div>
-        <div class="project-actions">
-          <a href="07-UR5e_Part_2/index.html">Project</a>
-          <a href="https://github.com/greatsyong/ur5e-control-analysis" target="_blank" rel="noopener">GitHub</a>
-          <a href="07-UR5e_Part_2/UR5e_Part_2_Final_Report.pdf" target="_blank" rel="noopener">Report View</a>
-        </div>
-      </article>
-    </div>
-  </div>
+<div class="project-facts"><span>Isaac Sim</span><span>ROS 2/C++</span><span>Runtime timing</span><span>MPC execution</span></div>
+</div>
+<div class="project-actions">
+<a href="07-UR5e_Part_2/index.html">Project</a>
+<a href="https://github.com/greatsyong/ur5e-control-analysis" rel="noopener" target="_blank">GitHub</a>
+<a href="07-UR5e_Part_2/UR5e_Part_2_Final_Report.pdf" rel="noopener" target="_blank">Report View</a>
+</div>
+</article>
+</div>
+</div>
 </section>
-
 <section class="section">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="section-kicker">Perception &amp; Estimation</div>
-        <h2>Perception Systems</h2>
-      </div>
-      <p>Focused studies on real-time perception, geometric sensor fusion, and probabilistic state estimation, with quantitative evaluation tied to the failure modes of each sensing architecture.</p>
-    </div>
-
-    <div class="project-grid">
-      <article class="project-card">
-        <div class="project-thumb-compact">
-          <img src="../assets/images/projects/lidar-camera/project03_hero_nova_carter_warehouse.png" alt="LiDAR-camera fusion in Isaac Sim warehouse" loading="lazy">
-        </div>
-        <div class="project-card-body">
-          <div class="project-topline"><span class="project-domain">3D Perception · Sensor Fusion</span><span class="status live"><span class="dot"></span>Completed</span></div>
-          <h3>LiDAR-Camera 3D Perception &amp; Fusion</h3>
-          <p>
+<div class="container">
+<div class="section-head">
+<div>
+<div class="section-kicker">Perception &amp; Estimation</div>
+<h2>Perception Systems</h2>
+</div>
+<p>Focused studies on real-time perception, geometric sensor fusion, and probabilistic state estimation, with quantitative evaluation tied to the failure modes of each sensing architecture.</p>
+</div>
+<div class="project-grid">
+<article class="project-card">
+<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Isaac Sim warehouse platform" loading="lazy" src="../assets/images/projects/lidar-camera/project03_hero_nova_carter_warehouse.png"/></div><div class="thumb-panel"><img alt="Baseline LiDAR-camera fusion" loading="lazy" src="../assets/images/projects/lidar-camera/project03_fusion_baseline.png"/></div><div class="thumb-panel"><img alt="Extrinsic yaw sensitivity" loading="lazy" src="../assets/images/projects/lidar-camera/project03_graph_extrinsic_yaw_support.png"/></div></div>
+<div class="project-card-body">
+<div class="project-topline"><span class="project-domain">3D Perception · Sensor Fusion</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<h3>LiDAR-Camera 3D Perception &amp; Fusion</h3>
+<p>
             A geometry-driven fusion pipeline built around calibrated frame transforms, 3D-to-2D projection, object-level depth association, YOLO-World, and FastSAM. Controlled perturbation studies isolate sensitivity to extrinsic yaw, viewpoint change, and range bias so fusion robustness is evaluated against identifiable geometric error sources rather than visual output alone.
           </p>
-          <div class="project-facts"><span>ROS 2</span><span>Isaac Sim</span><span>Extrinsics</span><span>3D–2D association</span></div>
-        </div>
-        <div class="project-actions">
-          <a href="03-lidar-camera/index.html">Project</a>
-          <a href="https://github.com/greatsyong/SK/tree/main/03_lidar_camera_fusion" target="_blank" rel="noopener">GitHub</a>
-          <a href="03-lidar-camera/index.html#technical-report">Report View</a>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-thumb-compact">
-          <img src="../assets/images/projects/vision/vision_unified_perception.png" alt="Unified object detection tracking and segmentation pipeline" loading="lazy">
-        </div>
-        <div class="project-card-body">
-          <div class="project-topline"><span class="project-domain">Real-Time Vision</span><span class="status live"><span class="dot"></span>Completed</span></div>
-          <h3>Vision Perception</h3>
-          <p>
+<div class="project-facts"><span>ROS 2</span><span>Isaac Sim</span><span>Extrinsics</span><span>3D–2D association</span></div>
+</div>
+<div class="project-actions">
+<a href="03-lidar-camera/index.html">Project</a>
+<a href="https://github.com/greatsyong/SK/tree/main/03_lidar_camera_fusion" rel="noopener" target="_blank">GitHub</a>
+<a href="03-lidar-camera/index.html#technical-report">Report View</a>
+</div>
+</article>
+<article class="project-card">
+<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Detection tracking and segmentation" loading="lazy" src="../assets/images/projects/vision/vision_unified_perception.png"/></div><div class="thumb-panel"><img alt="Processing latency distribution" loading="lazy" src="../assets/images/projects/vision/vision_processing_latency_distribution.png"/></div><div class="thumb-panel"><img alt="Frame-rate performance over time" loading="lazy" src="../assets/images/projects/vision/vision_fps_over_time.png"/></div></div>
+<div class="project-card-body">
+<div class="project-topline"><span class="project-domain">Real-Time Vision</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<h3>Vision Perception</h3>
+<p>
             An integrated detection, persistent-tracking, and instance-segmentation pipeline evaluated as a real-time system rather than a model demo. Frame-level latency, throughput, processing-time distribution, object-count variation, and scene-load effects are measured to separate neural inference cost from end-to-end perception behavior.
           </p>
-          <div class="project-facts"><span>31.95 FPS</span><span>18.26 ms avg</span><span>Tracking</span><span>Segmentation</span></div>
-        </div>
-        <div class="project-actions">
-          <a href="02-vision/index.html">Project</a>
-          <a href="https://github.com/greatsyong/SK" target="_blank" rel="noopener">GitHub</a>
-          <a href="02-vision/report.html">Report View</a>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-thumb-compact">
-          <img src="../assets/images/projects/ekf/ekf_trajectory_comparison.png" alt="EKF trajectory comparison" loading="lazy">
-        </div>
-        <div class="project-card-body">
-          <div class="project-topline"><span class="project-domain">State Estimation</span><span class="status live"><span class="dot"></span>Completed</span></div>
-          <h3>EKF Sensor Fusion</h3>
-          <p>
+<div class="project-facts"><span>31.95 FPS</span><span>18.26 ms avg</span><span>Tracking</span><span>Segmentation</span></div>
+</div>
+<div class="project-actions">
+<a href="02-vision/index.html">Project</a>
+<a href="https://github.com/greatsyong/SK" rel="noopener" target="_blank">GitHub</a>
+<a href="02-vision/report.html">Report View</a>
+</div>
+</article>
+<article class="project-card">
+<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Trajectory comparison" loading="lazy" src="../assets/images/projects/ekf/ekf_trajectory_comparison.png"/></div><div class="thumb-panel"><img alt="Localization error over time" loading="lazy" src="../assets/images/projects/ekf/ekf_localization_error.png"/></div><div class="thumb-panel"><img alt="Fused and unfused trajectory comparison" loading="lazy" src="../assets/images/projects/ekf/ekf_trajectory_comparison.png"/></div></div>
+<div class="project-card-body">
+<div class="project-topline"><span class="project-domain">State Estimation</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<h3>EKF Sensor Fusion</h3>
+<p>
             A nonlinear state-estimation study fusing wheel odometry and IMU measurements in ROS 2/Gazebo. Process and measurement uncertainty are treated explicitly, and the fused estimate is evaluated against ground truth to quantify trajectory error, RMSE reduction, and the remaining drift expected when no absolute-position observation is available.
           </p>
-          <div class="project-facts"><span>0.4652 m RMSE</span><span>61.5% reduction</span><span>Odometry + IMU</span></div>
-        </div>
-        <div class="project-actions">
-          <a href="01-ekf/index.html">Project</a>
-          <a href="https://github.com/greatsyong/SK" target="_blank" rel="noopener">GitHub</a>
-          <a href="01-ekf/report.html">Report View</a>
-        </div>
-      </article>
-    </div>
-  </div>
+<div class="project-facts"><span>0.4652 m RMSE</span><span>61.5% reduction</span><span>Odometry + IMU</span></div>
+</div>
+<div class="project-actions">
+<a href="01-ekf/index.html">Project</a>
+<a href="https://github.com/greatsyong/SK" rel="noopener" target="_blank">GitHub</a>
+<a href="01-ekf/report.html">Report View</a>
+</div>
+</article>
+</div>
+</div>
 </section>
-
 <footer class="footer">
-  <div class="container footer-inner">
-    <div>Sooyong Kim · Robotics &amp; Autonomous Systems</div>
-    <div>© <span data-year></span> sooyongtech.dev</div>
-  </div>
+<div class="container footer-inner">
+<div>Sooyong Kim · Robotics &amp; Autonomous Systems</div>
+<div>© <span data-year=""></span> sooyongtech.dev</div>
+</div>
 </footer>
 <script src="../assets/js/site.js"></script>
 </body>
