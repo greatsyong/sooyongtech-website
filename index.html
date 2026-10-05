@@ -1,205 +1,152 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Sooyong Kim — robotics and autonomous systems engineering across modeling, perception, sensor fusion, planning, control, simulation, and quantitative validation.">
-  <title>Sooyong Kim — Robotics & Autonomous Systems</title>
-  <link rel="stylesheet" href="assets/css/site.css">
-
-  <!-- Home-page visual showcase additions -->
-  <style>
-    .hero {
-      padding-bottom: 42px;
-    }
-
-    .home-showcase {
-      padding-top: 18px;
-    }
-
-    .home-showcase .section-head {
-      margin-bottom: 26px;
-    }
-
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-    }
-
-    .showcase-card {
-      display: block;
-      overflow: hidden;
-      border: 1px solid rgba(15, 50, 95, 0.10);
-      border-radius: 18px;
-      background: #fff;
-      color: inherit;
-      text-decoration: none;
-      box-shadow: 0 12px 34px rgba(18, 52, 86, 0.08);
-      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-    }
-
-    .showcase-card:hover,
-    .showcase-card:focus-visible {
-      transform: translateY(-3px);
-      border-color: rgba(0, 145, 230, 0.28);
-      box-shadow: 0 18px 42px rgba(18, 52, 86, 0.13);
-    }
-
-    .showcase-card img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      background: #f5f8fb;
-    }
-
-    .showcase-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 16px 18px 18px;
-    }
-
-    .showcase-meta h3 {
-      margin: 0 0 5px;
-      font-size: 1.08rem;
-    }
-
-    .showcase-meta p {
-      margin: 0;
-      color: var(--muted, #65738a);
-      line-height: 1.45;
-      font-size: 0.94rem;
-    }
-
-    .showcase-link {
-      flex: 0 0 auto;
-      color: var(--accent, #0b8fd3);
-      font-size: 0.9rem;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .home-cta {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-
-    @media (max-width: 820px) {
-      .showcase-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .showcase-meta {
-        align-items: flex-start;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Sooyong Kim robotics engineering projects in modeling, control, perception, sensor fusion, and autonomous path planning.">
+<title>Projects — Sooyong Kim</title>
+<link rel="stylesheet" href="../assets/css/site.css">
 </head>
-
 <body>
-
 <nav class="nav">
   <div class="container nav-inner">
-    <a class="brand" href="index.html">SOOYONG KIM</a>
+    <a class="brand" href="../index.html">SOOYONG KIM</a>
     <div class="nav-links">
-      <a href="bio.html">Bio</a>
-      <a href="research/index.html">Research & Work</a>
-      <a href="projects/index.html">Projects</a>
-      <a href="resume/index.html">Resume</a>
-      <a href="contact.html">Contact</a>
+      <a href="../bio.html">Bio</a>
+      <a href="../research/index.html">Research &amp; Work</a>
+      <a class="active" href="../projects/index.html">Projects</a>
+      <a href="../resume/index.html">Resume</a>
+      <a href="../contact.html">Contact</a>
     </div>
   </div>
 </nav>
 
-<header class="hero">
+<header class="hero compact">
   <div class="container">
-    <div class="eyebrow">Robotics · Autonomous Systems · Control</div>
-    <h1>
-      Robotics and autonomous systems<br>
-      built from models, perception,<br>
-      and control.
-    </h1>
+    <div class="eyebrow">Engineering Portfolio</div>
+    <h1>Projects</h1>
     <p class="lead">
-      Mechanical engineer working across robotic modeling, perception,
-      sensor fusion, planning, control, simulation, and quantitative validation.
+      Completed robotics engineering studies spanning model validation, nonlinear dynamics,
+      controller design, real-time perception, multi-sensor fusion, and robot-aware planning.
+      Each project is documented with quantitative experiments, implementation details,
+      engineering interpretation, and limitations.
     </p>
-    <div class="btns">
-      <a class="btn primary" href="projects/index.html">Explore Projects</a>
-      <a class="btn" href="research/index.html">Research & Work</a>
-      <a class="btn" href="resume/index.html">Resume</a>
-    </div>
   </div>
 </header>
 
-<section class="section home-showcase">
+<section class="section project-dashboard-section">
   <div class="container">
     <div class="section-head">
       <div>
-        <div class="section-kicker">Selected Work</div>
-        <h2>Research, robotics, perception, and control</h2>
+        <div class="section-kicker">Featured Engineering Work</div>
+        <h2>System-level studies</h2>
       </div>
-      <p>
-        A visual overview of research experience and current robotics work.
-      </p>
+      <p>Two larger programs connecting analytical development to simulation, runtime validation, and robot-level performance.</p>
     </div>
 
-    <div class="showcase-grid">
-
-      <a class="showcase-card" href="research/index.html" aria-label="View Research and Work">
-        <img src="assets/images/home/home-research.png" alt="Research overview with MSSP publication, vibration data, Summit mobile robot, and WAM demonstration" loading="eager">
-        <div class="showcase-meta">
-          <div>
-            <h3>Research Foundation</h3>
-            <p>Publications, experimental dynamics, data analysis, and hands-on robotics research.</p>
+    <div class="project-feature-grid">
+      <a class="project-feature-card" href="09-path-planning/index.html">
+        <div class="project-thumb project-thumb-feature">
+          <img src="../assets/images/projects/path_planning/scenario03_waffle_planner_overlay.png" alt="Robot-aware path planning comparison with multiple planner trajectories" loading="eager">
+        </div>
+        <div class="project-feature-body">
+          <div class="project-topline"><span>Autonomy</span><span class="status live"><span class="dot"></span>Completed</span></div>
+          <h2>Robot-Aware Path Planning Benchmark</h2>
+          <p>
+            Comparative planning study connecting algorithm behavior with robot geometry,
+            configuration-space feasibility, continuous clearance, safety-aware velocity,
+            and mission-level execution performance.
+          </p>
+          <div class="project-facts">
+            <span><strong>4</strong> planners</span>
+            <span><strong>2</strong> robot platforms</span>
+            <span><strong>3</strong> scenarios</span>
+            <span><strong>10</strong> stochastic seeds</span>
           </div>
-          <span class="showcase-link">View research →</span>
+          <div class="project-open">Open project <span>→</span></div>
         </div>
       </a>
 
-      <a class="showcase-card" href="research/waterloo/index.html" aria-label="View Waterloo mobile robotics work">
-        <img src="assets/images/home/home-mobile-robotics.png" alt="Mobile robotics work covering RViz navigation, localization, path planning, and trajectory evaluation" loading="lazy">
-        <div class="showcase-meta">
-          <div>
-            <h3>Mobile Robotics</h3>
-            <p>Navigation, localization, planning, simulation, and system integration.</p>
+      <article class="project-feature-card project-program-card">
+        <a class="project-program-main" href="07-UR5e_Part_2/index.html" aria-label="Open UR5e Modeling and Control program">
+          <div class="project-thumb project-thumb-feature">
+            <img src="../assets/images/projects/Ur5e_Part_2/isaac_setup_overview.png" alt="UR5e controller validation setup in NVIDIA Isaac Sim" loading="eager">
           </div>
-          <span class="showcase-link">View work →</span>
-        </div>
-      </a>
-
-      <a class="showcase-card" href="projects/02-vision/index.html" aria-label="View Vision Perception project">
-        <img src="assets/images/home/home-vision-perception.png" alt="Vision perception work covering semantic segmentation, real-time YOLO detection, performance metrics, and warehouse perception" loading="lazy">
-        <div class="showcase-meta">
-          <div>
-            <h3>Vision Perception</h3>
-            <p>Object detection, tracking, semantic segmentation, and runtime evaluation.</p>
+          <div class="project-feature-body">
+            <div class="project-topline"><span>Modeling &amp; Control</span><span class="status live"><span class="dot"></span>Completed</span></div>
+            <h2>UR5e Modeling &amp; Control Program</h2>
+            <p>
+              A four-stage engineering program progressing from model reconciliation and plant
+              characterization to controller design, robustness studies, independent Isaac Sim
+              validation, and ROS 2/C++ runtime execution.
+            </p>
+            <div class="project-facts">
+              <span><strong>4</strong> completed stages</span>
+              <span><strong>4</strong> controller families</span>
+              <span><strong>3</strong> validation layers</span>
+            </div>
           </div>
-          <span class="showcase-link">View project →</span>
+        </a>
+        <div class="program-stages">
+          <a href="04-control-model-validation/index.html"><span>01</span><strong>Model Setup &amp; Cross-Validation</strong><small>DH / URDF / Isaac reconciliation</small></a>
+          <a href="05-UR5e_Part_1A/index.html"><span>02</span><strong>Kinematics &amp; Dynamics</strong><small>Singularity, Jacobian, rigid-body dynamics</small></a>
+          <a href="06-UR5e_Part_1B/index.html"><span>03</span><strong>Controller Design &amp; Robustness</strong><small>PID, computed torque, LQR, MPC</small></a>
+          <a href="07-UR5e_Part_2/index.html"><span>04</span><strong>Simulation &amp; Runtime Validation</strong><small>Isaac Sim and ROS 2/C++ execution</small></a>
         </div>
-      </a>
+      </article>
+    </div>
+  </div>
+</section>
 
-      <a class="showcase-card" href="projects/04-control-model-validation/index.html" aria-label="View Modeling and Control project">
-        <img src="assets/images/home/home-modeling-control.png" alt="Modeling and control work covering UR5e simulation, analytical cross-validation, EKF sensor fusion, and integrated development" loading="lazy">
-        <div class="showcase-meta">
-          <div>
-            <h3>Modeling &amp; Control</h3>
-            <p>State estimation, analytical cross-validation, dynamics, and manipulator development.</p>
-          </div>
-          <span class="showcase-link">View project →</span>
-        </div>
-      </a>
-
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Perception &amp; Estimation</div>
+        <h2>Focused technical projects</h2>
+      </div>
+      <p>Independent studies with reproducible implementation, quantitative evaluation, and direct links to full technical records.</p>
     </div>
 
-    <div class="home-cta">
-      <a class="btn primary" href="projects/index.html">All Projects</a>
-      <a class="btn" href="research/index.html">Research &amp; Work</a>
+    <div class="project-tile-grid">
+      <a class="project-tile" href="03-lidar-camera/index.html">
+        <div class="project-thumb">
+          <img src="../assets/images/projects/lidar-camera/project03_hero_nova_carter_warehouse.png" alt="LiDAR-camera 3D perception and fusion in an Isaac Sim warehouse" loading="lazy">
+        </div>
+        <div class="project-tile-body">
+          <div class="project-topline"><span>Perception</span><span class="status live"><span class="dot"></span>Completed</span></div>
+          <h3>LiDAR-Camera 3D Perception &amp; Fusion</h3>
+          <p>Calibrated 3D-to-2D projection, object-level range association, YOLO-World, FastSAM, and robustness testing in NVIDIA Isaac Sim.</p>
+          <div class="project-tags"><span>ROS 2</span><span>Isaac Sim</span><span>Sensor Fusion</span></div>
+          <div class="project-open">Open project <span>→</span></div>
+        </div>
+      </a>
+
+      <a class="project-tile" href="02-vision/index.html">
+        <div class="project-thumb">
+          <img src="../assets/images/projects/vision/vision_unified_perception.png" alt="Unified vision perception with detection, tracking, and segmentation" loading="lazy">
+        </div>
+        <div class="project-tile-body">
+          <div class="project-topline"><span>Vision</span><span class="status live"><span class="dot"></span>Completed</span></div>
+          <h3>Vision Perception</h3>
+          <p>Real-time object detection, persistent tracking, and segmentation with quantitative latency, throughput, and scene-load evaluation.</p>
+          <div class="project-tags"><span>YOLO</span><span>Tracking</span><span>Segmentation</span></div>
+          <div class="project-open">Open project <span>→</span></div>
+        </div>
+      </a>
+
+      <a class="project-tile" href="01-ekf/index.html">
+        <div class="project-thumb">
+          <img src="../assets/images/projects/ekf/ekf_trajectory_comparison.png" alt="EKF trajectory comparison for wheel odometry and IMU sensor fusion" loading="lazy">
+        </div>
+        <div class="project-tile-body">
+          <div class="project-topline"><span>State Estimation</span><span class="status live"><span class="dot"></span>Completed</span></div>
+          <h3>EKF Sensor Fusion</h3>
+          <p>Wheel-odometry and IMU fusion in ROS 2 and Gazebo, with trajectory and localization-error evaluation against the unfused estimate.</p>
+          <div class="project-tags"><span>ROS 2</span><span>EKF</span><span>IMU</span></div>
+          <div class="project-open">Open project <span>→</span></div>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -210,7 +157,6 @@
     <div>© <span data-year></span> sooyongtech.dev</div>
   </div>
 </footer>
-
-<script src="assets/js/site.js"></script>
+<script src="../assets/js/site.js"></script>
 </body>
 </html>
