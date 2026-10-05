@@ -28,20 +28,15 @@
 .project-card-body{padding:24px 26px 0;display:flex;flex-direction:column;flex:1}
 .project-card.large .project-card-body{padding:26px 28px 0}
 .project-thumb-compact{
-  height:92px;
   margin:18px 18px 0;
   overflow:hidden;
   border:1px solid var(--line);
   border-radius:13px;
-  background:#050b12;
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:1px;
+  background:#07101a;
+  aspect-ratio:16/9;
 }
-.project-card.large .project-thumb-compact{height:112px;margin:20px 20px 0}
-.project-thumb-compact .thumb-panel{min-width:0;min-height:0;background:#07101a;overflow:hidden}
-.project-thumb-compact .thumb-panel + .thumb-panel{border-left:1px solid var(--line)}
-.project-thumb-compact img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
+.project-card.large .project-thumb-compact{margin:20px 20px 0}
+.project-thumb-compact img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;background:#07101a}
 .project-topline{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:12px}
 .project-domain{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:10px;font-weight:800}
 .project-card h2{font-size:27px;margin:0 0 12px;line-height:1.15}
@@ -76,7 +71,6 @@
 @media(max-width:900px){
   .project-grid,.project-grid-ur5e{grid-template-columns:1fr}
   .project-card.large{min-height:0}
-  .project-thumb-compact,.project-card.large .project-thumb-compact{height:100px}
   .program-head{align-items:flex-start;flex-direction:column}
 }
 @media(max-width:540px){
@@ -119,7 +113,7 @@
 </div>
 <div class="project-grid">
 <article class="project-card large">
-<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Waffle planner overlay" loading="eager" src="../assets/images/projects/path_planning/scenario03_waffle_planner_overlay.png"/></div><div class="thumb-panel"><img alt="Ridgeback planner overlay" loading="eager" src="../assets/images/projects/path_planning/scenario03_ridgeback_planner_overlay.png"/></div><div class="thumb-panel"><img alt="Proximity-aware velocity profiles" loading="eager" src="../assets/images/projects/path_planning/scenario03_proximity_velocity_profiles.png"/></div></div>
+<div class="project-thumb-compact"><img alt="Robot-Aware Path Planning thumbnail" loading="lazy" src="../assets/images/projects/project-home/01-path-planning-home.png"/></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Planning · Navigation</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h2>Robot-Aware Path Planning Benchmark</h2>
@@ -148,7 +142,7 @@
 </div>
 <div class="project-grid-ur5e">
 <article class="project-card large">
-<div class="project-thumb-compact"><div class="thumb-panel"><img alt="DH and URDF frame reconciliation" loading="lazy" src="../assets/images/projects/ur5e-control/pre02_dh_vs_urdf_frames.png"/></div><div class="thumb-panel"><img alt="Mass-matrix cross-validation" loading="lazy" src="../assets/images/projects/ur5e-control/pre08_mass_matrix_comparison.png"/></div><div class="thumb-panel"><img alt="Gravity torque cross-validation" loading="lazy" src="../assets/images/projects/ur5e-control/pre09_gravity_torque_comparison.png"/></div></div>
+<div class="project-thumb-compact"><img alt="UR5e model setup thumbnail" loading="lazy" src="../assets/images/projects/project-home/02-ur5e-setup-home.png"/></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Stage 01 · Model Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Model Setup &amp; Cross-Validation</h3>
@@ -164,7 +158,7 @@
 </div>
 </article>
 <article class="project-card large">
-<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Jacobian condition number" loading="lazy" src="../assets/images/projects/Ur5e_Part_1A/singularity_condition_number.png"/></div><div class="thumb-panel"><img alt="Configuration-dependent dynamics" loading="lazy" src="../assets/images/projects/Ur5e_Part_1A/dynamics_configuration_dependence.png"/></div><div class="thumb-panel"><img alt="Trajectory-level dynamics benchmark" loading="lazy" src="../assets/images/projects/Ur5e_Part_1A/benchmark_joint_trajectory.png"/></div></div>
+<div class="project-thumb-compact"><img alt="UR5e kinematics and dynamics thumbnail" loading="lazy" src="../assets/images/projects/project-home/03-ur5e-kinematics-home.png"/></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Stage 02 · Plant Characterization</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Kinematics &amp; Dynamics Characterization</h3>
@@ -180,7 +174,7 @@
 </div>
 </article>
 <article class="project-card large">
-<div class="project-thumb-compact"><div class="thumb-panel"><img alt="PID joint tracking" loading="lazy" src="../assets/images/projects/Ur5e_Part_1B/pid_joint_tracking.png"/></div><div class="thumb-panel"><img alt="Controller robustness comparison" loading="lazy" src="../assets/images/projects/Ur5e_Part_1B/robustness_joint_rmse.png"/></div><div class="thumb-panel"><img alt="MPC TCP performance metrics" loading="lazy" src="../assets/images/projects/Ur5e_Part_1B/mpc_tcp_metrics.png"/></div></div>
+<div class="project-thumb-compact"><img alt="UR5e controller design thumbnail" loading="lazy" src="../assets/images/projects/project-home/04-ur5e-control-home.png"/></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Stage 03 · Controller Design</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Controller Design &amp; Robustness Assessment</h3>
@@ -196,7 +190,7 @@
 </div>
 </article>
 <article class="project-card large">
-<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Isaac Sim validation setup" loading="lazy" src="../assets/images/projects/Ur5e_Part_2/isaac_setup_overview.png"/></div><div class="thumb-panel"><img alt="Cross-layer RMSE validation" loading="lazy" src="../assets/images/projects/Ur5e_Part_2/validation_layer_rmse_pid_lqr.png"/></div><div class="thumb-panel"><img alt="MPC runtime completion ratio" loading="lazy" src="../assets/images/projects/Ur5e_Part_2/mpc_completion_ratio.png"/></div></div>
+<div class="project-thumb-compact"><img alt="UR5e simulation and runtime thumbnail" loading="lazy" src="../assets/images/projects/project-home/05-ur5e-runtime-home.png"/></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Stage 04 · Runtime Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Independent Simulation &amp; Runtime Validation</h3>
@@ -225,7 +219,7 @@
 </div>
 <div class="project-grid">
 <article class="project-card">
-<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Isaac Sim warehouse platform" loading="lazy" src="../assets/images/projects/lidar-camera/project03_hero_nova_carter_warehouse.png"/></div><div class="thumb-panel"><img alt="Baseline LiDAR-camera fusion" loading="lazy" src="../assets/images/projects/lidar-camera/project03_fusion_baseline.png"/></div><div class="thumb-panel"><img alt="Extrinsic yaw sensitivity" loading="lazy" src="../assets/images/projects/lidar-camera/project03_graph_extrinsic_yaw_support.png"/></div></div>
+<div class="project-thumb-compact"><img alt="LiDAR-camera 3D perception thumbnail" loading="lazy" src="../assets/images/projects/project-home/06-lidar-camera-home.png"/></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">3D Perception · Sensor Fusion</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>LiDAR-Camera 3D Perception &amp; Fusion</h3>
@@ -241,7 +235,7 @@
 </div>
 </article>
 <article class="project-card">
-<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Detection tracking and segmentation" loading="lazy" src="../assets/images/projects/vision/vision_unified_perception.png"/></div><div class="thumb-panel"><img alt="Processing latency distribution" loading="lazy" src="../assets/images/projects/vision/vision_processing_latency_distribution.png"/></div><div class="thumb-panel"><img alt="Frame-rate performance over time" loading="lazy" src="../assets/images/projects/vision/vision_fps_over_time.png"/></div></div>
+<div class="project-thumb-compact"><img alt="Vision perception thumbnail" loading="lazy" src="../assets/images/projects/project-home/07-vision-home.png"/></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Real-Time Vision</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Vision Perception</h3>
@@ -257,7 +251,7 @@
 </div>
 </article>
 <article class="project-card">
-<div class="project-thumb-compact"><div class="thumb-panel"><img alt="Trajectory comparison" loading="lazy" src="../assets/images/projects/ekf/ekf_trajectory_comparison.png"/></div><div class="thumb-panel"><img alt="Localization error over time" loading="lazy" src="../assets/images/projects/ekf/ekf_localization_error.png"/></div><div class="thumb-panel"><img alt="Fused and unfused trajectory comparison" loading="lazy" src="../assets/images/projects/ekf/ekf_trajectory_comparison.png"/></div></div>
+<div class="project-thumb-compact"><img alt="EKF sensor fusion thumbnail" loading="lazy" src="../assets/images/projects/project-home/08-ekf-home.png"/></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">State Estimation</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>EKF Sensor Fusion</h3>
