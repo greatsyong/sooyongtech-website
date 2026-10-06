@@ -36,6 +36,7 @@
   aspect-ratio:16/9;
 }
 .project-card.large .project-thumb-compact{margin:20px 20px 0}
+.project-thumb-compact a{display:block;width:100%;height:100%}
 .project-thumb-compact img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;background:#07101a}
 .project-topline{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:12px}
 .project-domain{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:10px;font-weight:800}
@@ -113,7 +114,7 @@
 </div>
 <div class="project-grid">
 <article class="project-card large">
-<div class="project-thumb-compact"><img alt="Robot-Aware Path Planning thumbnail" loading="lazy" src="../assets/images/projects/project-home/01-path-planning-home.png"/></div>
+<div class="project-thumb-compact"><a aria-label="Open Robot-Aware Path Planning Benchmark" href="09-path-planning/index.html"><img alt="Robot-Aware Path Planning thumbnail" loading="lazy" src="../assets/images/projects/project-home/01-path-planning-home.png"/></a></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Planning · Navigation</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h2>Robot-Aware Path Planning Benchmark</h2>
@@ -130,6 +131,34 @@
 </article>
 </div>
 </div>
+</section><section class="section">
+<div class="container">
+<div class="section-head">
+<div>
+<div class="section-kicker">Learning-Based Control</div>
+<h2>Model-Based &amp; Learning-Based Control</h2>
+</div>
+<p class="project-section-intro">A controlled study of what happens when a strong analytical controller is given the wrong dynamics model, and whether reinforcement learning is more effective when it replaces the controller or learns only the missing physics.</p>
+</div>
+<div class="project-grid">
+<article class="project-card large">
+<div class="project-thumb-compact"><a aria-label="Open Model-Based and Learning-Based Control project" href="11-learning_control_part1/index.html"><img alt="Learning-based control project thumbnail" loading="lazy" src="../assets/images/projects/project-home/11-learning_control_part1.png"/></a></div>
+<div class="project-card-body">
+<div class="project-topline"><span class="project-domain">Control · Reinforcement Learning</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<h2>Model-Based and Learning-Based Control of a 2-DOF Manipulator</h2>
+<p>
+A Cartesian trajectory-tracking study comparing exact-model and mismatched computed-torque control, Pure SAC, and CTC + Residual SAC. A controlled 30% link-2 mass error is traced from model mismatch to analytical torque deficit, then used to test whether a bounded learned residual can recover the missing dynamics without discarding the structure of the classical controller.
+</p>
+<div class="project-facts"><span>CTC</span><span>Pure SAC</span><span>Residual SAC</span><span>1.29 mm final RMSE</span></div>
+</div>
+<div class="project-actions">
+<a href="11-learning_control_part1/index.html">Project</a>
+<a href="https://github.com/greatsyong/SK/tree/main/05_learning_control_project1" rel="noopener" target="_blank">GitHub</a>
+<a href="11-learning_control_part1/learning_control_part1.pdf" rel="noopener" target="_blank">Report View</a>
+</div>
+</article>
+</div>
+</div>
 </section>
 <section class="section">
 <div class="container">
@@ -142,7 +171,7 @@
 </div>
 <div class="project-grid-ur5e">
 <article class="project-card large">
-<div class="project-thumb-compact"><img alt="UR5e model setup thumbnail" loading="lazy" src="../assets/images/projects/project-home/02-ur5e-setup-home.png"/></div>
+<div class="project-thumb-compact"><a aria-label="Open Model Setup &amp; Cross-Validation" href="04-control-model-validation/index.html"><img alt="UR5e model setup thumbnail" loading="lazy" src="../assets/images/projects/project-home/02-ur5e-setup-home.png"/></a></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Stage 01 · Model Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Model Setup &amp; Cross-Validation</h3>
@@ -158,7 +187,7 @@
 </div>
 </article>
 <article class="project-card large">
-<div class="project-thumb-compact"><img alt="UR5e kinematics and dynamics thumbnail" loading="lazy" src="../assets/images/projects/project-home/03-ur5e-kinematics-home.png"/></div>
+<div class="project-thumb-compact"><a aria-label="Open Kinematics &amp; Dynamics Characterization" href="05-UR5e_Part_1A/index.html"><img alt="UR5e kinematics and dynamics thumbnail" loading="lazy" src="../assets/images/projects/project-home/03-ur5e-kinematics-home.png"/></a></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Stage 02 · Plant Characterization</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Kinematics &amp; Dynamics Characterization</h3>
@@ -174,7 +203,7 @@
 </div>
 </article>
 <article class="project-card large">
-<div class="project-thumb-compact"><img alt="UR5e controller design thumbnail" loading="lazy" src="../assets/images/projects/project-home/04-ur5e-control-home.png"/></div>
+<div class="project-thumb-compact"><a aria-label="Open Controller Design &amp; Robustness Assessment" href="06-UR5e_Part_1B/index.html"><img alt="UR5e controller design thumbnail" loading="lazy" src="../assets/images/projects/project-home/04-ur5e-control-home.png"/></a></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Stage 03 · Controller Design</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Controller Design &amp; Robustness Assessment</h3>
@@ -190,7 +219,7 @@
 </div>
 </article>
 <article class="project-card large">
-<div class="project-thumb-compact"><img alt="UR5e simulation and runtime thumbnail" loading="lazy" src="../assets/images/projects/project-home/05-ur5e-runtime-home.png"/></div>
+<div class="project-thumb-compact"><a aria-label="Open Independent Simulation &amp; Runtime Validation" href="07-UR5e_Part_2/index.html"><img alt="UR5e simulation and runtime thumbnail" loading="lazy" src="../assets/images/projects/project-home/05-ur5e-runtime-home.png"/></a></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Stage 04 · Runtime Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Independent Simulation &amp; Runtime Validation</h3>
@@ -219,7 +248,7 @@
 </div>
 <div class="project-grid">
 <article class="project-card">
-<div class="project-thumb-compact"><img alt="LiDAR-camera 3D perception thumbnail" loading="lazy" src="../assets/images/projects/project-home/06-lidar-camera-home.png"/></div>
+<div class="project-thumb-compact"><a aria-label="Open LiDAR-Camera 3D Perception &amp; Fusion" href="03-lidar-camera/index.html"><img alt="LiDAR-camera 3D perception thumbnail" loading="lazy" src="../assets/images/projects/project-home/06-lidar-camera-home.png"/></a></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">3D Perception · Sensor Fusion</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>LiDAR-Camera 3D Perception &amp; Fusion</h3>
@@ -235,7 +264,7 @@
 </div>
 </article>
 <article class="project-card">
-<div class="project-thumb-compact"><img alt="Vision perception thumbnail" loading="lazy" src="../assets/images/projects/project-home/07-vision-home.png"/></div>
+<div class="project-thumb-compact"><a aria-label="Open Vision Perception" href="02-vision/index.html"><img alt="Vision perception thumbnail" loading="lazy" src="../assets/images/projects/project-home/07-vision-home.png"/></a></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">Real-Time Vision</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>Vision Perception</h3>
@@ -251,7 +280,7 @@
 </div>
 </article>
 <article class="project-card">
-<div class="project-thumb-compact"><img alt="EKF sensor fusion thumbnail" loading="lazy" src="../assets/images/projects/project-home/08-ekf-home.png"/></div>
+<div class="project-thumb-compact"><a aria-label="Open EKF Sensor Fusion" href="01-ekf/index.html"><img alt="EKF sensor fusion thumbnail" loading="lazy" src="../assets/images/projects/project-home/08-ekf-home.png"/></a></div>
 <div class="project-card-body">
 <div class="project-topline"><span class="project-domain">State Estimation</span><span class="status live"><span class="dot"></span>Completed</span></div>
 <h3>EKF Sensor Fusion</h3>

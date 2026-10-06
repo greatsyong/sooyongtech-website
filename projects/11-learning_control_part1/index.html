@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Model-Based and Learning-Based Control of a 2-DOF Manipulator — computed torque control, Pure SAC, Residual SAC, structured model mismatch, and analytical torque-deficit interpretation — Sooyong Kim">
+<title>Model-Based and Learning-Based Control — Sooyong Kim</title>
+
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#09101d,#0b1020);color:var(--text);line-height:1.65}
+main{max-width:1040px;margin:auto;padding:48px 24px 72px}
+h1{font-size:52px;line-height:1.05;margin:10px 0 16px;letter-spacing:-.025em}
+h2{margin-top:52px;font-size:29px}
+h3{margin-top:30px;font-size:21px}
+p,li{color:#ced9ef}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.tag{display:inline-block;border:1px solid #2d3e63;border-radius:999px;padding:6px 10px;margin:4px;font-size:13px;color:#b9c9e6}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.metric strong{display:block;font-size:28px;margin-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+table{width:100%;border-collapse:collapse;background:var(--panel);margin:18px 0;border:1px solid var(--line)}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#121d33;color:#dce8fb}
+.compact td,.compact th{font-size:14px}
+.callout{border-left:4px solid var(--accent);background:#0d1729;padding:18px 20px;border-radius:10px;margin:18px 0}
+.note{border-left:4px solid var(--accent2);background:#0d1729;padding:16px 18px;border-radius:10px;margin:18px 0;color:#cbd8ef}
+.warning{border-left:4px solid #f59e0b;background:#171426;padding:16px 18px;border-radius:10px;margin:18px 0;color:#dbe5f6}
+.small{font-size:14px;color:var(--muted)}
+.project-figure{margin:22px auto 32px;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{display:block;width:100%;height:auto;background:#fff}
+.project-figure figcaption{padding:14px 16px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.project-figure figcaption strong{display:block;color:#eef5ff;margin-bottom:4px;font-size:15px}
+.action-btn{display:inline-block;border:1px solid #35527d;border-radius:10px;padding:10px 14px;color:#eaf1ff;background:#101b31;font-weight:700;margin:5px 8px 5px 0}
+.action-btn.primary{background:#17335a;border-color:#4b7fbd}
+.action-btn:hover{text-decoration:none;transform:translateY(-1px)}
+.equation{margin:18px 0;padding:14px 18px;text-align:center;background:#08101d;border:1px solid var(--line);border-radius:12px;color:#eaf1ff;font-family:"Times New Roman",serif;font-size:18px;overflow-x:auto}
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:22px 0}
+.pipeline .step{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;color:#dce8fb;font-weight:700}
+.pipeline .step span{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:5px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.pipeline{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.grid,.two,.pipeline{grid-template-columns:1fr}h1{font-size:38px}table{display:block;overflow-x:auto}}
+</style>
+</head>
+
+<body>
+<nav class="nav"><div class="container nav-inner">
+<a class="brand" href="../../index.html">SOOYONG KIM</a>
+<div class="nav-links"><a href="../../bio.html">Bio</a><a href="../../research/index.html">Research &amp; Work</a><a class="active" href="../../projects/index.html">Projects</a><a href="../../resume/index.html">Resume</a><a href="../../contact.html">Contact</a></div>
+</div></nav>
+
+<main>
+<p style="color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase">Modeling &amp; Control · Reinforcement Learning</p>
+<h1>Model-Based and Learning-Based Control of a 2-DOF Manipulator</h1>
+<p style="font-size:20px">
+This project asks a practical control question: when the analytical model is imperfect, is it better to replace the controller with model-free reinforcement learning, or to preserve the known physics and learn only the missing dynamics? The study connects controlled model mismatch to actuator-level torque deficit, then compares exact-model CTC, mismatched CTC, Pure SAC, and CTC + Residual SAC on the same Cartesian end-effector task.
+</p>
+
+<div>
+  <span class="tag">Computed Torque Control</span>
+  <span class="tag">Soft Actor-Critic</span>
+  <span class="tag">Residual RL</span>
+  <span class="tag">2-DOF Manipulator</span>
+  <span class="tag">Cartesian Tracking</span>
+  <span class="tag">Model Mismatch</span>
+  <span class="tag">Torque-Deficit Analysis</span>
+</div>
+
+<p>
+<a href="https://github.com/greatsyong/SK/tree/main/05_learning_control_project1" target="_blank" rel="noopener">View source on GitHub →</a>
+</p>
+
+<div class="grid">
+  <div class="metric"><strong>0.195 mm</strong>Exact-model CTC Stage-3 end-effector RMSE</div>
+  <div class="metric"><strong>31.116 mm</strong>CTC RMSE after a 30% link-2 mass underestimate</div>
+  <div class="metric"><strong>4.662 mm</strong>Final Pure SAC Stage-3 RMSE</div>
+  <div class="metric"><strong>1.290 mm</strong>Final Residual SAC Stage-3 RMSE</div>
+</div>
+
+<div class="callout">
+<strong>Engineering objective:</strong> the goal is not to prove that reinforcement learning is universally superior to classical control. The study first establishes how well model-based control performs when its assumptions are correct, deliberately breaks one of those assumptions, identifies the missing physical torque, and then tests two learning strategies against that failure mode.
+</div>
+
+<h2>1. Study Design</h2>
+<p>
+A 2-DOF planar manipulator is used because it is the minimum system that still preserves the nonlinear effects needed for a meaningful control study: configuration-dependent inertia, gravity, Coriolis and centrifugal terms, multi-joint coupling, forward/inverse kinematics, and the distinction between joint-space and Cartesian task-space behavior. The final task is end-effector trajectory tracking; joint references are internal quantities used where required by the model-based controller.
+</p>
+
+<div class="pipeline">
+  <div class="step">Exact-Model CTC<span>Establish the ideal model-based reference</span></div>
+  <div class="step">Model Mismatch<span>Introduce one traceable physical error</span></div>
+  <div class="step">Torque Deficit<span>Identify what the wrong model is missing</span></div>
+  <div class="step">Pure SAC<span>Learn the full actuator command</span></div>
+  <div class="step">Residual SAC<span>Learn only the missing correction</span></div>
+</div>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/system_schematic.png" alt="Learning-control system schematic" loading="lazy">
+<figcaption><strong>Figure 1 — Control Architectures</strong>The same nonlinear plant and Cartesian tracking task are used to compare model-based, model-free, and residual learning architectures.</figcaption>
+</figure>
+
+<h2>2. Exact Model vs. Structured Model Error</h2>
+<p>
+With the controller model matched to the plant, computed-torque control provides a very strong nominal reference: Stage-3 Cartesian RMSE is only <strong>0.195 mm</strong>. This result is treated as an ideal model-consistency benchmark, not a prediction of hardware accuracy.
+</p>
+<p>
+The robustness study then changes only the controller's estimate of the second-link mass, from the true <strong>1.50 kg</strong> to <strong>1.05 kg</strong>—a 30% underestimate. Keeping every other parameter unchanged makes the degradation physically traceable instead of hiding it inside broad randomization.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/ctc_stage3_mismatch.png" alt="CTC trajectory under 30 percent link-2 mass mismatch" loading="lazy">
+<figcaption><strong>Figure 2 — CTC Under 30% Link-2 Mass Underestimate</strong>The controller remains unsaturated, but the wrong dynamics compensation produces a systematic task-space bias and raises RMSE to 31.116 mm.</figcaption>
+</figure>
+
+<div class="equation">Δτ<sub>model</sub> = τ<sub>true model</sub> − τ<sub>wrong model</sub></div>
+
+<p>
+Rather than stopping at the observation that the trajectory is wrong, the study computes the torque missing from the mismatched controller at the same state and reference. The dominant deficit appears at joint 1, where the closed-loop mismatch trajectory shows approximately <strong>2.318 Nm RMS</strong> missing torque.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/analytical_torque_deficit.png" alt="Analytical model torque deficit under the link-2 mass mismatch" loading="lazy">
+<figcaption><strong>Figure 3 — Analytical Model Torque Deficit</strong>The model error is converted into an actuator-level quantity that can later be compared directly with the learned residual torque.</figcaption>
+</figure>
+
+<h2>3. Pure SAC — Learning the Full Control Law</h2>
+<p>
+Pure SAC receives the robot state and Cartesian reference and directly generates normalized actuator commands over the full physical torque range. No analytical inverse-dynamics terms are exposed to the policy. Because the final Stage-3 task combines geometry, phase, joint coordination, and higher velocity/acceleration demand, training progresses through a Cartesian curriculum rather than starting from the hardest trajectory.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/stage1_initial.png" alt="Pure SAC Stage 1 initial trajectory" loading="lazy">
+<figcaption><strong>Figure 4 — Pure SAC Stage 1, Initial Training</strong>The initial model-free policy has not yet learned the basic Cartesian circle and shows large geometric distortion.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/stage1_refined.png" alt="Pure SAC Stage 1 refined trajectory" loading="lazy">
+<figcaption><strong>Figure 5 — Pure SAC Stage 1, Refined</strong>After refinement, the same policy architecture reproduces the simple reference closely enough to transfer the learned control structure to harder stages.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/stage3_initial.png" alt="Pure SAC Stage 3 initial trajectory" loading="lazy">
+<figcaption><strong>Figure 6 — Pure SAC Stage 3, Initial Transfer</strong>The harder Stage-3 ellipse initially exposes substantial residual error despite earlier curriculum learning.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/stage3_final.png" alt="Pure SAC Stage 3 final trajectory" loading="lazy">
+<figcaption><strong>Figure 7 — Pure SAC Stage 3, Final</strong>After continued training, Pure SAC reaches 4.662 mm Cartesian RMSE and 93.994% geometric IoU.</figcaption>
+</figure>
+
+<div class="note"><strong>Pure SAC finding:</strong> the model-free controller avoids explicit dependence on the incorrect dynamics model and substantially outperforms mismatched CTC, but it still learns the entire control problem from interaction and remains less accurate than exact-model CTC.</div>
+
+<h2>4. Residual SAC — Keep the Physics, Learn the Missing Part</h2>
+<p>
+The residual architecture keeps the mismatched CTC as the baseline controller and asks SAC to learn only a bounded correction:
+</p>
+<div class="equation">τ<sub>total</sub> = τ<sub>CTC,wrong</sub> + Δτ<sub>SAC</sub></div>
+<p>
+Residual limits of <strong>[5, 2] Nm</strong> are selected from the measured analytical deficit with additional margin. This gives the learned policy enough authority to correct the missing dynamics while keeping the classical controller responsible for the dominant structure of the task.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/residual_stage3_initial.png" alt="Residual SAC Stage 3 initial trajectory" loading="lazy">
+<figcaption><strong>Figure 8 — Residual SAC After 50k Steps</strong>The residual policy already recovers most of the mismatch-induced error, reaching 2.956 mm Cartesian RMSE.</figcaption>
+</figure>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/residual_stage3_final.png" alt="Residual SAC Stage 3 final trajectory" loading="lazy">
+<figcaption><strong>Figure 9 — Final Residual SAC Policy</strong>The selected 100k-step policy reaches 1.290 mm RMSE, 2.226 mm maximum error, and 97.658% geometric IoU with no actuator saturation.</figcaption>
+</figure>
+
+<h2>5. Did the Policy Learn the Missing Physics?</h2>
+<p>
+Trajectory accuracy alone cannot answer this question. The final residual torque is therefore compared at the same actual state and reference against the analytical torque deficit created by the wrong dynamics model. This is the main physical interpretation step of the project.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/residual_vs_deficit_final.png" alt="Final residual SAC torque compared with analytical model torque deficit" loading="lazy">
+<figcaption><strong>Figure 10 — Learned Residual vs. Analytical Model Deficit</strong>Joint 2 is reproduced almost directly, while joint 1 captures the dominant temporal structure with some remaining amplitude and phase error.</figcaption>
+</figure>
+
+<table class="compact">
+<thead><tr><th>Metric</th><th>Joint 1</th><th>Joint 2</th></tr></thead>
+<tbody>
+<tr><td>Residual-deficit RMSE</td><td><strong>0.0978 Nm</strong></td><td><strong>0.0140 Nm</strong></td></tr>
+<tr><td>Residual-deficit correlation</td><td><strong>0.880</strong></td><td><strong>0.996</strong></td></tr>
+</tbody>
+</table>
+
+<div class="callout"><strong>Key interpretation:</strong> the residual policy does not merely reduce Cartesian error. Its learned correction is strongly aligned with the torque that the analytical model says is missing, supporting the interpretation that the policy is compensating a physically identifiable model deficit.</div>
+
+<h2>6. Final Controller Comparison</h2>
+<table class="compact">
+<thead><tr><th>Controller</th><th>EE RMSE</th><th>Max error</th><th>Geometric error</th><th>IoU</th></tr></thead>
+<tbody>
+<tr><td>Exact-model CTC</td><td><strong>0.195 mm</strong></td><td><strong>0.278 mm</strong></td><td>—</td><td>—</td></tr>
+<tr><td>CTC, 30% link-2 mass error</td><td>31.116 mm</td><td>39.161 mm</td><td>62.230%</td><td>53.919%</td></tr>
+<tr><td>Pure SAC</td><td>4.662 mm</td><td>9.930 mm</td><td>6.230%</td><td>93.994%</td></tr>
+<tr><td>Residual SAC</td><td><strong>1.290 mm</strong></td><td><strong>2.226 mm</strong></td><td><strong>2.353%</strong></td><td><strong>97.658%</strong></td></tr>
+</tbody>
+</table>
+
+<div class="two">
+<div class="card"><h3 style="margin-top:0">What Classical Control Shows</h3><p>When the analytical model is correct, computed-torque control remains the strongest solution in this benchmark. Learning is not needed simply because it is available.</p></div>
+<div class="card"><h3 style="margin-top:0">What Learning Adds</h3><p>When the model is deliberately wrong, learning provides value. Residual SAC is especially effective because it preserves the known control structure and learns a smaller correction problem.</p></div>
+</div>
+
+<h2>7. Refinement and Stopping Decision</h2>
+<p>
+After the 100k-step residual policy reached the best measured result, the learning rate was reduced from <strong>3×10<sup>−4</sup></strong> to <strong>1×10<sup>−4</sup></strong> for an additional 30k steps. Performance did not improve: RMSE increased to 1.530 mm and IoU fell to 96.749%. The 100k policy was therefore retained rather than assuming that more training must be better.
+</p>
+
+<figure class="project-figure half-width">
+<img src="../../assets/images/projects/learning_control_part1/residual_stage3_refined.png" alt="Residual SAC low-learning-rate refinement trajectory" loading="lazy">
+<figcaption><strong>Figure 11 — Low-Learning-Rate Refinement</strong>Additional optimization does not improve the already-converged policy, providing a practical stopping criterion.</figcaption>
+</figure>
+
+<h2>8. Why These Metrics?</h2>
+<div class="two">
+<div class="card"><h3 style="margin-top:0">Tracking Accuracy</h3><p>End-effector RMSE and maximum error quantify typical and worst-case Cartesian tracking behavior.</p></div>
+<div class="card"><h3 style="margin-top:0">Geometric Fidelity</h3><p>Area bias, symmetric-difference area, geometric error, and IoU reveal closed-path distortion that RMSE alone can hide.</p></div>
+<div class="card"><h3 style="margin-top:0">Control Effort</h3><p>Torque RMS, peak torque, and saturation distinguish a controller error from a simple lack of actuator authority.</p></div>
+<div class="card"><h3 style="margin-top:0">Physical Interpretation</h3><p>Residual-deficit RMSE and correlation test whether the learned correction is consistent with the actual model error.</p></div>
+</div>
+
+<h2>9. Practical Limitations</h2>
+<ul>
+<li>The study uses controlled simulation so that one model error can be isolated and interpreted.</li>
+<li>Real manipulators introduce simultaneous mass, inertia, center-of-mass, friction, drivetrain, payload, and compliance uncertainty.</li>
+<li>Sensor noise, state-estimation error, communication delay, actuator dynamics, and torque-estimation error are not modeled here.</li>
+<li>The final policies are evaluated on the Stage-3 task distribution; broader trajectory generalization requires separate testing.</li>
+<li>Free-space tracking does not establish robustness to contact or arbitrary external disturbance.</li>
+<li>The exact-model CTC result is an ideal model-consistency reference, not a hardware-level accuracy prediction.</li>
+</ul>
+
+<div class="warning"><strong>Scope of the conclusion:</strong> this project establishes a physically interpretable simulation result—model mismatch creates a measurable torque deficit, and a bounded residual policy can learn a correction strongly aligned with that deficit. Hardware robustness and sim-to-real performance remain separate validation problems.</div>
+
+<h2>10. Project Resources</h2>
+<div class="two">
+<div class="card">
+<h3 style="margin-top:0">Source &amp; Results</h3>
+<p>Manipulator models, CTC implementation, Pure SAC and Residual SAC environments, curriculum / transfer / continuation scripts, evaluation tools, tests, and selected experiment results.</p>
+<p><a class="action-btn" href="https://github.com/greatsyong/SK/tree/main/05_learning_control_project1" target="_blank" rel="noopener">Open GitHub Project</a></p>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Technical Report</h3>
+<p>Detailed report covering the control formulation, training logic, evaluation metrics, analytical torque-deficit comparison, quantitative results, physical interpretation, and real-world limitations.</p>
+<p>
+<a class="action-btn primary" href="learning_control_part1.pdf" target="_blank" rel="noopener">View Technical Report</a>
+<a class="action-btn" href="learning_control_part1.pdf" download>Download PDF</a>
+</p>
+</div>
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:42px;padding-top:20px;border-top:1px solid #293957;">
+<a href="../09-path-planning/index.html" style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">← Previous: Path Planning</a>
+<a href="../index.html" style="color:#7dd3fc;text-decoration:none;font-weight:600;white-space:nowrap;">Back to Projects →</a>
+</div>
+
+<p style="margin-top:50px;color:#8ea1c0">Project by Sooyong Kim · Robotics &amp; Autonomous Systems Portfolio</p>
+</main>
+</body>
+</html>
