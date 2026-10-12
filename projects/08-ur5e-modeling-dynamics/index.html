@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="UR5e Modeling &amp; Dynamics — physically grounded UR5e engineering portfolio by Sooyong Kim."><title>UR5e Modeling &amp; Dynamics — Sooyong Kim</title><link rel="stylesheet" href="../../assets/css/site.css"><style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+main{max-width:1040px;margin:auto;padding:48px 24px 72px}
+h1{font-size:52px;line-height:1.05;margin:10px 0 16px;letter-spacing:-.025em}
+h2{margin-top:52px;font-size:29px}
+h3{margin-top:30px;font-size:21px}
+p,li{color:#ced9ef}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.tag{
+  display:inline-block;border:1px solid #2d3e63;border-radius:999px;
+  padding:6px 10px;margin:4px;font-size:13px;color:#b9c9e6;
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.metric strong{display:block;font-size:28px;margin-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+pre{
+  background:#08101d;border:1px solid var(--line);border-radius:12px;
+  padding:16px;overflow:auto;color:#d8e8ff;line-height:1.45;
+}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;background:var(--panel);margin:18px 0;border:1px solid var(--line)}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#121d33;color:#dce8fb}
+.compact td,.compact th{font-size:14px}
+.callout{
+  border-left:4px solid var(--accent);background:#0d1729;
+  padding:18px 20px;border-radius:10px;margin:18px 0;
+}
+.note{
+  border-left:4px solid var(--accent2);background:#0d1729;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#cbd8ef;
+}
+.warning{
+  border-left:4px solid #f59e0b;background:#171426;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#dbe5f6;
+}
+.small{font-size:14px;color:var(--muted)}
+.project-figure{
+  margin:22px auto 32px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;
+}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{display:block;width:100%;height:auto;background:#fff}
+.project-figure figcaption{padding:14px 16px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.project-figure figcaption strong{display:block;color:#eef5ff;margin-bottom:4px;font-size:15px}
+.action-btn{
+  display:inline-block;border:1px solid #35527d;border-radius:10px;
+  padding:10px 14px;color:#eaf1ff;background:#101b31;font-weight:700;
+  margin:5px 8px 5px 0;
+}
+.action-btn.primary{background:#17335a;border-color:#4b7fbd}
+.action-btn:hover{text-decoration:none;transform:translateY(-1px)}
+.equation{
+  margin:18px 0;padding:14px 18px;text-align:center;background:#08101d;
+  border:1px solid var(--line);border-radius:12px;color:#eaf1ff;
+  font-family:"Times New Roman",serif;font-size:18px;overflow-x:auto;
+}
+.video-wrap{
+  width:min(100%,720px);margin:24px auto 34px;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#08101d;
+}
+.video-frame{position:relative;width:100%;padding-top:56.25%}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-caption{padding:14px 16px 16px;color:var(--muted);font-size:14px}
+.pipeline{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0;
+}
+.pipeline .step{
+  position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:16px;text-align:center;color:#dce8fb;font-weight:700;
+}
+.pipeline .step span{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:5px}
+@media(max-width:760px){
+  .grid,.two,.pipeline{grid-template-columns:1fr}
+  h1{font-size:38px}
+  table{display:block;overflow-x:auto}
+}
+
+/* Extension for the three linked UR5e payload research pages. */
+main{max-width:1040px}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{width:100%;height:auto;object-fit:contain}
+.grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.metric strong{font-size:clamp(20px,2.6vw,28px)}
+.project-lead{font-size:20px;line-height:1.65}
+.section-eyebrow{color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.resource-links{display:flex;flex-wrap:wrap;gap:2px;margin-top:16px}
+.video-pending{background:linear-gradient(135deg,#0d2239,#080f1e);position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#cbdcf2;text-align:center;padding:28px}
+.video-pending svg{width:58px;height:58px;color:#7dd3fc}
+.video-pending strong{color:#fff;font-size:21px}
+.video-pending p{max-width:440px;margin:0;font-size:14px}
+.project-pager{display:flex;justify-content:space-between;align-items:center;gap:14px;width:100%;margin-top:42px;padding-top:20px;border-top:1px solid #293957}
+.project-pager a{color:#7dd3fc;font-weight:600}
+.table-scroll{overflow-x:auto;margin:18px 0}
+.table-scroll table{margin:0}
+@media(max-width:760px){.grid,.two,.pipeline{grid-template-columns:1fr}.project-lead{font-size:17px}h1{font-size:38px}.project-pager{flex-wrap:wrap}}
+</style></head>
+<body><nav class="nav"><div class="container nav-inner">
+<a class="brand" href="../../index.html">SOOYONG KIM</a>
+<div class="nav-links"><a href="../../bio.html">Bio</a><a href="../../research/index.html">Research &amp; Work</a><a class="active" href="../../projects/index.html">Projects</a><a href="../../resume/index.html">Resume</a><a href="../../contact.html">Contact</a></div>
+</div></nav><main><p class="section-eyebrow">UR5e Payload Research · Modeling</p><h1>UR5e Modeling & Dynamics</h1><p class="project-lead">Reconstructing a consistent six-degree-of-freedom robot and payload model before controller development: coordinate frames, FK/IK, Jacobian conditioning, inverse dynamics, and cross-validation against the Isaac Sim articulation.</p><div><span class="tag">UR5e</span><span class="tag">FK / IK</span><span class="tag">Jacobian</span><span class="tag">Damped Least Squares</span><span class="tag">Rigid-Body Dynamics</span><span class="tag">Payload CoM</span><span class="tag">Isaac Sim 6.1</span></div><p><a href="https://github.com/greatsyong/ur5e-control-analysis/tree/main/part3_residual_rl" target="_blank" rel="noopener">View project source on GitHub →</a></p><div class="grid"><div class="metric"><strong>0.000206 mm</strong>Analytical-to-Isaac Tool0 position discrepancy at the checked pose</div><div class="metric"><strong>121 / 121</strong>Cartesian-reference IK waypoints converged</div><div class="metric"><strong>15.53</strong>Maximum recorded Jacobian condition number along the accepted path</div></div><div class="callout"><strong>Engineering question:</strong> can the geometric, kinematic, and rigid-body definitions used by an analytical controller be reconciled with the independent UR5e articulation before using their outputs to make transport and control decisions?</div><h2>1. Physical Model and Coordinate Consistency</h2>
+<p>The study begins with the six-revolute-joint UR5e and its existing robot description. Joint identity, axis direction, joint order, fixed-base configuration, link transformations, and the world-to-base relationship were checked before constructing the later transportation and control experiments. This stage is not another controller benchmark: it establishes whether the mathematical quantities used by a controller describe the same mechanism executed in Isaac Sim.</p><div class="equation">T<sub>BT</sub>(q) = T<sub>B1</sub>(q<sub>1</sub>) ··· T<sub>6T</sub>(q<sub>6</sub>)</div><p>The adopted base-to-world rotational convention was <strong>diag(−1, −1, 1)</strong>. Tool0 was held at a fixed orientation for the payload task. Frame consistency matters because a mathematically correct inverse dynamics implementation can still generate physically incorrect joint effort when its joint signs or gravity frame differ from the articulation.</p><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/pick_isaac.png" alt="Figure 1 — UR5e Pick-Station Configuration" loading="lazy"><figcaption><strong>Figure 1 — UR5e Pick-Station Configuration</strong>Isaac Sim arrangement used to verify the manipulator, initial station, and payload attachment under the accepted frame conventions.</figcaption></figure>
+<h2>2. Forward Kinematics and Cross-Validation</h2>
+<p>A representative joint configuration was evaluated independently through analytical forward kinematics and the Isaac Sim model. The reported Tool0 position discrepancy was <strong>0.000206 mm</strong>, supporting agreement of the tested kinematic definitions. This numerical result is not hardware pose accuracy, and one checked configuration does not validate every dynamic parameter.</p><div class="equation">p<sub>Tool0</sub> = f<sub>p</sub>(q), &nbsp; Δp ≈ J<sub>v</sub>(q)Δq</div><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/place_isaac.png" alt="Figure 2 — UR5e Extended Destination Configuration" loading="lazy"><figcaption><strong>Figure 2 — UR5e Extended Destination Configuration</strong>The place target was selected near 95% of nominal horizontal reach to expose configuration-dependent demands without equating extension with a singularity.</figcaption></figure>
+<h2>3. Jacobian, Inverse Kinematics and Workspace Feasibility</h2>
+<p>Differential kinematics connects joint motion and Cartesian transport. Rather than selecting an unrelated inverse-kinematics solution at each point, the accepted path used sequential damped-least-squares IK seeded from the preceding configuration. All <strong>121 reference waypoints</strong> converged. The maximum reported Jacobian condition number along this path was approximately <strong>15.53</strong>, with a minimum reported singular value of <strong>0.1237</strong> under the adopted numerical convention.</p><div class="equation">Δq = J<sup>T</sup>(JJ<sup>T</sup> + λ<sup>2</sup>I)<sup>−1</sup>e</div><p>Additional checks sampled 481 robot configurations along and between reference waypoints. No mesh intersection was found among the examined candidates. These observations support the sampled path geometry; they do not establish continuous swept-volume collision safety or actuator feasibility.</p><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/accepted_path.png" alt="Figure 3 — Accepted Cartesian Transportation Path" loading="lazy"><figcaption><strong>Figure 3 — Accepted Cartesian Transportation Path</strong>The kinematically checked reference establishes the geometric input for later trajectory and inverse-dynamics calculations.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/path_and_joints.png" alt="Figure 4 — Cartesian Reference and Joint Coordinates" loading="lazy"><figcaption><strong>Figure 4 — Cartesian Reference and Joint Coordinates</strong>Shows the relationship between the prescribed workspace motion and the corresponding six-joint reference.</figcaption></figure>
+<h2>4. Rigid-Body and Attached-Payload Dynamics</h2>
+<p>The analytical model retains the nonlinear coupled inertia, velocity-dependent, and gravitational terms. A fixed, homogeneous 50 mm cube is attached to Tool0; its center of mass is placed 25 mm along the tool’s local +Z axis. Payload inertia and gravity are mapped through the payload CoM Jacobian, rather than estimated from a single lever arm.</p><div class="equation">M(q;m<sub>p</sub>)q̈ + c(q,q̇;m<sub>p</sub>) + g(q;m<sub>p</sub>) = τ</div><div class="equation">M<sub>p,trans</sub> = m<sub>p</sub> J<sub>v,p</sub><sup>T</sup>J<sub>v,p</sub></div><p>The complete loaded model already includes the robot and payload contributions. Adding the same payload correction a second time would duplicate inertia and gravity effects. The subsequent study distinguishes total loaded dynamics from the difference between two loaded models.</p><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/torque_profiles.png" alt="Figure 5 — Joint-Resolved Reference Torque" loading="lazy"><figcaption><strong>Figure 5 — Joint-Resolved Reference Torque</strong>The joint-torque profiles demonstrate that a prescribed tool motion produces nonuniform effort demands across the six degrees of freedom.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/torque_usage.png" alt="Figure 6 — Predicted Effort Utilization" loading="lazy"><figcaption><strong>Figure 6 — Predicted Effort Utilization</strong>Reference inverse-dynamics requirements relative to effort limits configured in the simulation asset, not certified motor torque ratings.</figcaption></figure>
+<h2>5. Why the Physical Model Matters to Later Control</h2>
+<p>Under the accepted initial 1 kg payload reference, shoulder lift required the largest predicted peak effort, approximately <strong>62.435 Nm</strong>. Increasing the transportation time from three to four seconds reduced that peak only to approximately <strong>60.340 Nm</strong>: slowing the trajectory lowers inertial demand but does not remove gravity-dependent effort.</p><div class="table-scroll"><table class="compact"><thead><tr><th>Modeling evidence</th><th>Recorded result</th><th>Interpretation</th></tr></thead><tbody><tr><td>Analytical/Isaac Tool0 comparison</td><td>0.000206 mm</td><td>Kinematic agreement at the checked pose</td></tr><tr><td>Accepted IK sequence</td><td>121 / 121 converged</td><td>Numerical feasibility of the reference</td></tr><tr><td>Maximum Jacobian condition number</td><td>15.53</td><td>No detected singularity along the accepted sequence</td></tr><tr><td>1 kg peak shoulder-lift torque</td><td>62.435 Nm</td><td>Dominant gravitational and coupled loading</td></tr></tbody></table></div><p>The result of this stage is a traceable physical model and task geometry. It provides the basis for the subsequent controller comparisons and prevents frame, inertia, or attachment errors from being mistaken for feedback-controller limitations.</p>
+<h2>6. Validation Boundaries</h2>
+<div class="warning"><strong>Interpretation:</strong> analytical-to-Isaac FK agreement validates the tested geometry, not full actuator dynamics. The rigid attachment excludes grasp/contact behavior; sampled intersection checks are not collision guarantees. Cartesian error reconstructed from joint states is not an independently measured physical tool position.</div>
+<h2>Project Resources</h2>
+<div class="two"><div class="card"><h3 style="margin-top:0">Source Code &amp; Experiment Records</h3><p>UR5e analytical modeling, nominal control, ROS 2–PhysX implementation, residual RL training, evaluation routines, and recorded experiment data.</p><a class="action-btn" href="https://github.com/greatsyong/ur5e-control-analysis/tree/main/part3_residual_rl" target="_blank" rel="noopener">Open Part 3 on GitHub</a></div><div class="card"><h3 style="margin-top:0">Technical Reports</h3><p>The complete integrated investigation and a concise engineering version are provided as two separate PDF files.</p><a class="action-btn primary" href="UR5e_Cartesian_Transport_Condensed.pdf" target="_blank" rel="noopener">Condensed Report</a><a class="action-btn" href="UR5e_Cartesian_Transport_Full.pdf" target="_blank" rel="noopener">Full Report</a></div></div>
+<div class="project-pager"><a href="../05-UR5e_Part_1A/index.html">← Previous Research</a><a href="../index.html">Back to Projects →</a><a href="../12-ur5e-heavy-payload/index.html">Next Research →</a></div><p style="margin-top:50px;color:#8ea1c0">Project by Sooyong Kim · Robotics &amp; Autonomous Systems Portfolio</p></main></body></html>

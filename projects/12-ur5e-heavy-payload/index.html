@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="UR5e Heavy-Payload Transport &amp; Control — physically grounded UR5e engineering portfolio by Sooyong Kim."><title>UR5e Heavy-Payload Transport &amp; Control — Sooyong Kim</title><link rel="stylesheet" href="../../assets/css/site.css"><style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+main{max-width:1040px;margin:auto;padding:48px 24px 72px}
+h1{font-size:52px;line-height:1.05;margin:10px 0 16px;letter-spacing:-.025em}
+h2{margin-top:52px;font-size:29px}
+h3{margin-top:30px;font-size:21px}
+p,li{color:#ced9ef}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.tag{
+  display:inline-block;border:1px solid #2d3e63;border-radius:999px;
+  padding:6px 10px;margin:4px;font-size:13px;color:#b9c9e6;
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.metric strong{display:block;font-size:28px;margin-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+pre{
+  background:#08101d;border:1px solid var(--line);border-radius:12px;
+  padding:16px;overflow:auto;color:#d8e8ff;line-height:1.45;
+}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;background:var(--panel);margin:18px 0;border:1px solid var(--line)}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#121d33;color:#dce8fb}
+.compact td,.compact th{font-size:14px}
+.callout{
+  border-left:4px solid var(--accent);background:#0d1729;
+  padding:18px 20px;border-radius:10px;margin:18px 0;
+}
+.note{
+  border-left:4px solid var(--accent2);background:#0d1729;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#cbd8ef;
+}
+.warning{
+  border-left:4px solid #f59e0b;background:#171426;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#dbe5f6;
+}
+.small{font-size:14px;color:var(--muted)}
+.project-figure{
+  margin:22px auto 32px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;
+}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{display:block;width:100%;height:auto;background:#fff}
+.project-figure figcaption{padding:14px 16px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.project-figure figcaption strong{display:block;color:#eef5ff;margin-bottom:4px;font-size:15px}
+.action-btn{
+  display:inline-block;border:1px solid #35527d;border-radius:10px;
+  padding:10px 14px;color:#eaf1ff;background:#101b31;font-weight:700;
+  margin:5px 8px 5px 0;
+}
+.action-btn.primary{background:#17335a;border-color:#4b7fbd}
+.action-btn:hover{text-decoration:none;transform:translateY(-1px)}
+.equation{
+  margin:18px 0;padding:14px 18px;text-align:center;background:#08101d;
+  border:1px solid var(--line);border-radius:12px;color:#eaf1ff;
+  font-family:"Times New Roman",serif;font-size:18px;overflow-x:auto;
+}
+.video-wrap{
+  width:min(100%,720px);margin:24px auto 34px;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#08101d;
+}
+.video-frame{position:relative;width:100%;padding-top:56.25%}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-caption{padding:14px 16px 16px;color:var(--muted);font-size:14px}
+.pipeline{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0;
+}
+.pipeline .step{
+  position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:16px;text-align:center;color:#dce8fb;font-weight:700;
+}
+.pipeline .step span{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:5px}
+@media(max-width:760px){
+  .grid,.two,.pipeline{grid-template-columns:1fr}
+  h1{font-size:38px}
+  table{display:block;overflow-x:auto}
+}
+
+/* Extension for the three linked UR5e payload research pages. */
+main{max-width:1040px}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{width:100%;height:auto;object-fit:contain}
+.grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.metric strong{font-size:clamp(20px,2.6vw,28px)}
+.project-lead{font-size:20px;line-height:1.65}
+.section-eyebrow{color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.resource-links{display:flex;flex-wrap:wrap;gap:2px;margin-top:16px}
+.video-pending{background:linear-gradient(135deg,#0d2239,#080f1e);position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#cbdcf2;text-align:center;padding:28px}
+.video-pending svg{width:58px;height:58px;color:#7dd3fc}
+.video-pending strong{color:#fff;font-size:21px}
+.video-pending p{max-width:440px;margin:0;font-size:14px}
+.project-pager{display:flex;justify-content:space-between;align-items:center;gap:14px;width:100%;margin-top:42px;padding-top:20px;border-top:1px solid #293957}
+.project-pager a{color:#7dd3fc;font-weight:600}
+.table-scroll{overflow-x:auto;margin:18px 0}
+.table-scroll table{margin:0}
+@media(max-width:760px){.grid,.two,.pipeline{grid-template-columns:1fr}.project-lead{font-size:17px}h1{font-size:38px}.project-pager{flex-wrap:wrap}}
+</style></head>
+<body><nav class="nav"><div class="container nav-inner">
+<a class="brand" href="../../index.html">SOOYONG KIM</a>
+<div class="nav-links"><a href="../../bio.html">Bio</a><a href="../../research/index.html">Research &amp; Work</a><a class="active" href="../../projects/index.html">Projects</a><a href="../../resume/index.html">Resume</a><a href="../../contact.html">Contact</a></div>
+</div></nav><main><p class="section-eyebrow">UR5e Payload Research · Transportation and Nominal Control</p><h1>UR5e Heavy-Payload Transport & Control</h1><p class="project-lead">A physics-based Cartesian transportation benchmark connecting workspace constraints, two-parabola trajectory design, computed-torque PD versus MPC selection, and independent ROS 2–Isaac Sim validation before learning is introduced.</p><div><span class="tag">UR5e</span><span class="tag">Cartesian Trajectory</span><span class="tag">Computed-Torque PD</span><span class="tag">MPC</span><span class="tag">ROS 2 Humble</span><span class="tag">PhysX</span><span class="tag">Payload Mismatch</span></div><p><a href="https://github.com/greatsyong/ur5e-control-analysis/tree/main/part3_residual_rl" target="_blank" rel="noopener">View project source on GitHub →</a></p><div class="grid"><div class="metric"><strong>3.0 s</strong>Physically motivated Cartesian transfer</div><div class="metric"><strong>25 + 30</strong>PD and MPC configurations screened</div><div class="metric"><strong>1.195 mm</strong>G025 matched 3 kg PhysX Cartesian RMSE</div></div><div class="callout"><strong>Engineering question:</strong> can a UR5e execute a demanding and physically interpretable Cartesian payload-transportation task with an accurate nominal controller, and does that controller remain dependable after transfer from a numerical plant to ROS 2–PhysX?</div><div class="video-wrap"><div class="video-frame"><div class="video-pending" role="group" aria-label="YouTube video placeholder: Heavy-Payload Transportation and Nominal Control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m10 8 6 4-6 4z"/></svg><strong>YouTube Demonstration</strong><p>Video will be embedded here after publication.</p></div></div><div class="video-caption"><strong>Heavy-Payload Transportation and Nominal Control</strong><br>Reserved for the UR5e Cartesian transport demonstration, including the accepted trajectory and ROS 2–PhysX controller execution.</div></div><h2>1. Task-Driven Workspace Design</h2>
+<p>Instead of prescribing an arbitrary set of joint angles, this study defines a transport mission between two workstations. The pick target uses approximately 80% of the nominal horizontal reach and the place target approximately 95%. The elevated destination introduces a 350 mm difference in tabletop height. The payload is rigidly attached, allowing the investigation to isolate free-space transportation dynamics rather than grasp acquisition or release.</p><div class="table-scroll"><table class="compact"><thead><tr><th>Task quantity</th><th>Pick</th><th>Place</th></tr></thead><tbody><tr><td>Tool0 position (m)</td><td>(0.4648, −0.4959, 0.0050)</td><td>(0.5520, 0.5889, 0.3550)</td></tr><tr><td>Tabletop height (m)</td><td>−0.050</td><td>0.300</td></tr><tr><td>Horizontal distance / nominal reach</td><td>≈ 0.80</td><td>≈ 0.95</td></tr></tbody></table></div><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/pick_isaac.png" alt="Figure 1 — Pick-Station Configuration" loading="lazy"><figcaption><strong>Figure 1 — Pick-Station Configuration</strong>The initial payload and UR5e configuration in the Isaac Sim workcell.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/place_isaac.png" alt="Figure 2 — Place-Station Configuration" loading="lazy"><figcaption><strong>Figure 2 — Place-Station Configuration</strong>Extended destination geometry used to probe configuration-dependent torque and reach constraints.</figcaption></figure>
+<h2>2. Three-Second Two-Parabola Cartesian Reference</h2>
+<p>The reference couples continuous horizontal motion with an ascent and descent formed by two parabolic vertical segments. The path is continuous in position and first derivative but changes vertical second derivative at normalized progress <strong>s = 2/3</strong>. A nonuniform time law reduces the progress rate near that curvature transition; it does not eliminate the acceleration discontinuity mathematically.</p><div class="equation">x(s) = 0.4648 + 0.0872s, &nbsp; y(s) = −0.4959 + 1.0848s</div><div class="equation">z(0) = 0.005 m, &nbsp; z(2/3) = 0.500 m, &nbsp; z(1) = 0.355 m</div><p>The prescribed task lasts <strong>3.0 s</strong>, with the join occurring at approximately <strong>1.7944 s</strong>. Peak recorded joint speed is approximately <strong>71.78°/s</strong>, below the cited 180°/s manufacturer maximum. This is a reference-feasibility result, not a measured hardware response.</p><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/accepted_path.png" alt="Figure 3 — Accepted Cartesian Transfer Path" loading="lazy"><figcaption><strong>Figure 3 — Accepted Cartesian Transfer Path</strong>The ascent–descent transportation path used unchanged across the nominal and residual-learning comparisons.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/path_and_joints.png" alt="Figure 4 — Reference Motion and Joint Trajectory" loading="lazy"><figcaption><strong>Figure 4 — Reference Motion and Joint Trajectory</strong>The selected Cartesian path and its six-joint inverse-kinematics representation.</figcaption></figure>
+<h2>3. Nominal-Controller Screening: PD and MPC</h2>
+<p>Two model-based controller families were evaluated under common reference conditions. Computed-torque PD uses reference inverse dynamics and current-state tracking feedback; locally linearized MPC optimizes correction effort over a finite horizon with constraints on the complete commanded torque. The comparison tested <strong>25 PD configurations</strong> and <strong>30 MPC configurations</strong>, rather than choosing gains solely by intuition.</p><div class="equation">τ<sub>G025</sub> = sat[τ<sub>ff</sub>(q<sub>r</sub>,q̇<sub>r</sub>,q̈<sub>r</sub>) + M(q)(K<sub>p</sub>e + K<sub>d</sub>ė)]</div><div class="table-scroll"><table class="compact"><thead><tr><th>Offline candidate</th><th>Cartesian RMSE</th><th>Engineering observation</th></tr></thead><tbody><tr><td>PD G022</td><td>1.099 mm</td><td>Lowest offline PD Cartesian error</td></tr><tr><td>PD G025</td><td>1.127 mm</td><td>Stronger terminal damping; selected for PhysX comparison</td></tr><tr><td>MPC best screened</td><td>2.470 mm</td><td>Best within tested local linearized MPC grid</td></tr></tbody></table></div><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/offline_pd_sweep.png" alt="Figure 5 — Computed-Torque PD Gain Screening" loading="lazy"><figcaption><strong>Figure 5 — Computed-Torque PD Gain Screening</strong>The 25-condition search compares Cartesian accuracy and controller parameters.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/mpc_two_stage_search.png" alt="Figure 6 — MPC Parameter Search" loading="lazy"><figcaption><strong>Figure 6 — MPC Parameter Search</strong>Two-stage search across prediction horizon and state/effort weights; the tested objective exhibited nonmonotonic parameter sensitivity.</figcaption></figure>
+<h2>4. Independent ROS 2–PhysX Deployment</h2>
+<p>The transfer to Isaac Sim was treated as an independent experiment rather than a visual demonstration of offline trajectories. The six-joint effort command was published on <code>/joint_command</code>, with joint state returned on <code>/joint_states</code>. The simulation used a nominal <strong>2 ms PhysX step</strong> and a requested <strong>20 ms ROS controller interval</strong>; these were not proven to form a perfectly synchronized hard real-time loop.</p><p>Before robust tracking could be measured, gravity preload, active return, a two-second stabilization gate, and controlled trajectory arming were introduced. Without effective holding effort, the manipulator moved under gravity even though the intended reference had not begun. This was a commissioning issue, not evidence that the nominal dynamics equations were intrinsically incorrect.</p><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/physx_3d.png" alt="Figure 7 — PhysX Transportation Execution" loading="lazy"><figcaption><strong>Figure 7 — PhysX Transportation Execution</strong>The independently executed articulation follows the prescribed Cartesian task through the ROS 2 effort-control interface.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/physx_projections.png" alt="Figure 8 — PhysX Tool Path Projections" loading="lazy"><figcaption><strong>Figure 8 — PhysX Tool Path Projections</strong>Recorded joint states are mapped to tool position using the validated analytical forward-kinematics implementation.</figcaption></figure>
+<h2>5. Nominal Controller Validation and G025 Selection</h2>
+<p>The final G025 controller used <strong>Kp = 256</strong> and <strong>Kd = 41.6</strong>. G022 ranked slightly better in the offline PD sweep, but G025 achieved the lowest recorded Cartesian RMSE among the three selected controllers in PhysX. The difference illustrates why the final controller was not chosen by numerical search alone.</p><div class="table-scroll"><table class="compact"><thead><tr><th>Controller</th><th>PhysX Cartesian RMSE</th><th>Joint RMSE</th></tr></thead><tbody><tr><td>G013</td><td>1.4539 mm</td><td>0.170°</td></tr><tr><td>G022</td><td>1.2335 mm</td><td>0.125°</td></tr><tr><td><strong>G025</strong></td><td><strong>1.1951 mm</strong></td><td><strong>0.115°</strong></td></tr></tbody></table></div><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/physx_cartesian_error.png" alt="Figure 9 — Cartesian Tracking Accuracy in PhysX" loading="lazy"><figcaption><strong>Figure 9 — Cartesian Tracking Accuracy in PhysX</strong>Time-resolved Tool0 tracking error for G013, G022, and G025; the accepted initial perturbation contributes to early peaks.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/nom/physx_torques.png" alt="Figure 10 — Joint Torque During Transportation" loading="lazy"><figcaption><strong>Figure 10 — Joint Torque During Transportation</strong>Nominal joint-effort behavior under the accepted physics simulation and torque-command configuration.</figcaption></figure>
+<h2>6. Payload Mismatch and the Motivation for Learning</h2>
+<p>The nominal 3 kg model produced highly accurate tracking when the plant also carried 3 kg. Retaining that model while increasing actual payload to 5 kg raised the measured PhysX Cartesian RMSE to <strong>10.560 mm</strong>, compared with <strong>1.195 mm</strong> in the matched condition. The controller remained mathematically intact, but its feedforward calculation no longer represented the actual loaded dynamics.</p><div class="equation">Δτ<sub>ID</sub> = ΔM(q<sub>r</sub>)q̈<sub>r</sub> + Δc(q<sub>r</sub>,q̇<sub>r</sub>) + Δg(q<sub>r</sub>)</div><p>This result motivates the next project: retaining a functioning nominal controller and investigating whether bounded learned compensation can address the particular discrepancy rather than replacing established physics.</p>
+<h2>7. Engineering Boundaries</h2>
+<div class="warning"><strong>Scope:</strong> the reported 1.195 mm is a PhysX trajectory RMSE reconstructed from joint states, not hardware positioning accuracy or a verified payload-to-table clearance. The simulated joint effort limits are asset configuration values, not independently verified continuous actuator ratings. Grasp mechanics, release, and formal closed-loop safety remain outside this study.</div>
+<h2>Project Resources</h2>
+<div class="two"><div class="card"><h3 style="margin-top:0">Source Code &amp; Experiment Records</h3><p>UR5e analytical modeling, nominal control, ROS 2–PhysX implementation, residual RL training, evaluation routines, and recorded experiment data.</p><a class="action-btn" href="https://github.com/greatsyong/ur5e-control-analysis/tree/main/part3_residual_rl" target="_blank" rel="noopener">Open Part 3 on GitHub</a></div><div class="card"><h3 style="margin-top:0">Technical Reports</h3><p>The complete integrated investigation and a concise engineering version are provided as two separate PDF files.</p><a class="action-btn primary" href="UR5e_Cartesian_Transport_Condensed.pdf" target="_blank" rel="noopener">Condensed Report</a><a class="action-btn" href="UR5e_Cartesian_Transport_Full.pdf" target="_blank" rel="noopener">Full Report</a></div></div>
+<div class="project-pager"><a href="../08-ur5e-modeling-dynamics/index.html">← Previous Research</a><a href="../index.html">Back to Projects →</a><a href="../13-ur5e-residual-rl/index.html">Next Research →</a></div><p style="margin-top:50px;color:#8ea1c0">Project by Sooyong Kim · Robotics &amp; Autonomous Systems Portfolio</p></main></body></html>

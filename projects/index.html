@@ -77,6 +77,26 @@
 @media(max-width:540px){
   .project-actions a{font-size:11px;padding:9px 5px}
 }
+
+/* One uninterrupted twelve-project index; generous heading width and wrapping. */
+.project-list-heading{display:block;max-width:none;margin-bottom:26px}
+.project-list-heading > div,.project-list-heading h2{width:100%;max-width:none}
+.project-list-heading h2{font-size:clamp(28px,3.3vw,42px);line-height:1.2;overflow-wrap:break-word;white-space:normal}
+.project-list-heading .project-section-intro{max-width:1040px;margin-top:14px}
+.project-grid-all{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.project-grid-all .project-card h2,.project-grid-all .project-card h3{
+  font-size:clamp(19px,2.1vw,26px);line-height:1.27;overflow-wrap:break-word;
+  word-break:normal;white-space:normal;hyphens:auto;min-width:0;
+}
+.project-grid-all .project-card-body{min-width:0}
+.project-grid-all .project-topline{flex-wrap:wrap;row-gap:8px}
+.project-grid-all .project-domain{line-height:1.5}
+.project-actions-pending span{min-height:48px;display:flex;align-items:center;justify-content:center;
+ padding:10px 8px;font-size:12px;font-weight:800;color:#64768a;
+ background:rgba(8,20,33,.5);border-right:1px solid var(--line);cursor:default}
+.project-actions-pending span:last-child{border-right:0}
+@media(max-width:900px){.project-grid-all{grid-template-columns:1fr}}
+@media(max-width:540px){.project-list-heading h2{font-size:27px}.project-actions-pending span{font-size:11px}}
 </style>
 </head>
 <body>
@@ -97,36 +117,17 @@
 <div class="eyebrow">Engineering Portfolio</div>
 <h1>Projects</h1>
 <p class="lead">
-      Completed robotics studies developed as engineering investigations rather than software demonstrations:
+      Robotics studies developed as engineering investigations rather than software demonstrations:
       models and assumptions are made explicit, competing methods are evaluated under controlled conditions,
       and conclusions are tied to quantitative evidence, implementation behavior, and physical constraints.
     </p>
 </div>
 </header>
-
-
-
 <section class="section project-dashboard-section">
-<div class="container">
-<div class="section-head">
-<div>
-<div class="section-kicker">Core Robotics</div>
-<h2>Robot Modeling, Dynamics &amp; Control</h2>
-</div>
-<p class="project-section-intro">Robot-centered studies spanning analytical modeling, nonlinear dynamics, classical and optimal control, runtime validation, and learning-based compensation. The emphasis is on understanding the physical system first, then testing how control architectures behave when modeling and implementation assumptions are stressed.</p>
-</div>
-<div class="program-head" style="margin-top:30px;">
-<div>
-<div class="section-kicker">Learning-Based Robot Control</div>
-<h2>Model-Based &amp; Learning-Based Control</h2>
-</div>
-<p>A focused study of whether reinforcement learning should replace a model-based controller or learn only the dynamics that an imperfect analytical model is missing.</p>
-</div>
-<div class="project-grid">
-<article class="project-card large">
+<div class="container"><div class="section-head project-list-heading"><div><div class="section-kicker">Engineering Investigations</div><h2>Robotics &amp; Autonomous Systems Projects</h2></div><p class="project-section-intro">Engineering investigations spanning robot dynamics, model-based control, reinforcement learning, ROS 2 runtime validation, motion planning, perception, and sensor fusion. Each project emphasizes physical assumptions, quantitative evaluation, and reproducible implementation.</p></div><div class="project-grid project-grid-all"><article class="project-card large"><div class="project-thumb-compact"><a aria-label="Open UR5e Residual Reinforcement Learning" href="13-ur5e-residual-rl/index.html"><img alt="UR5e Residual Reinforcement Learning thumbnail" loading="lazy" src="../assets/images/projects/project-home/09-ur5e-residual-rl-home.png"/></a></div><div class="project-card-body"><div class="project-topline"><span class="project-domain">Learning-Augmented Control</span></div><h3>UR5e Residual Reinforcement Learning</h3><p>Examines bounded residual torque policies under payload-model mismatch using PPO, SAC, and TD3. PhysX experiments test heavier and lighter payloads, reverse-mismatch learning, and 4 kg cross-evaluation to identify when learned compensation improves—or degrades—an established nominal controller.</p><div class="project-facts"><span>PPO · SAC · TD3</span><span>3→5 kg: 42.6% RMSE reduction</span><span>Reverse mismatch</span><span>Cross-evaluation</span></div></div><div class="project-actions"><a href="13-ur5e-residual-rl/index.html">Project</a><a href="https://github.com/greatsyong/ur5e-control-analysis/tree/main/part3_residual_rl" target="_blank" rel="noopener">GitHub</a><a href="13-ur5e-residual-rl/UR5e_Cartesian_Transport_Condensed.pdf" target="_blank" rel="noopener">Report View</a></div></article><article class="project-card large"><div class="project-thumb-compact"><a aria-label="Open UR5e Heavy-Payload Transport & Control" href="12-ur5e-heavy-payload/index.html"><img alt="UR5e Heavy-Payload Transport &amp; Control thumbnail" loading="lazy" src="../assets/images/projects/project-home/10-ur5e-heavy-payload-home.png"/></a></div><div class="project-card-body"><div class="project-topline"><span class="project-domain">Cartesian Manipulation · Control</span></div><h3>UR5e Heavy-Payload Transport &amp; Control</h3><p>Develops a physically constrained three-second Cartesian transportation benchmark and compares computed-torque PD with constrained MPC. ROS 2–Isaac Sim validation evaluates G025 tracking, gravity compensation, startup stabilization, and execution timing before introducing payload uncertainty.</p><div class="project-facts"><span>Cartesian trajectory</span><span>CTC / MPC</span><span>G025</span><span>1.195 mm PhysX RMSE</span></div></div><div class="project-actions"><a href="12-ur5e-heavy-payload/index.html">Project</a><a href="https://github.com/greatsyong/ur5e-control-analysis/tree/main/part3_residual_rl" target="_blank" rel="noopener">GitHub</a><a href="12-ur5e-heavy-payload/UR5e_Cartesian_Transport_Condensed.pdf" target="_blank" rel="noopener">Report View</a></div></article><article class="project-card large"><div class="project-thumb-compact"><a aria-label="Open UR5e Modeling & Dynamics" href="08-ur5e-modeling-dynamics/index.html"><img alt="UR5e Modeling &amp; Dynamics thumbnail" loading="lazy" src="../assets/images/projects/project-home/11-ur5e-modeling-dynamics-home.png"/></a></div><div class="project-card-body"><div class="project-topline"><span class="project-domain">Robot Modeling · Dynamics</span></div><h3>UR5e Modeling &amp; Dynamics</h3><p>Reconstructs and checks the six-joint UR5e model against Isaac Sim, including coordinate frames, forward and inverse kinematics, Jacobian conditioning, rigid-body dynamics, payload inertia, and Tool0 center-of-mass consistency as the foundation for physically interpretable control.</p><div class="project-facts"><span>FK / IK</span><span>Jacobian</span><span>Rigid-body dynamics</span><span>Isaac Sim validation</span></div></div><div class="project-actions"><a href="08-ur5e-modeling-dynamics/index.html">Project</a><a href="https://github.com/greatsyong/ur5e-control-analysis/tree/main/part3_residual_rl" target="_blank" rel="noopener">GitHub</a><a href="08-ur5e-modeling-dynamics/UR5e_Cartesian_Transport_Condensed.pdf" target="_blank" rel="noopener">Report View</a></div></article><article class="project-card large">
 <div class="project-thumb-compact"><a aria-label="Open Model-Based and Learning-Based Control project" href="11-learning_control_part1/index.html"><img alt="Learning-based control project thumbnail" loading="lazy" src="../assets/images/projects/project-home/11-learning_control_part1.png"/></a></div>
 <div class="project-card-body">
-<div class="project-topline"><span class="project-domain">Control · Reinforcement Learning</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<div class="project-topline"><span class="project-domain">Control · Reinforcement Learning</span></div>
 <h2>Model-Based and Learning-Based Control of a 2-DOF Manipulator</h2>
 <p>
 A Cartesian trajectory-tracking study comparing exact-model and mismatched computed-torque control, Pure SAC, and CTC + Residual SAC. A controlled 30% link-2 mass error is traced from model mismatch to analytical torque deficit, then used to test whether a bounded learned residual can recover the missing dynamics without discarding the structure of the classical controller.
@@ -138,20 +139,10 @@ A Cartesian trajectory-tracking study comparing exact-model and mismatched compu
 <a href="https://github.com/greatsyong/SK/tree/main/05_learning_control_project1" rel="noopener" target="_blank">GitHub</a>
 <a href="11-learning_control_part1/learning_control_part1.pdf" rel="noopener" target="_blank">Report View</a>
 </div>
-</article>
-</div>
-<div class="program-head" style="margin-top:56px;">
-<div>
-<div class="section-kicker">UR5e Modeling &amp; Control Program</div>
-<h2>From Runtime Validation Back to Model Foundations</h2>
-</div>
-<p>Four linked studies shown in reverse progression: practical runtime behavior first, then controller architecture, nonlinear plant characterization, and finally the model-validation foundation supporting the entire program.</p>
-</div>
-<div class="project-grid-ur5e">
-<article class="project-card large">
+</article><article class="project-card large">
 <div class="project-thumb-compact"><a aria-label="Open Independent Simulation &amp; Runtime Validation" href="07-UR5e_Part_2/index.html"><img alt="UR5e simulation and runtime thumbnail" loading="lazy" src="../assets/images/projects/project-home/05-ur5e-runtime-home.png"/></a></div>
 <div class="project-card-body">
-<div class="project-topline"><span class="project-domain">Stage 04 · Runtime Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<div class="project-topline"><span class="project-domain">Stage 04 · Runtime Validation</span></div>
 <h3>Independent Simulation &amp; Runtime Validation</h3>
 <p>
             Tests whether analytically validated controllers retain their behavior after crossing the simulation and software boundary. Independent Isaac Sim validation and ROS 2/C++ execution are used to examine model-fidelity gaps, control-loop timing, computation latency, actuator interaction, MPC deadline and completion failures, and the distinction between a mathematically valid design and a practically executable controller.
@@ -163,11 +154,10 @@ A Cartesian trajectory-tracking study comparing exact-model and mismatched compu
 <a href="https://github.com/greatsyong/ur5e-control-analysis" rel="noopener" target="_blank">GitHub</a>
 <a href="07-UR5e_Part_2/UR5e_Part_2_Final_Report.pdf" rel="noopener" target="_blank">Report View</a>
 </div>
-</article>
-<article class="project-card large">
+</article><article class="project-card large">
 <div class="project-thumb-compact"><a aria-label="Open Controller Design &amp; Robustness Assessment" href="06-UR5e_Part_1B/index.html"><img alt="UR5e controller design thumbnail" loading="lazy" src="../assets/images/projects/project-home/04-ur5e-control-home.png"/></a></div>
 <div class="project-card-body">
-<div class="project-topline"><span class="project-domain">Stage 03 · Controller Design</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<div class="project-topline"><span class="project-domain">Stage 03 · Controller Design</span></div>
 <h3>Controller Design &amp; Robustness Assessment</h3>
 <p>
             Compares PID, computed-torque, LQR, and MPC as different control architectures rather than as a single ranking exercise. Nominal tracking is coupled with model mismatch, disturbance rejection, gravity-feedforward structure, constraint handling, horizon and tolerance sensitivity, computational cost, and Python–C++ cross-validation to identify where each method's assumptions become operationally significant.
@@ -179,11 +169,10 @@ A Cartesian trajectory-tracking study comparing exact-model and mismatched compu
 <a href="https://github.com/greatsyong/ur5e-control-analysis" rel="noopener" target="_blank">GitHub</a>
 <a href="06-UR5e_Part_1B/UR5e_Part_1B_Controller_Design_and_Robustness_Assessment.pdf" rel="noopener" target="_blank">Report View</a>
 </div>
-</article>
-<article class="project-card large">
+</article><article class="project-card large">
 <div class="project-thumb-compact"><a aria-label="Open Kinematics &amp; Dynamics Characterization" href="05-UR5e_Part_1A/index.html"><img alt="UR5e kinematics and dynamics thumbnail" loading="lazy" src="../assets/images/projects/project-home/03-ur5e-kinematics-home.png"/></a></div>
 <div class="project-card-body">
-<div class="project-topline"><span class="project-domain">Stage 02 · Plant Characterization</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<div class="project-topline"><span class="project-domain">Stage 02 · Plant Characterization</span></div>
 <h3>Kinematics &amp; Dynamics Characterization</h3>
 <p>
             Quantifies the nonlinear structure that governs achievable motion and control authority. The study examines Jacobian conditioning and singularity behavior, pseudoinverse versus damped least-squares inversion, configuration-dependent inertia and gravity loading, inverse dynamics, torque demand, local linearization validity, and trajectory-level numerical consistency across Python and C++ implementations.
@@ -195,11 +184,10 @@ A Cartesian trajectory-tracking study comparing exact-model and mismatched compu
 <a href="https://github.com/greatsyong/ur5e-control-analysis" rel="noopener" target="_blank">GitHub</a>
 <a href="05-UR5e_Part_1A/UR5e_Part_1A_Report.pdf" rel="noopener" target="_blank">Report View</a>
 </div>
-</article>
-<article class="project-card large">
+</article><article class="project-card large">
 <div class="project-thumb-compact"><a aria-label="Open Model Setup &amp; Cross-Validation" href="04-control-model-validation/index.html"><img alt="UR5e model setup thumbnail" loading="lazy" src="../assets/images/projects/project-home/02-ur5e-setup-home.png"/></a></div>
 <div class="project-card-body">
-<div class="project-topline"><span class="project-domain">Stage 01 · Model Validation</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<div class="project-topline"><span class="project-domain">Stage 01 · Model Validation</span></div>
 <h3>Model Setup &amp; Cross-Validation</h3>
 <p>
             Establishes a defensible plant model before controller design by reconciling nominal DH geometry, URDF frames, inertial parameters, fixed-base articulation, and Isaac Sim configuration. Forward kinematics, Jacobians, mass matrices, and gravity generalized forces are independently cross-checked to expose frame, parameter, and simulator inconsistencies rather than absorbing them into later tuning.
@@ -211,30 +199,10 @@ A Cartesian trajectory-tracking study comparing exact-model and mismatched compu
 <a href="https://github.com/greatsyong/ur5e-control-analysis" rel="noopener" target="_blank">GitHub</a>
 <a href="04-control-model-validation/ur5e-model-setup-cross-validation.pdf" rel="noopener" target="_blank">Report View</a>
 </div>
-</article>
-</div>
-</div>
-</section><section class="section">
-<div class="container">
-<div class="section-head">
-<div>
-<div class="section-kicker">Systems Integration</div>
-<h2>Autonomous Robotics &amp; ROS 2 Systems</h2>
-</div>
-<p class="project-section-intro">System-level robotics projects that connect planning, perception, sensor fusion, simulation, and ROS 2 implementation. These studies extend the core modeling-and-control work into autonomous sensing and decision pipelines.</p>
-</div>
-<div class="program-head" style="margin-top:30px;">
-<div>
-<div class="section-kicker">Autonomy &amp; Planning</div>
-<h2>Robot-Aware Path Planning</h2>
-</div>
-<p>Planning behavior is evaluated together with robot geometry, configuration-space feasibility, continuous clearance, stochastic convergence, path refinement, and mission-level execution.</p>
-</div>
-<div class="project-grid">
-<article class="project-card large">
+</article><article class="project-card large">
 <div class="project-thumb-compact"><a aria-label="Open Robot-Aware Path Planning Benchmark" href="09-path-planning/index.html"><img alt="Robot-Aware Path Planning thumbnail" loading="lazy" src="../assets/images/projects/project-home/01-path-planning-home.png"/></a></div>
 <div class="project-card-body">
-<div class="project-topline"><span class="project-domain">Planning · Navigation</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<div class="project-topline"><span class="project-domain">Planning · Navigation</span></div>
 <h2>Robot-Aware Path Planning Benchmark</h2>
 <p>
             A controlled benchmark that distinguishes search-algorithm behavior from robot-specific feasibility. Dijkstra, A*, RRT, and RRT* are evaluated across discrete and metric environments, then connected to footprint inflation, continuous clearance, stochastic convergence, trajectory refinement, proximity-aware velocity regulation, and mission-level execution.
@@ -246,20 +214,10 @@ A Cartesian trajectory-tracking study comparing exact-model and mismatched compu
 <a href="https://github.com/greatsyong/SK/tree/main/04_robot_aware_path_planning" rel="noopener" target="_blank">GitHub</a>
 <a href="09-path-planning/Robot_Aware_Path_Planning_Benchmark_Final.pdf" rel="noopener" target="_blank">Report View</a>
 </div>
-</article>
-</div>
-<div class="program-head" style="margin-top:56px;">
-<div>
-<div class="section-kicker">Perception &amp; State Estimation</div>
-<h2>Perception Systems</h2>
-</div>
-<p>Real-time vision, geometric multi-modal fusion, and probabilistic state estimation developed as supporting capabilities for autonomous robotic systems.</p>
-</div>
-<div class="project-grid">
-<article class="project-card">
+</article><article class="project-card">
 <div class="project-thumb-compact"><a aria-label="Open LiDAR-Camera 3D Perception &amp; Fusion" href="03-lidar-camera/index.html"><img alt="LiDAR-camera 3D perception thumbnail" loading="lazy" src="../assets/images/projects/project-home/06-lidar-camera-home.png"/></a></div>
 <div class="project-card-body">
-<div class="project-topline"><span class="project-domain">3D Perception · Sensor Fusion</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<div class="project-topline"><span class="project-domain">3D Perception · Sensor Fusion</span></div>
 <h3>LiDAR-Camera 3D Perception &amp; Fusion</h3>
 <p>
             A geometry-driven fusion pipeline built around calibrated frame transforms, 3D-to-2D projection, object-level depth association, YOLO-World, and FastSAM. Controlled perturbation studies isolate sensitivity to extrinsic yaw, viewpoint change, and range bias so fusion robustness is evaluated against identifiable geometric error sources rather than visual output alone.
@@ -271,11 +229,10 @@ A Cartesian trajectory-tracking study comparing exact-model and mismatched compu
 <a href="https://github.com/greatsyong/SK/tree/main/03_lidar_camera_fusion" rel="noopener" target="_blank">GitHub</a>
 <a href="03-lidar-camera/index.html#technical-report">Report View</a>
 </div>
-</article>
-<article class="project-card">
+</article><article class="project-card">
 <div class="project-thumb-compact"><a aria-label="Open Vision Perception" href="02-vision/index.html"><img alt="Vision perception thumbnail" loading="lazy" src="../assets/images/projects/project-home/07-vision-home.png"/></a></div>
 <div class="project-card-body">
-<div class="project-topline"><span class="project-domain">Real-Time Vision</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<div class="project-topline"><span class="project-domain">Real-Time Vision</span></div>
 <h3>Vision Perception</h3>
 <p>
             An integrated detection, persistent-tracking, and instance-segmentation pipeline evaluated as a real-time system rather than a model demo. Frame-level latency, throughput, processing-time distribution, object-count variation, and scene-load effects are measured to separate neural inference cost from end-to-end perception behavior.
@@ -287,11 +244,10 @@ A Cartesian trajectory-tracking study comparing exact-model and mismatched compu
 <a href="https://github.com/greatsyong/SK" rel="noopener" target="_blank">GitHub</a>
 <a href="02-vision/report.html">Report View</a>
 </div>
-</article>
-<article class="project-card">
+</article><article class="project-card">
 <div class="project-thumb-compact"><a aria-label="Open EKF Sensor Fusion" href="01-ekf/index.html"><img alt="EKF sensor fusion thumbnail" loading="lazy" src="../assets/images/projects/project-home/08-ekf-home.png"/></a></div>
 <div class="project-card-body">
-<div class="project-topline"><span class="project-domain">State Estimation</span><span class="status live"><span class="dot"></span>Completed</span></div>
+<div class="project-topline"><span class="project-domain">State Estimation</span></div>
 <h3>EKF Sensor Fusion</h3>
 <p>
             A nonlinear state-estimation study fusing wheel odometry and IMU measurements in ROS 2/Gazebo. Process and measurement uncertainty are treated explicitly, and the fused estimate is evaluated against ground truth to quantify trajectory error, RMSE reduction, and the remaining drift expected when no absolute-position observation is available.
@@ -303,9 +259,7 @@ A Cartesian trajectory-tracking study comparing exact-model and mismatched compu
 <a href="https://github.com/greatsyong/SK" rel="noopener" target="_blank">GitHub</a>
 <a href="01-ekf/report.html">Report View</a>
 </div>
-</article>
-</div>
-</div>
+</article></div></div>
 </section><footer class="footer">
 <div class="container footer-inner">
 <div>Sooyong Kim · Robotics &amp; Autonomous Systems</div>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="UR5e Residual Reinforcement Learning — physically grounded UR5e engineering portfolio by Sooyong Kim."><title>UR5e Residual Reinforcement Learning — Sooyong Kim</title><link rel="stylesheet" href="../../assets/css/site.css"><style>
+:root{
+  --bg:#0b1020;
+  --panel:#10182b;
+  --panel2:#121a2e;
+  --text:#eaf1ff;
+  --muted:#a5b4cf;
+  --line:#293957;
+  --accent:#58a6ff;
+  --accent2:#7dd3fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+  line-height:1.65;
+}
+main{max-width:1040px;margin:auto;padding:48px 24px 72px}
+h1{font-size:52px;line-height:1.05;margin:10px 0 16px;letter-spacing:-.025em}
+h2{margin-top:52px;font-size:29px}
+h3{margin-top:30px;font-size:21px}
+p,li{color:#ced9ef}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.tag{
+  display:inline-block;border:1px solid #2d3e63;border-radius:999px;
+  padding:6px 10px;margin:4px;font-size:13px;color:#b9c9e6;
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+.metric strong{display:block;font-size:28px;margin-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+pre{
+  background:#08101d;border:1px solid var(--line);border-radius:12px;
+  padding:16px;overflow:auto;color:#d8e8ff;line-height:1.45;
+}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;background:var(--panel);margin:18px 0;border:1px solid var(--line)}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#121d33;color:#dce8fb}
+.compact td,.compact th{font-size:14px}
+.callout{
+  border-left:4px solid var(--accent);background:#0d1729;
+  padding:18px 20px;border-radius:10px;margin:18px 0;
+}
+.note{
+  border-left:4px solid var(--accent2);background:#0d1729;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#cbd8ef;
+}
+.warning{
+  border-left:4px solid #f59e0b;background:#171426;
+  padding:16px 18px;border-radius:10px;margin:18px 0;color:#dbe5f6;
+}
+.small{font-size:14px;color:var(--muted)}
+.project-figure{
+  margin:22px auto 32px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;
+}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{display:block;width:100%;height:auto;background:#fff}
+.project-figure figcaption{padding:14px 16px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.project-figure figcaption strong{display:block;color:#eef5ff;margin-bottom:4px;font-size:15px}
+.action-btn{
+  display:inline-block;border:1px solid #35527d;border-radius:10px;
+  padding:10px 14px;color:#eaf1ff;background:#101b31;font-weight:700;
+  margin:5px 8px 5px 0;
+}
+.action-btn.primary{background:#17335a;border-color:#4b7fbd}
+.action-btn:hover{text-decoration:none;transform:translateY(-1px)}
+.equation{
+  margin:18px 0;padding:14px 18px;text-align:center;background:#08101d;
+  border:1px solid var(--line);border-radius:12px;color:#eaf1ff;
+  font-family:"Times New Roman",serif;font-size:18px;overflow-x:auto;
+}
+.video-wrap{
+  width:min(100%,720px);margin:24px auto 34px;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#08101d;
+}
+.video-frame{position:relative;width:100%;padding-top:56.25%}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-caption{padding:14px 16px 16px;color:var(--muted);font-size:14px}
+.pipeline{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0;
+}
+.pipeline .step{
+  position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:16px;text-align:center;color:#dce8fb;font-weight:700;
+}
+.pipeline .step span{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:5px}
+@media(max-width:760px){
+  .grid,.two,.pipeline{grid-template-columns:1fr}
+  h1{font-size:38px}
+  table{display:block;overflow-x:auto}
+}
+
+/* Extension for the three linked UR5e payload research pages. */
+main{max-width:1040px}
+.project-figure.half-width{width:min(100%,720px)}
+.project-figure img{width:100%;height:auto;object-fit:contain}
+.grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.metric strong{font-size:clamp(20px,2.6vw,28px)}
+.project-lead{font-size:20px;line-height:1.65}
+.section-eyebrow{color:#7dd3fc;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.resource-links{display:flex;flex-wrap:wrap;gap:2px;margin-top:16px}
+.video-pending{background:linear-gradient(135deg,#0d2239,#080f1e);position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#cbdcf2;text-align:center;padding:28px}
+.video-pending svg{width:58px;height:58px;color:#7dd3fc}
+.video-pending strong{color:#fff;font-size:21px}
+.video-pending p{max-width:440px;margin:0;font-size:14px}
+.project-pager{display:flex;justify-content:space-between;align-items:center;gap:14px;width:100%;margin-top:42px;padding-top:20px;border-top:1px solid #293957}
+.project-pager a{color:#7dd3fc;font-weight:600}
+.table-scroll{overflow-x:auto;margin:18px 0}
+.table-scroll table{margin:0}
+@media(max-width:760px){.grid,.two,.pipeline{grid-template-columns:1fr}.project-lead{font-size:17px}h1{font-size:38px}.project-pager{flex-wrap:wrap}}
+</style></head>
+<body><nav class="nav"><div class="container nav-inner">
+<a class="brand" href="../../index.html">SOOYONG KIM</a>
+<div class="nav-links"><a href="../../bio.html">Bio</a><a href="../../research/index.html">Research &amp; Work</a><a class="active" href="../../projects/index.html">Projects</a><a href="../../resume/index.html">Resume</a><a href="../../contact.html">Contact</a></div>
+</div></nav><main><p class="section-eyebrow">UR5e Payload Research · Learning-Augmented Control</p><h1>UR5e Residual Reinforcement Learning</h1><p class="project-lead">Testing whether bounded PPO, SAC, and TD3 torque corrections improve an established computed-torque controller under payload-model mismatch, including opposite-direction training and intermediate 4 kg cross-evaluation in ROS 2–PhysX.</p><div><span class="tag">Residual RL</span><span class="tag">PPO</span><span class="tag">SAC</span><span class="tag">TD3</span><span class="tag">49D Observation</span><span class="tag">Torque Compensation</span><span class="tag">PhysX Cross-Evaluation</span></div><p><a href="https://github.com/greatsyong/ur5e-control-analysis/tree/main/part3_residual_rl" target="_blank" rel="noopener">View project source on GitHub →</a></p><div class="grid"><div class="metric"><strong>42.6%</strong>PPO PhysX RMSE reduction, 3 kg model / 5 kg actual</div><div class="metric"><strong>43.0%</strong>Reverse PPO reduction, 5 kg model / 3 kg actual</div><div class="metric"><strong>1.763 mm</strong>Best tested complete controller at actual 4 kg</div></div><div class="callout"><strong>Engineering question:</strong> when a physically validated model-based controller is inaccurate because its payload assumption is wrong, can a bounded learned torque correction recover tracking accuracy—and when does the same correction become counterproductive?</div><div class="video-wrap"><div class="video-frame"><div class="video-pending" role="group" aria-label="YouTube video placeholder: UR5e Residual RL and Variable-Payload Evaluation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m10 8 6 4-6 4z"/></svg><strong>YouTube Demonstration</strong><p>Video will be embedded here after publication.</p></div></div><div class="video-caption"><strong>UR5e Residual RL and Variable-Payload Evaluation</strong><br>Reserved for the UR5e PhysX demonstrations of PPO/SAC/TD3 compensation, reverse mismatch, and intermediate-mass evaluation.</div></div><h2>1. Learning-Augmented Control Architecture</h2>
+<p>The nominal G025 computed-torque PD controller remains active. PPO, SAC, and TD3 are evaluated as alternative ways to generate an additional six-joint residual torque under an initial <strong>3 kg model / 5 kg actual payload</strong> condition. The learned output supplements model-based feedforward and tracking feedback rather than replacing them.</p><div class="equation">τ<sub>cmd</sub> = sat(τ<sub>G025</sub> + Δτ<sub>π</sub>)</div><div class="equation">|Δτ<sub>π</sub>| ≤ [5, 5, 5, 0.5, 0.5, 0.01] Nm</div><p>The observation has <strong>49 components</strong> comprising measured and reference states, tracking errors, previous policy action, previous nominal torque, and normalized task time. Its time input is informative for the fixed motion but limits what can be inferred about generalization to different trajectories. The reward prioritizes Cartesian tracking while softly penalizing joint error and excessive or abruptly changing residual action.</p><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/initial_rl/08_id_gap.png" alt="Figure 1 — Analytical Payload Torque Difference" loading="lazy"><figcaption><strong>Figure 1 — Analytical Payload Torque Difference</strong>Reference inverse-dynamics discrepancy between the 3 kg nominal model and the 5 kg actual plant. This diagnostic is not identical to the optimal closed-loop residual.</figcaption></figure>
+<h2>2. Numerical PPO, SAC, and TD3 Comparison</h2>
+<p>Each algorithm received <strong>30,000 environment interactions</strong> using seed 42 and a common 150-control-step transportation episode. Deterministic evaluation checkpoints were recorded every 3,000 interactions. Equal interactions do not imply equal training wall time or the same number of gradient updates.</p><div class="table-scroll"><table class="compact"><thead><tr><th>Algorithm</th><th>Best checkpoint</th><th>Offline Cartesian RMSE</th><th>Residual RMS</th></tr></thead><tbody><tr><td>PPO</td><td>27,000</td><td>6.0939 mm</td><td>2.900 Nm</td></tr><tr><td>SAC</td><td>27,000</td><td>6.9339 mm</td><td>2.916 Nm</td></tr><tr><td>TD3</td><td>21,000</td><td>6.1122 mm</td><td>3.450 Nm</td></tr></tbody></table></div><p>The zero-residual offline benchmark was <strong>10.6358 mm</strong>. TD3 reduced error rapidly in early training; PPO achieved the lowest observed best-checkpoint RMSE by only 0.0183 mm over TD3. One seed and a fixed trajectory do not support a universal algorithm ranking.</p><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/initial_rl/01_convergence.png" alt="Figure 2 — PPO, SAC, and TD3 Learning Curves" loading="lazy"><figcaption><strong>Figure 2 — PPO, SAC, and TD3 Learning Curves</strong>Recorded numerical convergence under the common interaction budget.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/initial_rl/04_residual_joint_histories.png" alt="Figure 3 — Joint-Resolved Learned Torque" loading="lazy"><figcaption><strong>Figure 3 — Joint-Resolved Learned Torque</strong>The policies produce different torque distributions despite similar aggregate Cartesian errors.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/initial_rl/07_bound_occupancy.png" alt="Figure 4 — Residual Action-Bound Occupancy" loading="lazy"><figcaption><strong>Figure 4 — Residual Action-Bound Occupancy</strong>Occupancy of the learned residual limits; this is distinct from saturation of the complete actuator command.</figcaption></figure>
+<h2>3. Transfer from Numerical Training to PhysX</h2>
+<p>Policies were then tested through the independently executed ROS 2–PhysX effort pipeline. The same reference and nominal controller were retained while the plant carried 5 kg. The experiment therefore tested whether the learned correction remained useful outside its original numerical execution environment.</p><div class="table-scroll"><table class="compact"><thead><tr><th>Controller</th><th>3 kg model / 5 kg actual PhysX RMSE</th><th>Reduction vs G025</th></tr></thead><tbody><tr><td>G025, zero residual</td><td>10.560 mm</td><td>Baseline</td></tr><tr><td>PPO + G025</td><td><strong>6.061 mm</strong></td><td><strong>42.6%</strong></td></tr><tr><td>TD3 + G025</td><td>6.103 mm</td><td>42.2%</td></tr><tr><td>SAC + G025</td><td>6.935 mm</td><td>34.3%</td></tr></tbody></table></div><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/rl/physx_5kg_error_time.png" alt="Figure 5 — PhysX Tracking with 5 kg Actual Payload" loading="lazy"><figcaption><strong>Figure 5 — PhysX Tracking with 5 kg Actual Payload</strong>Time-resolved Cartesian error for the nominal controller and the learned residual policies under the intended mismatch.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/rl/all_six_residual_torques_5kg.png" alt="Figure 6 — Six-Joint Residual Torque in PhysX" loading="lazy"><figcaption><strong>Figure 6 — Six-Joint Residual Torque in PhysX</strong>The physical-simulator transfer retains important joint-dependent differences among learned corrections.</figcaption></figure>
+<h2>4. Where Learned Compensation Does Not Help</h2>
+<p>The same learned policies were evaluated at lighter and matched actual payload masses while preserving the 3 kg nominal model. Performance degraded sharply when the loading assumptions were no longer those used during training. In the matched 3 kg case, the zero-residual controller was already accurate; all three learned corrections increased error.</p><div class="table-scroll"><table class="compact"><thead><tr><th>Controller</th><th>1 kg actual</th><th>3 kg actual</th><th>5 kg actual</th></tr></thead><tbody><tr><td>G025</td><td>10.920 mm</td><td><strong>1.195 mm</strong></td><td>10.560 mm</td></tr><tr><td>PPO</td><td>15.508 mm</td><td>5.009 mm</td><td><strong>6.061 mm</strong></td></tr><tr><td>TD3</td><td>15.270 mm</td><td>5.048 mm</td><td>6.103 mm</td></tr><tr><td>SAC</td><td>14.818 mm</td><td>4.884 mm</td><td>6.935 mm</td></tr></tbody></table></div><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/rl/all_payload_rmse_bars.png" alt="Figure 7 — PhysX Accuracy Across Payloads" loading="lazy"><figcaption><strong>Figure 7 — PhysX Accuracy Across Payloads</strong>The same learned residual is helpful in its intended loading case but can degrade matched-model performance.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/rl/all_payload_error_profiles.png" alt="Figure 8 — Payload-Dependent Error Profiles" loading="lazy"><figcaption><strong>Figure 8 — Payload-Dependent Error Profiles</strong>Full trajectory records expose how loading condition changes the temporal distribution of Cartesian tracking error.</figcaption></figure>
+<h2>5. Reverse Mismatch: Model 5 kg, Actual 3 kg</h2>
+<p>A separate PPO policy was trained for the opposite mass discrepancy. When the nominal controller assumed 5 kg but PhysX carried 3 kg, the matching zero-residual baseline had <strong>8.039 mm</strong> Cartesian RMSE. The newly trained reverse policy reduced it to <strong>4.585 mm</strong>, an improvement of approximately <strong>43.0%</strong>. At J2, J3, and J4, the dominant corrective actions changed direction in a manner consistent with the reversed analytical inverse-dynamics difference.</p><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/rl/new_reverse_controller_error.png" alt="Figure 9 — Reverse-Mismatch PhysX Tracking" loading="lazy"><figcaption><strong>Figure 9 — Reverse-Mismatch PhysX Tracking</strong>The independently trained PPO policy improves the 5 kg model / 3 kg actual case.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/rl/new_bidirectional_z_error.png" alt="Figure 10 — Vertical Tracking Under Opposite Mismatch Directions" loading="lazy"><figcaption><strong>Figure 10 — Vertical Tracking Under Opposite Mismatch Directions</strong>Signed vertical tracking histories help distinguish downward and upward bias beyond unsigned aggregate RMSE.</figcaption></figure>
+<h2>6. Intermediate 4 kg Cross-Evaluation</h2>
+<p>The two separately trained PPO controllers were tested at a common actual 4 kg mass. Policy A used the 3 kg nominal model and the positive-mismatch policy; Policy B used the 5 kg nominal model and the negative-mismatch policy. These are comparisons of complete nominal-plus-residual controllers, not the learned networks isolated from their different model-based feedforward calculations.</p><div class="table-scroll"><table class="compact"><thead><tr><th>Evaluation configuration</th><th>Mass discrepancy</th><th>Cartesian RMSE</th></tr></thead><tbody><tr><td>Policy A: model 3 kg / actual 4 kg</td><td>+1 kg</td><td>1.931 mm</td></tr><tr><td>Policy B: model 5 kg / actual 4 kg</td><td>−1 kg</td><td><strong>1.763 mm</strong></td></tr></tbody></table></div><p>The 0.168 mm aggregate difference favored Policy B in this test. The ascent and descent metrics, however, did not favor one configuration uniformly. The experiment probes one intermediate loading condition on a fixed reference; it is not proof of broad variable-payload generalization.</p><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/rl/new_cross_4kg_error.png" alt="Figure 11 — Intermediate-Mass Controller Comparison" loading="lazy"><figcaption><strong>Figure 11 — Intermediate-Mass Controller Comparison</strong>Time-resolved error when both controllers are evaluated with a 4 kg actual payload.</figcaption></figure><figure class="project-figure half-width"><img src="../../assets/images/projects/Ur5e_Part_3/rl/new_ascent_descent_4kg.png" alt="Figure 12 — Phase-Resolved 4 kg Tracking" loading="lazy"><figcaption><strong>Figure 12 — Phase-Resolved 4 kg Tracking</strong>Ascent and descent can favor different nominal-policy combinations, motivating phase-specific evaluation rather than a single overall score.</figcaption></figure>
+<h2>7. Physical Interpretation and Deployment Boundaries</h2>
+<p>The physical interpretation is conditional: the residual can compensate for a model discrepancy, but it does not identify payload mass explicitly or guarantee that the correction will be appropriate outside its training conditions. Joint-level analytical torque differences provide a diagnostic reference, not a complete ground truth for optimal closed-loop torque.</p><p>The numerical model and PhysX runtime also differ in execution details, and the recorded Cartesian positions are reconstructed from joint states. The study does not establish physical grasp stability, verified collision clearance, manufacturer hardware-effort compliance, or formal closed-loop stability for the learned controller.</p><div class="warning"><strong>Engineering conclusion:</strong> reinforcement learning is valuable where the existing physical model is measurably wrong, but a residual policy should not be enabled indiscriminately. Payload-aware selection, explicit fallback to the nominal controller, broader tasks, and controlled hardware commissioning remain future work.</div>
+<h2>Project Resources</h2>
+<div class="two"><div class="card"><h3 style="margin-top:0">Source Code &amp; Experiment Records</h3><p>UR5e analytical modeling, nominal control, ROS 2–PhysX implementation, residual RL training, evaluation routines, and recorded experiment data.</p><a class="action-btn" href="https://github.com/greatsyong/ur5e-control-analysis/tree/main/part3_residual_rl" target="_blank" rel="noopener">Open Part 3 on GitHub</a></div><div class="card"><h3 style="margin-top:0">Technical Reports</h3><p>The complete integrated investigation and a concise engineering version are provided as two separate PDF files.</p><a class="action-btn primary" href="UR5e_Cartesian_Transport_Condensed.pdf" target="_blank" rel="noopener">Condensed Report</a><a class="action-btn" href="UR5e_Cartesian_Transport_Full.pdf" target="_blank" rel="noopener">Full Report</a></div></div>
+<div class="project-pager"><a href="../12-ur5e-heavy-payload/index.html">← Previous Research</a><a href="../index.html">Back to Projects →</a><a href="../11-learning_control_part1/index.html">Next Research →</a></div><p style="margin-top:50px;color:#8ea1c0">Project by Sooyong Kim · Robotics &amp; Autonomous Systems Portfolio</p></main></body></html>
